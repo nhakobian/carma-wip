@@ -28,7 +28,7 @@ CFLAGS = -g
 
 CCMALLOC = -lccmalloc 
 
-INC = -I./src/include -I$(MIRLIB)
+INC = -I./src/include -I$(MIRINC)/../pgplot-miriad-remix
 HELP = \"wiphelp.dat\"
 
 OBJ = $(SRC:.c=.o)
@@ -46,7 +46,7 @@ all: wip
 
 wip: $(LIB)
 	$(CC) $(CFLAGS) -o wip libwip.a  -L$(MIRLIB) -L/usr/X11R6/lib \
-	       -lcpgplot -lpgplot -lX11 -lg2c $(CCMALLOC) -lgcc -ldl -lm
+	       -lcpgplot -lpgplot -lX11 -lgcc -ldl -lm
 
 # this doesn't work yet, wrong directory dependancies
 
