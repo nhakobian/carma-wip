@@ -24,7 +24,7 @@ SRC1  = $(addprefix branch/, $(SRC_BRANCH)) \
 SRC = $(addprefix src/, $(SRC1))
 
 CC = gcc
-OPTS = -ansi -Dlinux
+OPTS = -ansi -Dlinux -fpic
 CFLAGS = -g 
 CCMALLOC = -lccmalloc 
 INC = -I./src/include -I$(MIRINC)/../pgplot-miriad-remix
@@ -39,6 +39,10 @@ all: wip
 wip: $(OBJ)
 	$(CC) $(CFLAGS) -o wip $(OBJ) -L$(MIRLIB) -L/usr/X11R6/lib \
 	       -lcpgplot -lpgplot -lX11 -lgcc -ldl -lm
+
+pwip: $(OBJ)
+	$(CC) $(OPTS) $(CFLAGS) -c pWip/wip_wrap.c -o pWip/wip_wrap.o -I/usr/include/python2.7 $(INC)
+	ld -L$(MIRLIB) -lcpgplot -lpgplot -shared -o pWip/_wip.so $(OBJ) pWip/wip_wrap.o
 
 clean:
 	rm -f libwip.a *.o wip
