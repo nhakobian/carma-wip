@@ -12,7 +12,7 @@
 
 
 Routines:
-void wipdecode ARGS(( Const char *string, char *outstr, size_t maxout ));
+void wipdecode(const char *string, char *outstr, size_t maxout);
 */
 
 #include "wip.h"
@@ -21,7 +21,7 @@ void wipdecode ARGS(( Const char *string, char *outstr, size_t maxout ));
 
 /* Code */
 
-void wipdecode(Const char *string, char *outstr, size_t maxout)
+void wipdecode(const char *string, char *outstr, size_t maxout)
 {
     char *ptr, *tmptr, *savptr;
     char ch;

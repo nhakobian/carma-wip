@@ -17,17 +17,18 @@
 	
 
 Routines:
-static int wipisop ARGS(( Const char *inword ));
-static double wipdoop ARGS(( Const char *op, double arg1, double arg2, LOGICAL *error ));
-static int wipisfunction ARGS(( Const char *inword ));
-static double wipdofunc ARGS(( Const char *inwrd, double arg, LOGICAL *error ));
-int    wipisnumber ARGS(( Const char *inword, double *retval ));
-void   wipecho ARGS(( Const char *input ));
-int    wipsetuser ARGS(( Const char *input ));
-char  *wipgettoken ARGS(( char *output, Const char *input, char **next ));
-int wiptokenexists ARGS(( Const char *inword ));
-double wipevaluate ARGS(( Const char *inword, LOGICAL *error ));
-char  *wipbracextract ARGS(( Const char *inword, char **left ));
+static    int  wipisop(const char *inword);
+static double  wipdoop(const char *op, double arg1, double arg2, \
+                      LOGICAL *error);
+static    int  wipisfunction(const char *inword);
+static double  wipdofunc(const char *inwrd, double arg, LOGICAL *error);
+          int  wipisnumber(const char *inword, double *retval);
+         void  wipecho(const char *input);
+          int  wipsetuser(const char *input);
+         char *wipgettoken(char *output, const char *input, char **next);
+          int  wiptokenexists(const char *inword);
+       double  wipevaluate(const char *inword, LOGICAL *error);
+         char *wipbracextract(const char *inword, char **left);
 */
 
 #include "wip.h"
@@ -39,7 +40,7 @@ static double USERVAR[MAXVAR]; /* USERVAR is an array of user setable variables.
 /* Code */
 
 /* Returns 1 if "inword" is a predefined operation; 0 otherwise. */
-static int wipisop(Const char *inword)
+static int wipisop(const char *inword)
 {
     char *ptr;
 
@@ -63,7 +64,7 @@ static int wipisop(Const char *inword)
 }
 
 /* Returns the result of the operation (arg1 op arg2). */
-static double wipdoop(Const char *inword, double arg1, double arg2, LOGICAL *error)
+static double wipdoop(const char *inword, double arg1, double arg2, LOGICAL *error)
 {
     char *ptr;
     double arg;
@@ -136,7 +137,7 @@ static double wipdoop(Const char *inword, double arg1, double arg2, LOGICAL *err
 }
 
 /*  Returns 1 if "inword" is a predefined (standard) function; 0 otherwise. */
-static int wipisfunction(Const char *inword)
+static int wipisfunction(const char *inword)
 {
     register char *ptr, *opbrac;
     char word[BUFSIZ];
@@ -170,7 +171,7 @@ static int wipisfunction(Const char *inword)
 }
 
 /* Returns the result of the operation (F(arg)). */
-static double wipdofunc(Const char *inword, double arg, LOGICAL *error)
+static double wipdofunc(const char *inword, double arg, LOGICAL *error)
 {
     long int narg;
     static long int randarg = (-911);
@@ -255,7 +256,7 @@ BADVALUE:
  *  entirely into a number and the value of "retval" will be undefined;
  *  otherwise, the number will be assigned to "retval" and 1 will be returned.
  */
-int wipisnumber(Const char *inword, double *retval)
+int wipisnumber(const char *inword, double *retval)
 {
     char *ptr;
     char temp[50];
@@ -290,7 +291,7 @@ int wipisnumber(Const char *inword, double *retval)
  *  variables, or vectors may appear by themselves; all other items
  *  produce an error message.
  */
-void wipecho(Const char *input)
+void wipecho(const char *input)
 {
     char *ptr, *op, *token, *next, *tmpnext;
     char sval[50];                        /* This size should be ample. */
@@ -401,9 +402,9 @@ void wipecho(Const char *input)
  *
  *  Returns 0 if successful; 1 on error.
  */
-int wipsetuser(Const char *rest)
+int wipsetuser(const char *rest)
 {
-    Void *curimage;                  /* Pointer to current image item. */
+    void *curimage;                  /* Pointer to current image item. */
     char *ptr, *token, *next;
     char tokenstring[STRINGSIZE];        /* Storage for current token. */
     char word[BUFSIZ];                  /* Local copy of input string. */
@@ -466,7 +467,7 @@ MISTAKE:
     return(1);
 }
 
-char *wipgettoken(char *output, Const char *input, char **next)
+char *wipgettoken(char *output, const char *input, char **next)
 {
 /*
  * This function parses the input string and returns the next token and
@@ -551,7 +552,7 @@ char *wipgettoken(char *output, Const char *input, char **next)
  *  a minus sign or open brace; these items cause an immediate return
  *  with a value of 0.
  */
-int wiptokenexists(Const char *inword)
+int wiptokenexists(const char *inword)
 {
     char *par, *ptr, *next;
     char tokenstring[STRINGSIZE];           /* Storage for current token. */
@@ -593,9 +594,9 @@ int wiptokenexists(Const char *inword)
     return(0);
 }
 
-double wipevaluate(Const char *inword, LOGICAL *error)
+double wipevaluate(const char *inword, LOGICAL *error)
 {
-    Void *curimage;                     /* Pointer to current image item. */
+    void *curimage;                     /* Pointer to current image item. */
     char *par, *ptr, *op, *next;
     char *openbrace, *closebrace;
     char opstring[50];            /* Storage for binary operation string. */
@@ -761,7 +762,7 @@ ANYERROR:
     return(0.0);
 }
 
-char *wipbracextract(Const char *inword, char **left)
+char *wipbracextract(const char *inword, char **left)
 {
     char *ptr;
     int level, chopen, chclose;

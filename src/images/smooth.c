@@ -3,7 +3,7 @@
 	10jul96 jm  Original Code.
 
 Routines:
-int wipsmooth ARGS(( float **array, int nx, int ny, int order, float blank ));
+int wipsmooth(float **array, int nx, int ny, int order, float blank);
 */
 
 #include "wip.h"
@@ -28,16 +28,7 @@ int wipsmooth ARGS(( float **array, int nx, int ny, int order, float blank ));
  *
  *  Returns 0 if successful; 1 on error.
  */
-#ifdef PROTOTYPE
 int wipsmooth(float **array, int nx, int ny, int order, float blank)
-#else
-int wipsmooth(array, nx, ny, order, blank)
-float **array;
-int nx;
-int ny;
-int order;
-float blank;
-#endif /* PROTOTYPE */
 {
     register int x, y, x1, x2, y1, y2, iy, jy, ix, mag;
     float xx, yy;

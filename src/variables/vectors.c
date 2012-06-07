@@ -24,18 +24,19 @@
         30nov00 pjt ansi-c
 
 Routines:
-static int initVector ARGS(( void ));
-static VECTOR *find_vector ARGS(( Const char *inname, int *indx ));
-int wipisvec ARGS(( Const char *name ));
-double wipgetvec ARGS(( Const char *inword, LOGICAL *error ));
-int wipsetvec ARGS(( Const char *inword, double value ));
-float *wipvector ARGS(( Const char *inword, int *maxsize, int *currentsize ));
-int wipvectornpts ARGS(( Const char *inword, int currentsize ));
-int wipisvecfunc ARGS(( Const char *inword ));
-double wipvecfunc ARGS(( Const char *inword, Const char *arg, LOGICAL *error ));
-int wipvectorinit ARGS(( Const char *name, int npts, Const char *expression ));
-int wipNewVector ARGS(( Const char *name, int size ));
-int wipFreeVector ARGS(( Const char *name ));
+static    int  initVector(void);
+static VECTOR *find_vector(const char *inname, int *indx);
+          int  wipisvec(const char *name);
+       double  wipgetvec(const char *inword, LOGICAL *error);
+          int  wipsetvec(const char *inword, double value);
+        float *wipvector(const char *inword, int *maxsize, int *currentsize);
+          int  wipvectornpts(const char *inword, int currentsize);
+          int  wipisvecfunc(const char *inword);
+       double  wipvecfunc(const char *inword, const char *arg, LOGICAL *error);
+          int  wipvectorinit(const char *name, int npts, \
+                             const char *expression);
+          int  wipNewVector(const char *name, int size);
+          int  wipFreeVector(const char *name);
 */
 
 #define WIP_VECTORS
@@ -86,7 +87,7 @@ static int initVector(void)
  *  Returns a pointer to the VECTOR structure and the index requested
  *  if "inname" is defined as a vector; a pointer to NULL otherwise.
  */
-static VECTOR *find_vector(Const char *inname, int *indx)
+static VECTOR *find_vector(const char *inname, int *indx)
 {
     char *par, *ptr, *closing;
     char word[STRINGSIZE];
@@ -136,7 +137,7 @@ static VECTOR *find_vector(Const char *inname, int *indx)
 }
 
 /* Returns 1 if "name" is defined as a vector; 0 otherwise. */
-int wipisvec(Const char *name)
+int wipisvec(const char *name)
 {
     int dummyindex;
 
@@ -148,7 +149,7 @@ int wipisvec(Const char *name)
  *  at the desired index and sets error to FALSE; otherwise, it
  *  returns 0 and sets error to TRUE.
  */
-double wipgetvec(Const char *inword, LOGICAL *error)
+double wipgetvec(const char *inword, LOGICAL *error)
 {
     int arrayindex;
     double value;
@@ -167,7 +168,7 @@ double wipgetvec(Const char *inword, LOGICAL *error)
 }
 
 /* Returns 0 if the vector exists and was set; 1 if an error occured. */
-int wipsetvec(Const char *inword, double value)
+int wipsetvec(const char *inword, double value)
 {
     int arrayindex;
     VECTOR *vb;
@@ -187,7 +188,7 @@ int wipsetvec(Const char *inword, double value)
  *  declared max-size of the array and the current filled size;
  *  otherwise, a NULL pointer is returned.
  */
-float *wipvector(Const char *inword, int *maxsize, int *currentsize)
+float *wipvector(const char *inword, int *maxsize, int *currentsize)
 {
     char temp[STRINGSIZE];
     int arrayindex;
@@ -211,7 +212,7 @@ float *wipvector(Const char *inword, int *maxsize, int *currentsize)
  *  Returns 0 if "inword" is a defined vector and the number of points
  *  in the current array was able to be set; 1 if an error occured.
  */
-int wipvectornpts(Const char *inword, int currentsize)
+int wipvectornpts(const char *inword, int currentsize)
 {
     char temp[STRINGSIZE];
     int arrayindex;
@@ -242,7 +243,7 @@ int wipvectornpts(Const char *inword, int currentsize)
  *  Returns 1 if "inword" is defined as a function that operates on
  *  an entire vector; 0 otherwise.
  */
-int wipisvecfunc(Const char *inword)
+int wipisvecfunc(const char *inword)
 {
     register char *ptr, *opbrac;
     char word[BUFSIZ];
@@ -267,7 +268,7 @@ int wipisvecfunc(Const char *inword)
 }
 
 /* Returns the result of the operation (F(vectorNameArg)). */
-double wipvecfunc(Const char *inword, Const char *arg, LOGICAL *error)
+double wipvecfunc(const char *inword, const char *arg, LOGICAL *error)
 {
     int maxsize, currentsize;
     float *ptr;    /* ---- Reserved for later use. ---- */
@@ -297,7 +298,7 @@ double wipvecfunc(Const char *inword, Const char *arg, LOGICAL *error)
  *  vector is made, effectively, empty.
  *  Returns 0 if successful, 1 on error.
  */
-int wipvectorinit(Const char *name, int npts, Const char *expression)
+int wipvectorinit(const char *name, int npts, const char *expression)
 {
     register int i;
     int maxsize, mpts;
@@ -333,7 +334,7 @@ int wipvectorinit(Const char *name, int npts, Const char *expression)
 }
 
 /* Returns 0 if all went well; 1 if an error occured. */
-int wipNewVector(Const char *name, int size)
+int wipNewVector(const char *name, int size)
 {
     char *ptr;
     VECTOR *vb;
@@ -378,7 +379,7 @@ int wipNewVector(Const char *name, int size)
     return(0);
 }
 
-int wipFreeVector(Const char *name)
+int wipFreeVector(const char *name)
 {
     char temp[STRINGSIZE];
     int dummyindex;

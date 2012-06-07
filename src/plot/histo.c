@@ -7,9 +7,9 @@
 		     of the bar and to also specify the "width" of a bar.
 
 Routines:
-int wiphline ARGS((int npts, float x[], float y[], float gap, int center));
-int wipbar ARGS((int nxy, float x[], float y[], int nc, float col[], int loc,
-  int dolimit, float barlimit, float barwidth));
+int wiphline(int npts, float x[], float y[], float gap, int center);
+int wipbar(int nxy, float x[], float y[], int nc, float col[], int loc, \
+           int dolimit, float barlimit, float barwidth);
 */
 
 #include "wip.h"
@@ -28,15 +28,7 @@ int wipbar ARGS((int nxy, float x[], float y[], int nc, float col[], int loc,
  *  of the bin.
  *  Returns 0 if successful; 1 on error.
  */
-#ifdef PROTOTYPE
 int wiphline(int npts, float x[], float y[], float gap, int center)
-#else
-int wiphline(npts, x, y, gap, center)
-int npts;
-float x[], y[];
-float gap;
-int center;
-#endif /* PROTOTYPE */
 {
     register int i, start, end;
     float xp, xm, yl;
@@ -103,19 +95,7 @@ int center;
  *  of barlimit is used to demark the "bottom" of the bar.
  *  Returns 0 if successful; 1 on error.
  */
-#ifdef PROTOTYPE
 int wipbar(int npts, float x[], float y[], int nc, float color[], int location, int dolimit, float barlimit, float barwidth)
-#else
-int wipbar(npts, x, y, nc, color, location, dolimit, barlimit, barwidth)
-int npts;
-float x[], y[];
-int nc;
-float color[];
-int location;
-int dolimit;
-float barlimit;
-float barwidth;
-#endif /* PROTOTYPE */
 {
     register int j, ic, ibar;
     int cmin, cmax, newColor;

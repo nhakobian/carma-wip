@@ -12,10 +12,10 @@
          9oct00 pjt no more PROTOTYPE #ifdefs
 
 Routines:
-int wipnewitem ARGS(( Const char *string ));
-int wipfreeitem ARGS(( Const char *string ));
-int wipisuserfunc ARGS(( Const char *name ));
-double wipuserfunc ARGS(( Const char *inword, double arg, LOGICAL *error ));
+   int wipnewitem(const char *string);
+   int wipfreeitem(const char *string);
+   int wipisuserfunc(const char *name);
+double wipuserfunc(const char *inword, double arg, LOGICAL *error);
 */
 
 #include "wip.h"
@@ -25,7 +25,7 @@ double wipuserfunc ARGS(( Const char *inword, double arg, LOGICAL *error ));
 /* Code */
 
 /* Returns 0 if all items were defined; 1 if an error occured. */
-int wipnewitem(Const char *string)
+int wipnewitem(const char *string)
 {
     char *par, *ptr, *psize, *next;
     char token[STRINGSIZE];
@@ -97,7 +97,7 @@ int wipnewitem(Const char *string)
 }
 
 /* Returns 0 if all items were removed; 1 if an error occured. */
-int wipfreeitem(Const char *string)
+int wipfreeitem(const char *string)
 {
     char *par, *ptr, *next;
     char token[STRINGSIZE];
@@ -147,7 +147,7 @@ int wipfreeitem(Const char *string)
 }
 
 /* Returns 1 if user function; 0 otherwise. */
-int wipisuserfunc(Const char *name)
+int wipisuserfunc(const char *name)
 {
     register char *ptr, *opbrac;
     char word[BUFSIZ];
@@ -169,7 +169,7 @@ int wipisuserfunc(Const char *name)
 }
 
 /* ARGSUSED */
-double wipuserfunc(Const char *inword, double arg, LOGICAL *error)
+double wipuserfunc(const char *inword, double arg, LOGICAL *error)
 {
     /* NO USER FUNCTIONS YET... */
     *error = TRUE;

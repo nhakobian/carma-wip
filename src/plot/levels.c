@@ -7,9 +7,11 @@
 	12dec94 jm  Removed task wipsetslev().
 
 Routines:
-int wiplevels ARGS(( char *rest, float levels[], int maxlev ));
-int wipautolevs ARGS(( char *rest, float levels[], int maxlev, float pmin, float pmax ));
-int wipscalevels ARGS(( Const char *stype, float slev, float pmin, float pmax, float levels[], int nlev ));
+int wiplevels(char *rest, float levels[], int maxlev);
+int wipautolevs(char *rest, float levels[], int maxlev, float pmin, \
+                float pmax);
+int wipscalevels(const char *stype, float slev, float pmin, float pmax, \
+                 float levels[], int nlev);
 */
 
 #include "wip.h"
@@ -19,14 +21,7 @@ int wipscalevels ARGS(( Const char *stype, float slev, float pmin, float pmax, f
 /* Code */
 
 /*  Returns the number of levels parsed; 0 on error. */
-#ifdef PROTOTYPE
 int wiplevels(char *rest, float levels[], int maxlev)
-#else
-int wiplevels(rest, levels, maxlev)
-char *rest;
-float levels[];
-int maxlev;
-#endif /* PROTOTYPE */
 {
     char *par;
     int nlevel;
@@ -45,15 +40,7 @@ int maxlev;
 }
 
 /*  Returns the number of levels generated; 0 on error. */
-#ifdef PROTOTYPE
 int wipautolevs(char *rest, float levels[], int maxlev, float pmin, float pmax)
-#else
-int wipautolevs(rest, levels, maxlev, pmin, pmax)
-char *rest;
-float levels[];
-int maxlev;
-float pmin, pmax;
-#endif /* PROTOTYPE */
 {
     char *par;
     char levtype[30];
@@ -136,15 +123,7 @@ float pmin, pmax;
  *  and ("stype" is "absolute"), then no changes will be applied to the
  *  input contour level array.
  */
-#ifdef PROTOTYPE
-int wipscalevels(Const char *stype, float slev, float pmin, float pmax, float levels[], int nlev)
-#else
-int wipscalevels(stype, slev, pmin, pmax, levels, nlev)
-Const char *stype;
-float slev, pmin, pmax;
-float levels[];
-int nlev;
-#endif /* PROTOTYPE */
+int wipscalevels(const char *stype, float slev, float pmin, float pmax, float levels[], int nlev)
 {
     char *leveltype;
     int i, ilev;

@@ -8,11 +8,11 @@
 
 
 Routines:
-void wipsaveline ARGS(( COMMAND *macro, Const char *line ));
-COMMAND *wipstartins ARGS(( char *string ));
-void wipinsert ARGS(( COMMAND *command, Const char *string ));
-int wipdelete ARGS(( char *string ));
-COMMAND *wipstartmac ARGS(( Const char *string ));
+   void  wipsaveline(COMMAND *macro, const char *line);
+COMMAND *wipstartins(char *string);
+   void  wipinsert(COMMAND *command, const char *string);
+    int  wipdelete(char *string);
+COMMAND *wipstartmac(const char *string);
 */
 
 #define WIP_VOCAB
@@ -24,7 +24,7 @@ static int lineno = 0;
 
 /* Code */
 
-void wipsaveline(COMMAND *macro, Const char *line)
+void wipsaveline(COMMAND *macro, const char *line)
 {
     if (macro == (COMMAND *)NULL) {
       wipoutput(stderr, "wipsaveline: Macro does not exist.\n");
@@ -67,7 +67,7 @@ COMMAND *wipstartins(char *string)
     return(vb);
 }
 
-void wipinsert(COMMAND *command, Const char *string)
+void wipinsert(COMMAND *command, const char *string)
 {
     if (command == (COMMAND *)NULL) {
       wipoutput(stderr, "Select a Macro first.\n");
@@ -133,7 +133,7 @@ int wipdelete(char *string)
     return(0);
 }
 
-COMMAND *wipstartmac(Const char *string)
+COMMAND *wipstartmac(const char *string)
 {
     char *par, *ptr;
     char macro[BUFSIZ];

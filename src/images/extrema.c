@@ -3,7 +3,7 @@
 	11aug90 jm  Original code.
 
 Routines:
-void wipextrema ARGS(( float **image, int nx, int ny, float *pmin, float *pmax ));
+void wipextrema(float **image, int nx, int ny, float *pmin, float *pmax);
 */
 
 #include "wip.h"
@@ -14,14 +14,7 @@ void wipextrema ARGS(( float **image, int nx, int ny, float *pmin, float *pmax )
 
 /* Code */
 
-#ifdef PROTOTYPE
 void wipextrema(float **image, int nx, int ny, float *pmin, float *pmax)
-#else
-void wipextrema(image, nx, ny, pmin, pmax)
-float **image;
-int nx, ny;
-float *pmin, *pmax;
-#endif /* PROTOTYPE */
 {
       register int x, y;
       register float val, imin, imax;

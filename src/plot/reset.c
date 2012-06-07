@@ -3,7 +3,7 @@
 	03may91 jm  Original code.
 
 Routines:
-void wipreset ARGS(( void ));
+void wipreset(void);
 */
 
 #include "wip.h"
@@ -12,11 +12,7 @@ void wipreset ARGS(( void ));
 
 /* Code */
 
-#ifdef PROTOTYPE
 void wipreset(void)
-#else
-void wipreset()
-#endif /* PROTOTYPE */
 {
       float tr[6];
 

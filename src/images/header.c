@@ -12,15 +12,16 @@
  *		  I have expanded the input pixel range by 0.5 at each edge.
  *    15aug92 jm  Modified to return status int, increased error checking,
  *		  and cleaned up code a bit.
- *    10nov93 jm  Modified declarations to usage of Void.
+ *    10nov93 jm  Modified declarations to usage of void.
  *    12dec94 jm  Merged wipheadlim() and wipheader() into one file
  *		  making the former static since only the later calls it.
  *
  * Routines:
- * static int wipheadlim ARGS(( Const Void *image, Const char *xtype,
- *  Const char *ytype, float *xscale, float *xoff, float *yscale, float *yoff));
- * int wipheader ARGS(( int blcx, int blcy, int trcx, int trcy,
- *  Const char *xtype, Const char *ytype ));
+ *  static int wipheadlim(const void *image, const char *xtype, \
+ *                        const char *ytype, float *xscale, float *xoff, \
+ *                        float *yscale, float *yoff);
+ *         int wipheader(int blcx, int blcy, int trcx, int trcy, \
+ *                       const char *xtype, const char *ytype);
  */
 
 #include "wip.h"
@@ -49,16 +50,8 @@ static struct {
  *  Returns scale and offset values for the currently defined "image".
  *  Returns 0 if successful; 1 on error.
  */
-#ifdef PROTOTYPE
-static int wipheadlim(Const Void *image, Const char *xtype, Const char *ytype,
+static int wipheadlim(const void *image, const char *xtype, const char *ytype,
   float *xscale, float *xoff, float *yscale, float *yoff)
-#else
-static int wipheadlim(image, xtype, ytype, xscale, xoff, yscale, yoff)
-Const Void *image;
-Const char *xtype;
-Const char *ytype;
-float *xscale, *xoff, *yscale, *yoff;
-#endif /* PROTOTYPE */
 {
     char *ptr;
     char style[30];
@@ -226,16 +219,9 @@ MISTAKE:
 }
 
 /* Returns 1 if error occured; 0 if no error. */
-#ifdef PROTOTYPE
-int wipheader(int blcx, int blcy, int trcx, int trcy, Const char *xtype, Const char *ytype)
-#else
-int wipheader(blcx, blcy, trcx, trcy, xtype, ytype)
-int blcx, blcy, trcx, trcy;
-Const char *xtype;
-Const char *ytype;
-#endif /* PROTOTYPE */
+int wipheader(int blcx, int blcy, int trcx, int trcy, const char *xtype, const char *ytype)
 {
-    Void *curimage;
+    void *curimage;
     float xscale, xoff, yscale, yoff;
     float xmin, xmax, ymin, ymax;
     float tr[6];

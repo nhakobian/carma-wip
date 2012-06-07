@@ -8,31 +8,31 @@
 	13nov96 jm  Added wipDebugMode() routine.
 
 Routines:
-void wipcolor ARGS(( int color ));
-void wipexpand ARGS(( double exp ));
-void wipfill ARGS(( int fill ));
-void wipfont ARGS(( int font ));
-void wipltype ARGS(( int style ));
-void wiplw ARGS(( int width ));
-void wipsetbgci ARGS(( int color ));
-void wipsetitf ARGS(( int type ));
-void wipsetangle ARGS(( double ang ));
-void wipsetslope ARGS(( double xa, double xb, double ya, double yb ));
-void wiplimits ARGS(( void ));
-void wipgetlimits ARGS(( float *x1, float *x2, float *y1, float *y2 ));
-void wipviewport ARGS(( void ));
-void wipgetvp ARGS(( float *vx1, float *vx2, float *vy1, float *vy2 ));
-void wipsetr ARGS(( float tr[] ));
-void wipgetr ARGS(( float tr[] ));
-void wipsetsub ARGS(( int subx1, int subx2, int suby1, int suby2 ));
-void wipgetsub ARGS(( int *subx1, int *subx2, int *suby1, int *suby2 ));
-void wipsetick ARGS(( float xtick, int nxsub, float ytick, int nysub ));
-void wipgetick ARGS(( float *xtick, int *nxsub, float *ytick, int *nysub ));
-void wipsetsubmar ARGS(( float subx, float suby ));
-void wipgetsubmar ARGS(( float *subx, float *suby ));
-void wipsetcir ARGS(( int cmin, int cmax ));
-void wipgetcir ARGS(( int *cmin, int *cmax ));
-int  wipDebugMode ARGS(( void ));
+void wipcolor(int color);
+void wipexpand(double exp);
+void wipfill(int fill);
+void wipfont(int font);
+void wipltype(int style);
+void wiplw(int width);
+void wipsetbgci(int color);
+void wipsetitf(int type);
+void wipsetangle(double ang);
+void wipsetslope(double xa, double xb, double ya, double yb);
+void wiplimits(void);
+void wipgetlimits(float *x1, float *x2, float *y1, float *y2);
+void wipviewport(void);
+void wipgetvp(float *vx1, float *vx2, float *vy1, float *vy2);
+void wipsetr(float tr[]);
+void wipgetr(float tr[]);
+void wipsetsub(int subx1, int subx2, int suby1, int suby2);
+void wipgetsub(int *subx1, int *subx2, int *suby1, int *suby2);
+void wipsetick(float xtick, int nxsub, float ytick, int nysub);
+void wipgetick(float *xtick, int *nxsub, float *ytick, int *nysub);
+void wipsetsubmar(float subx, float suby);
+void wipgetsubmar(float *subx, float *suby);
+void wipsetcir(int cmin, int cmax);
+void wipgetcir(int *cmin, int *cmax);
+ int wipDebugMode(void);
 */
 
 #include "wip.h"
@@ -54,12 +54,7 @@ int  wipDebugMode ARGS(( void ));
   if (wipsetvar(what, (double)(val))) \
     wipoutput(stderr, "Trouble saving %s value.\n", name)
 
-#ifdef PROTOTYPE
 void wipcolor(int color)
-#else
-void wipcolor(color)
-int color;
-#endif /* PROTOTYPE */
 {
     int narg;
 
@@ -75,12 +70,7 @@ int color;
     return;
 }
 
-#ifdef PROTOTYPE
 void wipexpand(double exp)
-#else
-void wipexpand(exp)
-double exp;
-#endif /* PROTOTYPE */
 {
     float arg, expand;
 
@@ -98,12 +88,7 @@ double exp;
     return;
 }
 
-#ifdef PROTOTYPE
 void wipfill(int fill)
-#else
-void wipfill(fill)
-int fill;
-#endif /* PROTOTYPE */
 {
     int narg;
 
@@ -115,12 +100,7 @@ int fill;
     return;
 }
 
-#ifdef PROTOTYPE
 void wipfont(int font)
-#else
-void wipfont(font)
-int font;
-#endif /* PROTOTYPE */
 {
     int narg;
 
@@ -132,12 +112,7 @@ int font;
     return;
 }
 
-#ifdef PROTOTYPE
 void wipltype(int style)
-#else
-void wipltype(style)
-int style;
-#endif /* PROTOTYPE */
 {
     int narg;
 
@@ -149,12 +124,7 @@ int style;
     return;
 }
 
-#ifdef PROTOTYPE
 void wiplw(int width)
-#else
-void wiplw(width)
-int width;
-#endif /* PROTOTYPE */
 {
     int narg;
 
@@ -166,12 +136,7 @@ int width;
     return;
 }
 
-#ifdef PROTOTYPE
 void wipsetbgci(int color)
-#else
-void wipsetbgci(color)
-int color;
-#endif /* PROTOTYPE */
 {
     int narg;
 
@@ -183,12 +148,7 @@ int color;
     return;
 }
 
-#ifdef PROTOTYPE
 void wipsetitf(int type)
-#else
-void wipsetitf(type)
-int type;
-#endif /* PROTOTYPE */
 {
     int narg;
 
@@ -199,23 +159,14 @@ int type;
     SETVAR("itf", "image transfer function", narg);
     return;
 }
-#ifdef PROTOTYPE
+
 void wipsetangle(double ang)
-#else
-void wipsetangle(ang)
-double ang;
-#endif /* PROTOTYPE */
 {
     SETVAR("angle", "angle", ang);
     return;
 }
 
-#ifdef PROTOTYPE
 void wipsetslope(double xa, double xb, double ya, double yb)
-#else
-void wipsetslope(xa, xb, ya, yb)
-double xa, xb, ya, yb;
-#endif /* PROTOTYPE */
 {
     float xmin, xmax, ymin, ymax;
     double angle, dx, dy;
@@ -236,11 +187,7 @@ double xa, xb, ya, yb;
     wipsetangle(angle);
 }
 
-#ifdef PROTOTYPE
 void wiplimits(void)
-#else
-void wiplimits()
-#endif /* PROTOTYPE */
 {
     float xmin, xmax, ymin, ymax;
 
@@ -255,12 +202,7 @@ void wiplimits()
     return;
 }
 
-#ifdef PROTOTYPE
 void wipgetlimits(float *x1, float *x2, float *y1, float *y2)
-#else
-void wipgetlimits(x1, x2, y1, y2)
-float *x1, *x2, *y1, *y2;
-#endif /* PROTOTYPE */
 {
     LOGICAL error;
 
@@ -285,11 +227,7 @@ MISTAKE:
     return;
 }
 
-#ifdef PROTOTYPE
 void wipviewport(void)
-#else
-void wipviewport()
-#endif /* PROTOTYPE */
 {
     float xmin, xmax, ymin, ymax;
 
@@ -304,12 +242,7 @@ void wipviewport()
     return;
 }
 
-#ifdef PROTOTYPE
 void wipgetvp(float *vx1, float *vx2, float *vy1, float *vy2)
-#else
-void wipgetvp(vx1, vx2, vy1, vy2)
-float *vx1, *vx2, *vy1, *vy2;
-#endif /* PROTOTYPE */
 {
     LOGICAL error;
 
@@ -334,12 +267,7 @@ MISTAKE:
     return;
 }
 
-#ifdef PROTOTYPE
 void wipsetr(float tr[])
-#else
-void wipsetr(tr)
-float tr[];
-#endif /* PROTOTYPE */
 {
     char transfer[12];
     register int j;
@@ -356,12 +284,7 @@ float tr[];
     return;
 }
 
-#ifdef PROTOTYPE
 void wipgetr(float tr[])
-#else
-void wipgetr(tr)
-float tr[];
-#endif /* PROTOTYPE */
 {
     char transfer[12];
     register int j;
@@ -384,12 +307,7 @@ float tr[];
     return;
 }
 
-#ifdef PROTOTYPE
 void wipsetsub(int subx1, int subx2, int suby1, int suby2)
-#else
-void wipsetsub(subx1, subx2, suby1, suby2)
-int subx1, subx2, suby1, suby2;
-#endif /* PROTOTYPE */
 {
     if ((wipsetvar("subx1", (double)subx1)) ||
         (wipsetvar("subx2", (double)subx2)) ||
@@ -400,12 +318,7 @@ int subx1, subx2, suby1, suby2;
     return;
 }
 
-#ifdef PROTOTYPE
 void wipgetsub(int *subx1, int *subx2, int *suby1, int *suby2)
-#else
-void wipgetsub(subx1, subx2, suby1, suby2)
-int *subx1, *subx2, *suby1, *suby2;
-#endif /* PROTOTYPE */
 {
     double value;
     LOGICAL error;
@@ -434,13 +347,7 @@ MISTAKE:
     return;
 }
 
-#ifdef PROTOTYPE
 void wipsetick(float xtick, int nxsub, float ytick, int nysub)
-#else
-void wipsetick(xtick, nxsub, ytick, nysub)
-int nxsub, nysub;
-float xtick, ytick;
-#endif /* PROTOTYPE */
 {
     if ((wipsetvar("xtick", (double)xtick)) ||
         (wipsetvar("ytick", (double)ytick)) ||
@@ -451,13 +358,7 @@ float xtick, ytick;
     return;
 }
 
-#ifdef PROTOTYPE
 void wipgetick(float *xtick, int *nxsub, float *ytick, int *nysub)
-#else
-void wipgetick(xtick, nxsub, ytick, nysub)
-int *nxsub, *nysub;
-float *xtick, *ytick;
-#endif /* PROTOTYPE */
 {
     double value;
     LOGICAL error;
@@ -484,12 +385,7 @@ MISTAKE:
     return;
 }
 
-#ifdef PROTOTYPE
 void wipsetsubmar(float subx, float suby)
-#else
-void wipsetsubmar(subx, suby)
-float subx, suby;
-#endif /* PROTOTYPE */
 {
     if ((wipsetvar("xsubmar", (double)subx)) ||
         (wipsetvar("ysubmar", (double)suby)))
@@ -498,12 +394,8 @@ float subx, suby;
     return;
 }
 
-#ifdef PROTOTYPE
+
 void wipgetsubmar(float *subx, float *suby)
-#else
-void wipgetsubmar(subx, suby)
-float *subx, *suby;
-#endif /* PROTOTYPE */
 {
     LOGICAL error;
 
@@ -522,12 +414,7 @@ MISTAKE:
     return;
 }
 
-#ifdef PROTOTYPE
 void wipsetcir(int cmin, int cmax)
-#else
-void wipsetcir(cmin, cmax)
-int cmin, cmax;
-#endif /* PROTOTYPE */
 {
     int nmin, nmax;
 
@@ -546,12 +433,7 @@ int cmin, cmax;
     return;
 }
 
-#ifdef PROTOTYPE
 void wipgetcir(int *cmin, int *cmax)
-#else
-void wipgetcir(cmin, cmax)
-int *cmin, *cmax;
-#endif /* PROTOTYPE */
 {
     double value;
     LOGICAL error;
@@ -573,11 +455,7 @@ MISTAKE:
     return;
 }
 
-#ifdef PROTOTYPE
 int wipDebugMode(void)
-#else
-int wipDebugMode()
-#endif /* PROTOTYPE */
 {
     int mode;
     double value;

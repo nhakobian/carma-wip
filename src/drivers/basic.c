@@ -43,15 +43,15 @@
  *
  *----------------------------------------------------------------------
  * Routines:
- *  Void *basopen(Const char *name, int naxis, int axes[]);
- *  void basclose(Void *file);
- *  int basread(Void *file, int indx, FLOAT *array, FLOAT badpixel);
- *  int bassetpl(Void *file, int naxis, int axes[]);
- *  void basrdhdd(Void *file, Const char *keyword, double *value,double defval);
- *  void basrdhdr(Void *file, Const char *keyword, FLOAT *value, FLOAT defval);
- *  void basrdhdi(Void *file, Const char *keyword, int *value, int defval);
- *  void basrdhda(Void *file, Const char *keyword, char *value, Const char *defval, size_t maxlen);
- *  int bashdprsnt(Void *file, Const char *keyword);
+ *  void *basopen(const char *name, int naxis, int axes[]);
+ *  void basclose(void *file);
+ *  int basread(void *file, int indx, FLOAT *array, FLOAT badpixel);
+ *  int bassetpl(void *file, int naxis, int axes[]);
+ *  void basrdhdd(void *file, const char *keyword, double *value,double defval);
+ *  void basrdhdr(void *file, const char *keyword, FLOAT *value, FLOAT defval);
+ *  void basrdhdi(void *file, const char *keyword, int *value, int defval);
+ *  void basrdhda(void *file, const char *keyword, char *value, const char *defval, size_t maxlen);
+ *  int bashdprsnt(void *file, const char *keyword);
  */
 
 #define WIP_IMAGE
@@ -85,7 +85,7 @@ static char *Buf2 = (char *)NULL;
 static size_t Maxdim = 0;
 
 /************************************************************************/
-Void *basopen(Const char *name, int naxis, int axes[])
+void *basopen(const char *name, int naxis, int axes[])
 /* basopen -- Open an image file.
 
   Input:
@@ -122,7 +122,7 @@ Void *basopen(Const char *name, int naxis, int axes[])
     if (naxis < 2) {
       (void)fprintf(stderr,
         "### Warning: There must be more than %d dimensions.\n", naxis);
-      return((Void *)NULL);
+      return((void *)NULL);
     }
 
     (void)strcpy(filename, name);
@@ -133,7 +133,7 @@ Void *basopen(Const char *name, int naxis, int axes[])
       if (wipDebugMode() > 0)
         (void)fprintf(stderr,
           "### Warning: Required backquote not found in [%s].\n", name);
-      return((Void *)NULL);
+      return((void *)NULL);
     }
     *p++ = Null; 
 
@@ -146,14 +146,14 @@ Void *basopen(Const char *name, int naxis, int axes[])
         (void)fprintf(stderr,
           "### Warning: Required X dimension not found in [%s`%s].\n",
           filename, p);
-      return((Void *)NULL);
+      return((void *)NULL);
     }
 
     /* Column number must be positive definite. */
     if ((nx = atoi(p)) <= 0) {
       if (wipDebugMode() > 0)
         (void)fprintf(stderr, "### Warning: Trouble decoding X dimension.\n");
-      return((Void *)NULL);
+      return((void *)NULL);
     }
 
     if (wipDebugMode() > 0)
@@ -195,7 +195,7 @@ Void *basopen(Const char *name, int naxis, int axes[])
         if (wipDebugMode() > 0)
           (void)fprintf(stderr,
             "### Warning: Incorrect image type format: [%c].\n", *(p-1));
-        return((Void *)NULL);
+        return((void *)NULL);
     }
 		
     if (wipDebugMode() > 0)
@@ -205,14 +205,14 @@ Void *basopen(Const char *name, int naxis, int axes[])
     if ((i = strspn(p, "0123456789")) == (size_t)0) {
       if (wipDebugMode() > 0)
         (void)fprintf(stderr, "### Warning: Required Y dimension not found.\n");
-      return((Void *)NULL);
+      return((void *)NULL);
     }
 
     /* Row number must be positive definite. */
     if ((ny = atoi(p)) <= 0) {
       if (wipDebugMode() > 0)
         (void)fprintf(stderr, "### Warning: Trouble decoding Y dimension.\n");
-      return((Void *)NULL);
+      return((void *)NULL);
     }
 
     if (wipDebugMode() > 0)
@@ -225,7 +225,7 @@ Void *basopen(Const char *name, int naxis, int axes[])
       if (wipDebugMode() > 0)
         (void)fprintf(stderr,
           "### Warning: Incorrect file format ending: [%s].\n", p);
-      return((Void *)NULL);
+      return((void *)NULL);
     }
 
     imoffset = 0;  /* old ip->physstart */
@@ -236,7 +236,7 @@ Void *basopen(Const char *name, int naxis, int axes[])
         if (wipDebugMode() > 0)
           (void)fprintf(stderr,
             "### Warning: Incorrect file format offset: %s.\n", p);
-        return((Void *)NULL);
+        return((void *)NULL);
       }
 
       imoffset = atoi(p);
@@ -247,7 +247,7 @@ Void *basopen(Const char *name, int naxis, int axes[])
         if (wipDebugMode() > 0)
           (void)fprintf(stderr,
             "### Warning: Incorrect file format ending: %s.\n", p);
-        return((Void *)NULL);
+        return((void *)NULL);
       }
     }
 
@@ -258,7 +258,7 @@ Void *basopen(Const char *name, int naxis, int axes[])
     if ((fd = fopen(filename, "rb")) == (FILE *)NULL) {
       if (wipDebugMode() > 0)
         (void)fprintf(stderr, "### Warning: Failed to open [%s].\n", filename);
-      return((Void *)NULL);
+      return((void *)NULL);
     }
 
     /* Total size of an image plane in bytes. */
@@ -269,14 +269,14 @@ Void *basopen(Const char *name, int naxis, int axes[])
       (void)fprintf(stderr,
         "### Warning: Image part of [%s] appears too small.\n", name);
       (void)fclose(fd);
-      return((Void *)NULL);
+      return((void *)NULL);
     }
 
     if ((f = (BASIC *)malloc(sizeof(BASIC))) == (BASIC *)NULL) {
       (void)fprintf(stderr,
         "### Warning: Failed to allocate memory in basopen.\n");
       (void)fclose(fd);
-      return((Void *)NULL);
+      return((void *)NULL);
     }
 
     axes[0] = nx;
@@ -315,16 +315,16 @@ Void *basopen(Const char *name, int naxis, int axes[])
       if ((Buf1 == (char *)NULL) || (Buf2 == (char *)NULL)) {
         (void)fprintf(stderr,
           "### Fatal Error: Ran out of memory opening basic image.\n");
-        basclose((Void *)f);
-        return((Void *)NULL);
+        basclose((void *)f);
+        return((void *)NULL);
       }
     }
 
-  return((Void *)f);
+  return((void *)f);
 }
 
 /************************************************************************/
-void basclose(Void *file)
+void basclose(void *file)
 /* basclose -- Close up an image file.
 
   Input:
@@ -337,15 +337,15 @@ void basclose(Void *file)
       return;
 
     if (f->fd != (FILE *)NULL) (void)fclose(f->fd);
-    (void)free((Void *)f);
-    file = (Void *)NULL;
+    (void)free((void *)f);
+    file = (void *)NULL;
 
     return;
 }
 
 /* ARGSUSED */
 /************************************************************************/
-int basread(Void *file, int indx, FLOAT *array, FLOAT badpixel)
+int basread(void *file, int indx, FLOAT *array, FLOAT badpixel)
 /* basread -- Read a single row from an image.  This accesses the plane
    given by the last call to bassetpl.
 
@@ -382,7 +382,7 @@ int basread(Void *file, int indx, FLOAT *array, FLOAT badpixel)
       return(1);
     }
 
-    if (fread((Void *)Buf2, sizeof(char), length, f->fd) != length) {
+    if (fread((void *)Buf2, sizeof(char), length, f->fd) != length) {
       (void)fprintf(stderr, "### Error: I/O read error in basread.\n");
       return(1);
     }
@@ -429,7 +429,7 @@ int basread(Void *file, int indx, FLOAT *array, FLOAT badpixel)
 }
 
 /************************************************************************/
-int bassetpl(Void *file, int naxis, int axes[])
+int bassetpl(void *file, int naxis, int axes[])
 /* bassetpl -- Set which plane of a cube is to be accessed.
 
   Input:
@@ -465,7 +465,7 @@ int bassetpl(Void *file, int naxis, int axes[])
 
 /* ARGSUSED */
 /************************************************************************/
-void basrdhdd(Void *file, Const char *keyword, double *value, double defval)
+void basrdhdd(void *file, const char *keyword, double *value, double defval)
 /* basrdhdd -- Read a double precision-valued header variable.
 
   Input:
@@ -485,7 +485,7 @@ void basrdhdd(Void *file, Const char *keyword, double *value, double defval)
 
 /* ARGSUSED */
 /************************************************************************/
-void basrdhdr(Void *file, Const char *keyword, FLOAT *value, FLOAT defval)
+void basrdhdr(void *file, const char *keyword, FLOAT *value, FLOAT defval)
 /* basrdhdr -- Read a real-valued header variable.
 
   Input:
@@ -508,7 +508,7 @@ void basrdhdr(Void *file, Const char *keyword, FLOAT *value, FLOAT defval)
 
 /* ARGSUSED */
 /************************************************************************/
-void basrdhdi(Void *file, Const char *keyword, int *value, int defval)
+void basrdhdi(void *file, const char *keyword, int *value, int defval)
 /* basrdhdi -- Read an integer-valued header variable.
 
   Input:
@@ -531,7 +531,7 @@ void basrdhdi(Void *file, Const char *keyword, int *value, int defval)
 
 /* ARGSUSED */
 /************************************************************************/
-void basrdhda(Void *file, Const char *keyword, char *value, Const char *defval, size_t maxlen)
+void basrdhda(void *file, const char *keyword, char *value, const char *defval, size_t maxlen)
 /* basrdhda -- Read a string-valued header variable.
 
   Input:
@@ -560,7 +560,7 @@ void basrdhda(Void *file, Const char *keyword, char *value, Const char *defval, 
 
 /* ARGSUSED */
 /**********************************************************************/
-int bashdprsnt(Void *file, Const char *keyword)
+int bashdprsnt(void *file, const char *keyword)
 /*
   Returns 1 if keyword is present in header; 0 otherwise.
 ------------------------------------------------------------------------*/
@@ -586,7 +586,7 @@ int wipDebugMode(void)
 
 main(int argc, char *argv[])
 {
-    Void *file;
+    void *file;
     char *infile;
     char ctype1[80];
     int indx;
@@ -615,7 +615,7 @@ main(int argc, char *argv[])
  
     (void)printf("TEST: Opening file %s.\n", infile);
     file = basopen(infile, naxis, axes);
-    if (file == (Void *)NULL) {
+    if (file == (void *)NULL) {
       (void)printf("TEST: ###### Failed to open %s.\n", infile);
       exit(0);
     }
@@ -649,7 +649,7 @@ main(int argc, char *argv[])
       (void)printf("TEST: Reading row %d.\n", indx);
       if (basread(file, indx, array, BADPIXEL))
         (void)printf("TEST: ##### Failed to read row %d.\n", indx);
-      (void)free((Void *)array);
+      (void)free((void *)array);
     }
 
     (void)printf("TEST: Closing file %s.\n", infile);

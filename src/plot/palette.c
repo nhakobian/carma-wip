@@ -5,7 +5,7 @@
 	27sep96 jm  Added cyclic table.
 
 Routines:
-void wippalette ARGS(( int which, int levels ));
+void wippalette(int which, int levels);
 */
 
 #include "wip.h"
@@ -91,13 +91,7 @@ static float cyclicB[] = {0.0, 0.0,   0.0,   1.0,   1.0,   1.0,   0.0};
  *  Set a "palette" of colors in the range of color indices used by
  *  the device.  Incorrect palette items are quietly ignored(?).
  */
-#ifdef PROTOTYPE
 void wippalette(int which, int levels)
-#else
-void wippalette(which, levels)
-int which;
-int levels;
-#endif /* PROTOTYPE */
 {
     int n, pal;
     int cmin, cmax;

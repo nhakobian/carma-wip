@@ -9,7 +9,7 @@
 
 
 Routines:
-int wiplist ARGS(( int line1, int line2, Const char *rest ));
+int wiplist(int line1, int line2, const char *rest);
 */
 
 #define WIP_VOCAB
@@ -20,7 +20,7 @@ int wiplist ARGS(( int line1, int line2, Const char *rest ));
 /* Code */
 
 /*  Returns 0 if successful; 1 on error. */
-int wiplist(int line1, int line2, Const char *rest)
+int wiplist(int line1, int line2, const char *rest)
 {
     char *par, *ptr;
     char string[STRINGSIZE];

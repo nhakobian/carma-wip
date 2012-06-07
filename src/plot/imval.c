@@ -6,8 +6,8 @@
 		    duration string rather than a local scope one.
 
 Routines:
-float wipimval ARGS(( float **image, int nx, int ny, float xpos, float ypos, float tr[], LOGICAL *error ));
-char *wipradecfmt ARGS(( float position ));
+float wipimval (float **image, int nx, int ny, float xpos, float ypos, float tr[], LOGICAL *error);
+char *wipradecfmt(float position);
 */
 
 #include "wip.h"
@@ -16,16 +16,7 @@ char *wipradecfmt ARGS(( float position ));
 
 /* Code */
 
-#ifdef PROTOTYPE
 float wipimval(float **image, int nx, int ny, float xpos, float ypos, float tr[], LOGICAL *error)
-#else
-float wipimval(image, nx, ny, xpos, ypos, tr, error)
-float **image;
-int nx, ny;
-float xpos, ypos;
-float tr[];
-LOGICAL *error;
-#endif /* PROTOTYPE */
 {
       int x, y;
       float value, pos, den;
@@ -52,12 +43,7 @@ LOGICAL *error;
       return(value);
 }
 
-#ifdef PROTOTYPE
 char *wipradecfmt(float position)
-#else
-char *wipradecfmt(position)
-float position;
-#endif /* PROTOTYPE */
 {
     char *ptr;
     static char string[STRINGSIZE];

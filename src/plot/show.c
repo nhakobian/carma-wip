@@ -13,9 +13,9 @@
 	24apr96 jm  Modified to use wipgetcir.
 
 Routines:
-void wipshow ARGS(( Const char *rest ));
-char *wipfpfmt ARGS(( float arg, int nfig ));
-char *wipifmt ARGS(( float arg ));
+void  wipshow(const char *rest);
+char *wipfpfmt(float arg, int nfig);
+char *wipifmt(float arg);
 */
 
 #include "wip.h"
@@ -25,14 +25,9 @@ char *wipifmt ARGS(( float arg ));
 /* Code */
 
 /* Presents some general information to the user. */
-#ifdef PROTOTYPE
-void wipshow(Const char *rest)
-#else
-void wipshow(rest)
-Const char *rest;
-#endif /* PROTOTYPE */
+void wipshow(const char *rest)
 {
-    Void *curimage;
+    void *curimage;
     char *ptr, *fmt;
     char user[4];                    /* Storage for storage register name. */
     char format[STRINGSIZE];             /* Local storage for rest string. */
@@ -290,13 +285,7 @@ Const char *rest;
     }
 }
 
-#ifdef PROTOTYPE
 char *wipfpfmt(float arg, int nfig)
-#else
-char *wipfpfmt(arg, nfig)
-float arg;
-int nfig;
-#endif /* PROTOTYPE */
 {
       int ndec, iexpo, nchar;
       char *ptr, fspec;
@@ -328,12 +317,7 @@ int nfig;
       return(ptr);
 }
 
-#ifdef PROTOTYPE
 char *wipifmt(float arg)
-#else
-char *wipifmt(arg)
-float arg;
-#endif /* PROTOTYPE */
 {
       int iexpo, nchar;
       char *ptr;

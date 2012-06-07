@@ -24,8 +24,8 @@
 
 
 Routines:
-static void usage ARGS(( Const char *filename ));
-void main ARGS(( int argc, char *argv[] ));
+static void usage(const char *filename);
+       void main(int argc, char *argv[]);
 */
 
 #include "version.h"
@@ -38,7 +38,7 @@ void main ARGS(( int argc, char *argv[] ));
 
 /* Code */
 
-static void usage(Const char *name)
+static void usage(const char *name)
 {
     char options[STRINGSIZE];
 
@@ -273,4 +273,3 @@ MAIN_() {
 }
 
 #endif
-

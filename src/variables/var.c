@@ -14,13 +14,13 @@
          9oct00 pjt no more PROTOTYPE
 
 Routines:
-static int initVariable ARGS(( void ));
-static VARIABLE *find_variable ARGS(( Const char *inname ));
-int wipisvar ARGS(( Const char *name ));
-double wipgetvar ARGS(( Const char *inword, LOGICAL *error ));
-int wipsetvar ARGS(( Const char *inword, double value ));
-int wipNewVariable ARGS(( Const char *name ));
-int wipFreeVariable ARGS(( Const char *name ));
+static      int  initVariable(void);
+static VARIABLE *find_variable(const char *inname);
+            int  wipisvar(const char *name);
+         double  wipgetvar(const char *inword, LOGICAL *error);
+            int  wipsetvar(const char *inword, double value);
+            int  wipNewVariable(const char *name);
+            int  wipFreeVariable(const char *name);
 */
 
 #define WIP_VARIABLES
@@ -55,7 +55,7 @@ static int initVariable(void)
  *  Returns a pointer to the VARIABLE structure if "inname" is defined
  *  as a variable; a pointer to NULL otherwise.
  */
-static VARIABLE *find_variable(Const char *inname)
+static VARIABLE *find_variable(const char *inname)
 {
     char *par, *ptr;
     char word[STRINGSIZE];
@@ -84,7 +84,7 @@ static VARIABLE *find_variable(Const char *inname)
 }
 
 /* Returns 1 if "name" is defined as a variable; 0 otherwise. */
-int wipisvar(Const char *name)
+int wipisvar(const char *name)
 {
     return(find_variable(name) != (VARIABLE *)NULL);
 }
@@ -93,7 +93,7 @@ int wipisvar(Const char *name)
  *  Returns, if the variable exists, the current value of the variable
  *  and sets error to FALSE; otherwise, it returns 0 and sets error to TRUE.
  */
-double wipgetvar(Const char *inword, LOGICAL *error)
+double wipgetvar(const char *inword, LOGICAL *error)
 {
     VARIABLE *vb;
 
@@ -108,7 +108,7 @@ double wipgetvar(Const char *inword, LOGICAL *error)
 }
 
 /* Returns 0 if the variable exists and was set; 1 if an error occured. */
-int wipsetvar(Const char *inword, double value)
+int wipsetvar(const char *inword, double value)
 {
     VARIABLE *vb;
 
@@ -122,7 +122,7 @@ int wipsetvar(Const char *inword, double value)
 }
 
 /* Returns 0 if all went well; 1 if an error occured. */
-int wipNewVariable(Const char *name)
+int wipNewVariable(const char *name)
 {
     char *ptr;
     VARIABLE *vb;
@@ -154,7 +154,7 @@ int wipNewVariable(Const char *name)
     return(0);
 }
 
-int wipFreeVariable(Const char *name)
+int wipFreeVariable(const char *name)
 {
     register VARIABLE *p;
     VARIABLE *vb;

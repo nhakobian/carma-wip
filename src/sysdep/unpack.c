@@ -9,10 +9,10 @@
 	13sep06 pjt Cleanup while ensure 64bit compliance
 
 Routines:
-void unpack16_c ARGS(( char *in,    int *out, int n ));
-void unpack32_c ARGS(( char *in,    int *out, int n ));
-void  unpackr_c ARGS(( char *in,  float *out, int n ));
-void  unpackd_c ARGS(( char *in, double *out, int n ));
+void unpack16_c(char *in,    int *out, int n);
+void unpack32_c(char *in,    int *out, int n);
+void  unpackr_c(char *in,  float *out, int n);
+void  unpackd_c(char *in, double *out, int n);
 */
 
 /* Global variables for just this file */

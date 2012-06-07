@@ -5,7 +5,7 @@
 	24jun96 jm  Made negative third argument mean left-right-top-down.
 
 Routines:
-void wippanel ARGS(( int nx, int ny, int k ));
+void wippanel(int nx, int ny, int k);
 */
 
 #include "wip.h"
@@ -26,12 +26,7 @@ void wippanel ARGS(( int nx, int ny, int k ));
  *
  *  If NX and/or NY < 0, then there will be no gap between the panels.
  */
-#ifdef PROTOTYPE
 void wippanel(int nx, int ny, int k)
-#else
-void wippanel(nx, ny, k)
-int nx, ny, k;
-#endif /* PROTOTYPE */
 {
     int indx, indy;
     float deltax, deltay, offx, offy;

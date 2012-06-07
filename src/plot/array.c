@@ -8,9 +8,9 @@
 	12oct95 jm  Modified wiperrorbar() to permit locations 5/6.
 
 Routines:
-void wiplogarithm ARGS(( float array[], int nxy, float scale ));
-void wiprange ARGS(( int nx, float x[], float *xmin, float *xmax ));
-int wiperrorbar ARGS(( int location, float x[], float y[], float err[], int nxy ));
+void wiplogarithm(float array[], int nxy, float scale);
+void wiprange(int nx, float x[], float *xmin, float *xmax);
+ int wiperrorbar(int location, float x[], float y[], float err[], int nxy);
 */
 
 #include "wip.h"
@@ -19,14 +19,7 @@ int wiperrorbar ARGS(( int location, float x[], float y[], float err[], int nxy 
 
 /* Code */
 
-#ifdef PROTOTYPE
 void wiplogarithm(float array[], int nxy, float scale)
-#else
-void wiplogarithm(array, nxy, scale)
-float array[];
-int nxy;
-float scale;
-#endif /* PROTOTYPE */
 {
     register int j;
 
@@ -36,14 +29,7 @@ float scale;
     return;
 }
 
-#ifdef PROTOTYPE
 void wiprange(int nx, float x[], float *xmin, float *xmax)
-#else
-void wiprange(nx, x, xmin, xmax)
-int nx;
-float x[];
-float *xmin, *xmax;
-#endif /* PROTOTYPE */
 {
     register int j;
     float xdiff;
@@ -70,13 +56,7 @@ float *xmin, *xmax;
  *  LOCATION = 1-4 for bars to quadrant j less 45 deg, eg 1 for +X
  *  Returns 0 on success; 1 on error.
  */
-#ifdef PROTOTYPE
 int wiperrorbar(int location, float x[], float y[], float err[], int nxy)
-#else
-int wiperrorbar(location, x, y, err, nxy)
-int location, nxy;
-float x[], y[], err[];
-#endif /* PROTOTYPE */
 {
     float expsiz;
     LOGICAL error;

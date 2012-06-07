@@ -3,9 +3,9 @@
 	10apr91 jm  Original code.
 
 Routines:
-void wipmove ARGS(( float x, float y ));
-void wipdraw ARGS(( float x, float y ));
-void wipgetcxy ARGS(( float *cx, float *cy ));
+void wipmove(float x, float y);
+void wipdraw(float x, float y);
+void wipgetcxy(float *cx, float *cy);
 */
 
 #include "wip.h"
@@ -14,12 +14,7 @@ void wipgetcxy ARGS(( float *cx, float *cy ));
 
 /* Code */
 
-#ifdef PROTOTYPE
 void wipmove(float x, float y)
-#else
-void wipmove(x, y)
-float x, y;
-#endif /* PROTOTYPE */
 {
       cpgmove(x, y);
       (void)wipsetvar("cx", (double)x);
@@ -27,12 +22,7 @@ float x, y;
       return;
 }
 
-#ifdef PROTOTYPE
 void wipdraw(float x, float y)
-#else
-void wipdraw(x, y)
-float x, y;
-#endif /* PROTOTYPE */
 {
       cpgdraw(x, y);
       (void)wipsetvar("cx", (double)x);
@@ -40,12 +30,7 @@ float x, y;
       return;
 }
 
-#ifdef PROTOTYPE
 void wipgetcxy(float *cx, float *cy)
-#else
-void wipgetcxy(cx, cy)
-float *cx, *cy;
-#endif /* PROTOTYPE */
 {
       double arg;
       LOGICAL error;

@@ -11,9 +11,9 @@
 		    parse the arguments.
 
 Routines:
-void wipputlabel ARGS(( Const char *line, double xjust ));
-char *fixputlabel ARGS(( Const char *commname, char *rest, LOGICAL save ));
-int wipmtext ARGS(( char *side, float disp, float coord, float just, char *line ));
+void  wipputlabel(const char *line, double xjust);
+char *fixputlabel(const char *commname, char *rest, LOGICAL save);
+ int  wipmtext(char *side, float disp, float coord, float just, char *line);
 */
 
 #define WIP_VOCAB
@@ -30,13 +30,7 @@ int wipmtext ARGS(( char *side, float disp, float coord, float just, char *line 
  *          = 0.5: centered
  *          = 0.x: 0.x*100% right justified
  */
-#ifdef PROTOTYPE
-void wipputlabel(Const char *line, double xjust)
-#else
-void wipputlabel(line, xjust)
-Const char *line;
-double xjust;
-#endif /* PROTOTYPE */
+void wipputlabel(const char *line, double xjust)
 {
     char newstr[STRINGSIZE];
     float xlen, ylen;
@@ -69,14 +63,7 @@ double xjust;
  *  the position is loaded with a "move" command.  On return, the
  *  pointer contains the string "str" preceeded by the value ABS(x).
  */
-#ifdef PROTOTYPE
-char *fixputlabel(Const char *commname, char *rest, LOGICAL save)
-#else
-char *fixputlabel(commname, rest, save)
-Const char *commname;
-char *rest;
-LOGICAL save;
-#endif /* PROTOTYPE */
+char *fixputlabel(const char *commname, char *rest, LOGICAL save)
 {
     char *par, *ptr;
     char outputstr[STRINGSIZE];
@@ -115,16 +102,7 @@ LOGICAL save;
 }
 
 /*  Returns 0 on success; 1 on error. */
-#ifdef PROTOTYPE
 int wipmtext(char *side, float disp, float coord, float just, char *line)
-#else
-int wipmtext(side, disp, coord, just, line)
-char *side;
-float disp;
-float coord;
-float just;
-char *line;
-#endif /* PROTOTYPE */
 {
     char newstr[STRINGSIZE];
 

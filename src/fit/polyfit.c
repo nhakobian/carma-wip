@@ -6,23 +6,21 @@
 		    unnecessarily (and causing incorrect results).
 
 Routines:
-static void fleg ARGS(( float x, float pl[], int nl ));
-static void fpoly ARGS(( float x, float p[], int np ));
-static float pythag ARGS(( float a, float b ));
-static int svbksb ARGS(( float **u, float w[], float **v, int m, int n, \
-    float b[], float x[] ));
-static int svdcmp ARGS(( float **a, int m, int n, float w[], float **v ));
-static int svdfit ARGS(( float x[], float y[], int nxy, \
-    float sig[], int nsig, float a[], int ma, float **u, float **v, \
-    float w[], float *chisq, \
-    void (*funcs) ARGS(( float, float [], int )) ));
-static int svdvar ARGS(( float **v, int ma, float w[], float **cvm ));
-static int polyfit ARGS(( float x[], float y[], int nxy, \
-    float sig[], int nsig, int type, int npoly, float poly[], float err[], \
-    float *chisq ));
-
-int wippolyfit ARGS(( char *rest, float x[], float y[], int nxy, \
-    float sig[], int nsig, int npoly, float poly[] ));
+static  void fleg(float x, float pl[], int nl);
+static  void fpoly(float x, float p[], int np);
+static float pythag(float a, float b);
+static   int svbksb(float **u, float w[], float **v, int m, int n, float b[], \
+                    float x[]);
+static   int svdcmp(float **a, int m, int n, float w[], float **v);
+static   int svdfit(float x[], float y[], int nxy, float sig[], int nsig, \
+                    float a[], int ma, float **u, float **v, float w[], \
+                    float *chisq, void (*funcs)(float, float [], int));
+static   int svdvar(float **v, int ma, float w[], float **cvm);
+static   int polyfit(float x[], float y[], int nxy, float sig[], int nsig, \
+                     int type, int npoly, float poly[], float err[], \
+                     float *chisq);
+         int wippolyfit(char *rest, float x[], float y[], int nxy, \
+                        float sig[], int nsig, int npoly, float poly[]);
 */
 
 #include "wip.h"
@@ -38,14 +36,7 @@ int wippolyfit ARGS(( char *rest, float x[], float y[], int nxy, \
  *  (pl[0..nl-1]) evaluated using the recurrence relation:
  *    (n + 1)P_{n + 1}(x) = (2n + 1)xP_{n}(x) - nP_{n - 1}(x)
  */
-#ifdef PROTOTYPE
 static void fleg(float x, float pl[], int nl)
-#else
-static void fleg(x, pl, nl)
-float x;
-float pl[];
-int nl;
-#endif /* PROTOTYPE */
 {
     int j;
     float twox, f1, f2, d;
@@ -68,14 +59,7 @@ int nl;
  *  Fitting routine for a polynomial (p[0..np-1]) of degree (np-1)
  *  with np coefficients. 
  */
-#ifdef PROTOTYPE
 static void fpoly(float x, float p[], int np)
-#else
-static void fpoly(x, p, np)
-float x;
-float p[];
-int np;
-#endif /* PROTOTYPE */
 {
     int j;
 
@@ -86,13 +70,7 @@ int np;
     return;
 }
 
-#ifdef PROTOTYPE
 static float pythag(float a, float b)
-#else
-static float pythag(a, b)
-float a;
-float b;
-#endif /* PROTOTYPE */
 {
     float absa, absb, value;
 
@@ -122,18 +100,7 @@ float b;
  *
  *  Returns 1 on allocation failure; 0 if successful.
  */
-#ifdef PROTOTYPE
 static int svbksb(float **u, float w[], float **v, int m, int n, float b[], float x[])
-#else
-static int svbksb(u, w, v, m, n, b, x)
-float **u;     /* u[0..m-1][0..n-1] */
-float w[];     /* w[0..n-1] */
-float **v;     /* v[0..n-1][0..n-1] */
-int m;
-int n;
-float b[];     /* b[0..m-1] */
-float x[];     /* x[0..n-1] */
-#endif /* PROTOTYPE */
 {
     int i, j;
     float *tmp;
@@ -177,16 +144,7 @@ float x[];     /* x[0..n-1] */
  *
  *  Returns 1 on allocation failure; 0 if successful.
  */
-#ifdef PROTOTYPE
 static int svdcmp(float **a, int m, int n, float w[], float **v)
-#else
-static int svdcmp(a, m, n, w, v)
-float **a;
-int m;
-int n;
-float w[];
-float **v;
-#endif /* PROTOTYPE */
 {
     int flag, i, its, j, jj, k, L, nm;
     float anorm, c, f, g, h, s, scale, x, y, z;
@@ -410,25 +368,9 @@ float **v;
 /*
  *  Returns 1 on allocation errors; 0 if successful.
  */
-#ifdef PROTOTYPE
 static int svdfit(float x[], float y[], int nxy, float sig[], int nsig,
     float a[], int ma, float **u, float **v, float w[], float *chisq,
     void (*funcs)(float, float [], int))
-#else
-static int svdfit(x, y, nxy, sig, nsig, a, ma, u, v, w, chisq, funcs)
-float x[];     /* x[0..nxy-1] */
-float y[];     /* y[0..nxy-1] */
-int nxy;
-float sig[];   /* sig[0..nsig-1] */
-int nsig;
-float a[];     /* a[0..ma-1] */
-int ma;
-float **u;     /* u[0..nxy-1][0..ma-1] */
-float **v;     /* v[0..ma-1][0..ma-1] */
-float w[];     /* w[0..ma-1] */
-float *chisq;
-void (*funcs)();
-#endif /* PROTOTYPE */
 {
     int i, j;
     float wmax, tmp, thresh, sum;
@@ -497,15 +439,7 @@ void (*funcs)();
 /*
  *  Returns 1 if allocation error; 0 if successful.
  */
-#ifdef PROTOTYPE
 static int svdvar(float **v, int ma, float w[], float **cvm)
-#else
-static int svdvar(v, ma, w, cvm)
-float **v;     /* v[0..ma-1][0..ma-1] */
-int ma;
-float w[];     /* w[0..ma-1] */
-float **cvm;   /* cvm[0..ma-1][0..ma-1] */
-#endif /* PROTOTYPE */
 {
     int i, j, k;
     float sum;
@@ -538,22 +472,8 @@ float **cvm;   /* cvm[0..ma-1][0..ma-1] */
 /*
  *  Returns 0 on success; 1 if allocation errors.
  */
-#ifdef PROTOTYPE
 static int polyfit(float x[], float y[], int nxy, float sig[], int nsig,
     int type, int npoly, float poly[], float err[], float *chisq)
-#else
-static int polyfit(x, y, nxy, sig, nsig, type, npoly, poly, err, chisq)
-float x[];     /* [0..nxy-1] */
-float y[];     /* [0..nxy-1] */
-int nxy;
-float sig[];   /* [0..nsig-1] */
-int nsig;
-int type;
-int npoly;
-float poly[];  /* [0..npoly-1] */
-float err[];   /* [0..npoly-1] */
-float *chisq;
-#endif /* PROTOTYPE */
 {
     int i, state;
     float *w;
@@ -610,21 +530,8 @@ float *chisq;
  *
  *  This routine returns 0 if successful; 1 on allocation errors.
  */
-#ifdef PROTOTYPE
 int wippolyfit(char *rest, float x[], float y[], int nxy, float sig[],
     int nsig, int type, int npoly, float poly[])
-#else
-int wippolyfit(rest, x, y, nxy, sig, nsig, type, npoly, poly)
-char *rest;
-float x[];     /* [0..nxy-1] */
-float y[];     /* [0..nxy-1] */
-int nxy;
-float sig[];   /* [0..nsig-1] */
-int nsig;
-int type;
-int npoly;
-float poly[];  /* [0..npoly-1] */
-#endif /* PROTOTYPE */
 {
     char *ptr, *pvar;
     char uservar[STRINGSIZE];
@@ -695,13 +602,7 @@ float poly[];  /* [0..npoly-1] */
 
 static double a[NPOL] = {1.0, 2.0, 3.0, 4.0, 5.0};
 
-#ifdef PROTOTYPE
 static double polval(float x, int order)
-#else
-static double polval(x, order)
-float x;
-int order;
-#endif /* PROTOTYPE */
 {
     int j;
     double y, z;
@@ -716,11 +617,7 @@ int order;
     return(y);
 }
 
-#ifdef PROTOTYPE
 int main(void)
-#else
-int main()
-#endif /* PROTOTYPE */
 {
     char *ptr = "";
     int i, state;

@@ -17,7 +17,7 @@
 		    are read, the "npts" element is properly reset.
 	01aug93 jm  Added command logarithm.
 	05nov93 jm  Added the arrow command.
-	10nov93 jm  Switched opaque pointers from char* to Void*.  Also
+	10nov93 jm  Switched opaque pointers from char* to void*.  Also
 		    added goto BADCOMMAND statements to the control flow
 		    commands (rather than leaving them blank).
 	27may94 jm  Fixed contour command.  It was clipping the last
@@ -35,7 +35,7 @@
 
 
 Routines:
-int wipexecute ARGS(( Const char *commandname, char *line ));
+int wipexecute(const char *commandname, char *line);
 */
 
 #include "wip.h"
@@ -48,15 +48,9 @@ static LOGICAL termidle = FALSE;      /* T if terminal; F if hardcopy. */
 /* Code */
 
 /* WIPEXECUTE returns 0 if no error; 1 otherwise. */
-#ifdef PROTOTYPE
-int wipexecute(Const char *commandname, char *line)
-#else
-int wipexecute(commandname, line)
-Const char *commandname;
-char *line;
-#endif /* PROTOTYPE */
+int wipexecute(const char *commandname, char *line)
 {
-      Void *curimage;                /* Pointer to current image.      */
+      void *curimage;                /* Pointer to current image.      */
       char *par, *ptr;
       char infile[STRINGSIZE];       /* Storage for a input file name. */
       int location, narg;

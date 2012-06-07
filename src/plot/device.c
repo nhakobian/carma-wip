@@ -7,8 +7,8 @@
         12dec94 jm  Transfer function is now done by reset call.
 
 Routines:
-int wipdevice ARGS(( Const char *rest ));
-void wipclose ARGS(( void ));
+ int wipdevice(const char *rest);
+void wipclose(void);
 */
 
 #include "wip.h"
@@ -21,12 +21,7 @@ void wipclose ARGS(( void ));
  *  Opens a new device and sets up some initial plot parameters.
  *  Returns 0 if new device successfully set; 1 otherwise (on error).
  */
-#ifdef PROTOTYPE
-int wipdevice(Const char *rest)
-#else
-int wipdevice(rest)
-Const char *rest;
-#endif /* PROTOTYPE */
+int wipdevice(const char *rest)
 {
     char *par, *ptr;
     char string[BUFSIZ];
@@ -80,11 +75,7 @@ Const char *rest;
 }
 
 /*  Terminates the plotting program. */
-#ifdef PROTOTYPE
 void wipclose(void)
-#else
-void wipclose()
-#endif /* PROTOTYPE */
 {
       cpgend();
       return;

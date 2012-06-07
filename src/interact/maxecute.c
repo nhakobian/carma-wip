@@ -18,8 +18,8 @@
 
 
 Routines:
-static char *domacsubs ARGS(( char *string, Const char *line, char *macarg[] ));
-int wipmaxecute ARGS(( COMMAND *comm, int count, Const char *rest ));
+static char *domacsubs(char *string, const char *line, char *macarg[]);
+        int  wipmaxecute(COMMAND *comm, int count, const char *rest);
 */
 
 #define WIP_VOCAB
@@ -58,11 +58,11 @@ int wipmaxecute ARGS(( COMMAND *comm, int count, Const char *rest ));
  * in the same fashion as strcpy().  There is no check to make sure
  * that the size of macarg[] is sufficient to cover all input
  * arguments.  This is a quiet assumption.  Also, macarg should
- * be declared "Const char *macarg[]" but because it is a pointer to
+ * be declared "const char *macarg[]" but because it is a pointer to
  * an open array, I have trouble doing this.
  *
  */
-static char *domacsubs(char *string, Const char *line, char *macarg[])
+static char *domacsubs(char *string, const char *line, char *macarg[])
 {
     register int j, k;
     register char *s, *ptr, *arg;
@@ -122,7 +122,7 @@ static char *domacsubs(char *string, Const char *line, char *macarg[])
 }
 
 /*  Returns 0 if no error; 1 otherwise. */
-int wipmaxecute(COMMAND *comm, int count, Const char *rest)
+int wipmaxecute(COMMAND *comm, int count, const char *rest)
 {
     char *ptr;
     char *macarg[MAXARG];              /* Pointers to macro arguments. */

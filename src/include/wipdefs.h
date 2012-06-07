@@ -22,7 +22,7 @@
 #endif /* !convex */
 
 #ifdef linux
-/*			this is bad, would fail on power-pc etc. need different check */
+/* this is bad, would fail on power-pc etc. need different check */
 #define IEEEByteSwap
 #endif /* linux */
 
@@ -34,7 +34,7 @@
 #endif
 
 #ifdef OSF
-/*			probably bad idea too */
+/*probably bad idea too */
 #define IEEEByteSwap
 #endif /* OSF */
 
@@ -58,12 +58,7 @@
 
 /* only Ansi C is now supported */
 
-#define PROTOTYPE 1
-typedef void Void;
-#define Const const
 #include <stdarg.h>
-#define ARGS(alist) alist
-
 
 /*
  *  The next two definitions are used by the fseek() and ftell() routines;

@@ -19,11 +19,11 @@
  	 9oct00 pjt no more #ifdef PROTOTYPE
 
 Routines:
-void wipsetQuiet ARGS(( int quiet ));
-void wipbegin ARGS(( int disable, int justread ));
-void wipexit ARGS(( int status ));
-void wipoutput ARGS(( FILE *fp, Const char *fmt, ... ));
-int  wipinput ARGS((FILE *file, Const char *prompt, char *line, size_t maxlen));
+void wipsetQuiet(int quiet);
+void wipbegin(int disable, int justread);
+void wipexit(int status);
+void wipoutput(FILE *fp, const char *fmt, ...);
+ int wipinput(FILE *file, const char *prompt, char *line, size_t maxlen);
 */
 
 #include "wip.h"
@@ -42,10 +42,10 @@ static char *historyFile = "wiphistory.log";
 static char *historyFile = "./.wiphistory";
 #endif /* WIPVMS */
 
-extern int read_history ARGS(( char *filename ));
-extern int write_history ARGS(( char *filename ));
-extern char *readline ARGS(( char *prompt ));
-extern void add_history ARGS(( char *string ));
+extern  int  read_history(char *filename);
+extern  int  write_history(char *filename);
+extern char *readline(char *prompt);
+extern void  add_history(char *string);
 
 #endif /* READLINE */
 
@@ -98,7 +98,7 @@ void wipexit(int status)
 
 #ifndef NOVARARGS
 /*VARARGS2*/
-void wipoutput(FILE *fp, Const char *fmt, ...)
+void wipoutput(FILE *fp, const char *fmt, ...)
 {
     va_list ap;
 
@@ -135,7 +135,7 @@ void wipoutput(FILE *fp, Const char *fmt, ...)
  *  Returns EOF (see <stdio.h>) at the end of file, NULL for an empty
  *  input line, or the number of characters read.
  */
-int wipinput(FILE *file, Const char *prompt, char *line, size_t maxchar)
+int wipinput(FILE *file, const char *prompt, char *line, size_t maxchar)
 {
     size_t nch;
     LOGICAL promptExists;

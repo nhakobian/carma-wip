@@ -7,8 +7,8 @@
 	12oct95 jm  Modified fix routine to call wipgetcxy.
 
 Routines:
-void wipcursor ARGS(( float *cx, float *cy, LOGICAL keep ));
-void wipfixcurs ARGS(( Const char *cmdname, char *rest, LOGICAL keep ));
+void wipcursor(float *cx, float *cy, LOGICAL keep);
+void wipfixcurs(const char *cmdname, char *rest, LOGICAL keep);
 */
 
 #define WIP_VOCAB
@@ -19,15 +19,9 @@ void wipfixcurs ARGS(( Const char *cmdname, char *rest, LOGICAL keep ));
 /* Code */
 
 /* Interactive cursor routine. */
-#ifdef PROTOTYPE
 void wipcursor(float *cx, float *cy, LOGICAL keep)
-#else
-void wipcursor(cx, cy, keep)
-float *cx, *cy;
-LOGICAL keep;
-#endif /* PROTOTYPE */
 {
-      Void *curimage;
+      void *curimage;
       char ch[2];
       char full[80];
       int firstime;
@@ -152,14 +146,7 @@ EOLOOP:
       return;
 }
 
-#ifdef PROTOTYPE
-void wipfixcurs(Const char *cmdname, char *rest, LOGICAL keep)
-#else
-void wipfixcurs(cmdname, rest, keep)
-Const char *cmdname;
-char *rest;
-LOGICAL keep;
-#endif /* PROTOTYPE */
+void wipfixcurs(const char *cmdname, char *rest, LOGICAL keep)
 {
       char *par, *ptr;
       char save[STRINGSIZE];

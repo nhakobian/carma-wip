@@ -9,7 +9,7 @@
                 (thanks to Gary Fuller for pointing this out).
 
 Routines:
-int wipprocess ARGS(( char *cmdline, int *mode, LOGICAL keep ));
+int wipprocess(char *cmdline, int *mode, LOGICAL keep);
 */
 
 #define WIP_VOCAB
@@ -21,14 +21,7 @@ int wipprocess ARGS(( char *cmdline, int *mode, LOGICAL keep ));
 /* Code */
 
 /* WIPPROCESS returns 0 if no error; -1 if ENDIF found; 1 otherwise. */
-#ifdef PROTOTYPE
 int wipprocess(char *cmdline, int *mode, LOGICAL keep)
-#else
-int wipprocess(cmdline, mode, keep)
-char *cmdline;
-int *mode;
-LOGICAL keep;
-#endif /* PROTOTYPE */
 {
     char *line;
     char full[STRINGSIZE];

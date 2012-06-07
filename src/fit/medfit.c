@@ -25,11 +25,11 @@
   In other words, get your own book!
 
 Routines:
-static void hpsort ARGS(( unsigned long int n, float ra[] ));
-static float rofunc ARGS(( float b, float x[], float y[], float arr[], \
-  int npts, float *aa, float *abdev ));
-int medfit ARGS(( float x[], float y[], int ndata, float *a, float *b, \
-  float *abdev ));
+static  void hpsort(unsigned long int n, float ra[]);
+static float rofunc(float b, float x[], float y[], float arr[], int npts, \
+                    float *aa, float *abdev);
+         int medfit(float x[], float y[], int ndata, float *a, float *b, \
+                    float *abdev);
 */
 
 #include "wip.h"
@@ -45,13 +45,7 @@ int medfit ARGS(( float x[], float y[], int ndata, float *a, float *b, \
  *  From NUMERICAL RECIPES (pg. 247), 8/24/92 jm.
  *  From NUMERICAL RECIPES in C 2nd Ed. (pg. 337), 7/23/93 jm.
  */
-#ifdef PROTOTYPE
 static void hpsort(unsigned long int n, float ra[])
-#else
-static void hpsort(n, ra)
-unsigned long int n;
-float ra[];
-#endif /* PROTOTYPE */
 {
     unsigned long int L, j, ir, i;
     float rra;
@@ -116,16 +110,8 @@ float ra[];
  *  x[] and y[] are the data (both of size npts) and are only read;
  *  arr[] is a work array (also of size npts) and is modified.
  */
-#ifdef PROTOTYPE
 static float rofunc(float b, float x[], float y[], float arr[],
   unsigned long int npts, float *aa, float *abdev)
-#else
-static float rofunc(b, x, y, arr, npts, aa, abdev)
-unsigned long int npts;
-float b;
-float x[], y[], arr[];
-float *aa, *abdev;
-#endif /* PROTOTYPE */
 {
     unsigned long int j;
     float d, sum;
@@ -165,13 +151,7 @@ float *aa, *abdev;
  *  Returns 0 if successful; 1 if there are an insufficient number of
  *  points or it can't allocate the needed work array.
  */
-#ifdef PROTOTYPE
 int medfit(float x[], float y[], int ndata, float *a, float *b, float *abdev)
-#else
-int medfit(x, y, ndata, a, b, abdev)
-float x[], y[], *a, *b, *abdev;
-int ndata;
-#endif /* PROTOTYPE */
 {
     unsigned long int j, npts;
     float aa, bb, b1, b2, del, f, f1, f2, sigb, temp;

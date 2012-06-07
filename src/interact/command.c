@@ -5,9 +5,9 @@
   	 9oct00 pjt no more PROTOTYPEs
 
 Routines:
-COMMAND *create_command ARGS(( void ));
-void add_command ARGS(( COMMAND *vb ));
-void delete_command ARGS(( COMMAND *vb ));
+COMMAND *create_command(void);
+   void  add_command(COMMAND *vb);
+   void  delete_command(COMMAND *vb);
 */
 
 #define WIP_VOCAB

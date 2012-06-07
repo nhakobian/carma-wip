@@ -6,7 +6,7 @@
 	01aug92 jm  Split up stack include into variables, vectors, and str
 		    include files.  These files are only included by the
 		    particular file that needs them (see ../variables).
-        10nov93 jm  Added new opaque pointer type Void.  Also added a
+        10nov93 jm  Added new opaque pointer type void.  Also added a
 		    definition for a Null character.  Moved most system
 		    includes and standard definitions into wipdefs.h.
 		    Moved some character macros into this file.

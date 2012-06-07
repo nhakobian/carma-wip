@@ -22,7 +22,7 @@
 #define Strchr       strchr
 #define Strstr       strstr
 
-#define Free(x)      (void)free((Void *)(x))
+#define Free(x)      (void)free((void *)(x))
 #define Malloc       malloc
 
 #define Fopen        fopen
@@ -45,7 +45,7 @@
 #define Fgets        fgets
 
 #ifdef convex
-extern char *getenv ARGS(( Const char *name ));
+extern char *getenv(const char *name);
 #endif /* convex */
 
 #define GetEnv       getenv

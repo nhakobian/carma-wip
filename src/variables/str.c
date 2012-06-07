@@ -16,13 +16,13 @@
          9oct00 pjt no more PROTOTYPE
 
 Routines:
-static int initString ARGS(( void ));
-static WSTRINGS *find_string ARGS(( Const char *inname ));
-int wipisstring ARGS(( Const char *name ));
-char *wipgetstring ARGS(( Const char *inword ));
-int wipsetstring ARGS(( Const char *input, Const char *value ));
-int wipNewStrVar ARGS(( Const char *string ));
-int wipFreeString ARGS(( Const char *string ));
+static      int  initString(void);
+static WSTRINGS *find_string(const char *inname);
+            int  wipisstring(const char *name);
+           char *wipgetstring(const char *inword);
+            int  wipsetstring(const char *input, const char *value);
+            int  wipNewStrVar(const char *string);
+            int  wipFreeString(const char *string);
 */
 
 #define WIP_STRING
@@ -57,7 +57,7 @@ static int initString(void)
  *  Returns a pointer to the WSTRINGS structure if "inname" is defined
  *  as a string variable; a pointer to NULL otherwise.
  */
-static WSTRINGS *find_string(Const char *inname)
+static WSTRINGS *find_string(const char *inname)
 {
     char *par, *ptr;
     char word[STRINGSIZE];
@@ -86,7 +86,7 @@ static WSTRINGS *find_string(Const char *inname)
 }
 
 /* Returns 1 if "string" is defined as a string variable; 0 otherwise. */
-int wipisstring(Const char *name)
+int wipisstring(const char *name)
 {
     return(find_string(name) != (WSTRINGS *)NULL);
 }
@@ -95,7 +95,7 @@ int wipisstring(Const char *name)
  *  Returns a pointer to the string value if the string variable exists;
  *  a pointer to NULL if not found or is set to an empty string.
  */
-char *wipgetstring(Const char *inword)
+char *wipgetstring(const char *inword)
 {
     WSTRINGS *vb;
 
@@ -108,7 +108,7 @@ char *wipgetstring(Const char *inword)
 }
 
 /* Returns 0 if the string variable exists and was set; 1 on error. */
-int wipsetstring(Const char *input, Const char *value)
+int wipsetstring(const char *input, const char *value)
 {
     char *ptr;
     WSTRINGS *vb;
@@ -130,7 +130,7 @@ int wipsetstring(Const char *input, Const char *value)
 }
 
 /* Returns 0 if all went well; 1 if an error occured. */
-int wipNewStrVar(Const char *name)
+int wipNewStrVar(const char *name)
 {
     char *ptr;
     WSTRINGS *vb;
@@ -162,7 +162,7 @@ int wipNewStrVar(Const char *name)
 }
 
 /* Returns 0 if all went well; 1 if an error occured. */
-int wipFreeString(Const char *name)
+int wipFreeString(const char *name)
 {
     register WSTRINGS *p;
     WSTRINGS *vb;

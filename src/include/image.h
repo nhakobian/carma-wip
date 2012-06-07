@@ -21,10 +21,10 @@ typedef float FLOAT;
 #if defined(IEEEByteSwap) || defined(unicos) || defined(vaxc)
 #define NO_CVT 0
 typedef int INT16;
-extern void unpack16_c ARGS(( char *in,    int *out, int n ));
-extern void unpack32_c ARGS(( char *in,    int *out, int n ));
-extern void unpackr_c  ARGS(( char *in,  float *out, int n ));
-extern void unpackd_c  ARGS(( char *in, double *out, int n ));
+extern void unpack16_c(char *in, int *out, int n);
+extern void unpack32_c(char *in, int *out, int n);
+extern void unpackr_c(char *in, float *out, int n);
+extern void unpackd_c(char *in, double *out, int n);
 #else
 #define NO_CVT 1
 typedef short int INT16;
@@ -44,7 +44,6 @@ typedef short int INT16;
 #define MIN(a,b)     ((a) <= (b) ? (a) : (b))
 #endif
 
-/* old #define ROUNDUP(a,b) ((b)*(((a)-1)/(b)+1)) */
 #define ROUNDUP(a,b) ((b)*(((a)+(b)-1)/(b)))
 
 #include "drivers.h"

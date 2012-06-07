@@ -1,41 +1,41 @@
 /*
  *	<drivers.h> --- Image include file.
  *	26oct91 jm  Original code.
- *	10nov93 jm  Modified declarations to usage of Void.
+ *	10nov93 jm  Modified declarations to usage of void.
  *
  */
 
-/* ARGS(alist), FLOAT, and Void are defined in imageP.h */
-
-extern Void *miropen ARGS(( Const char *name, int naxis, int axes[] ));
-extern void mirclose ARGS(( Void *op ));
-extern int mirread ARGS(( Void *op, int indx, FLOAT *array, FLOAT badpixel ));
-extern int mirsetpl ARGS(( Void *op, int naxis, int axes[] ));
-extern void mirrdhdd ARGS(( Void *op, Const char *key,double *val,double def ));
-extern void mirrdhdr ARGS(( Void *op, Const char *key, FLOAT *val,FLOAT rdef ));
-extern void mirrdhdi ARGS(( Void *op, Const char *key, int *val, int defval ));
-extern void mirrdhda ARGS(( Void *op, Const char *key, char *val, Const char *defval, size_t maxlen ));
-extern int mirhdprsnt ARGS(( Void *op, Const char *key ));
-
-extern Void *fitopen ARGS(( Const char *name, int naxis, int axes[] ));
-extern void fitclose ARGS(( Void *op ));
-extern int fitread ARGS(( Void *op, int indx, FLOAT *data, FLOAT badpixel ));
-extern int fitsetpl ARGS(( Void *op, int naxis, int axes[] ));
-extern void fitrdhdd ARGS(( Void *op, Const char *key,double *val,double def ));
-extern void fitrdhdr ARGS(( Void *op, Const char *key, FLOAT *val,FLOAT rdef ));
-extern void fitrdhdi ARGS(( Void *op, Const char *key, int *val, int defval ));
-extern void fitrdhda ARGS(( Void *op, Const char *key, char *val, Const char *defval, size_t maxlen ));
-extern int fithdprsnt ARGS(( Void *op, Const char *key ));
-
-extern Void *basopen ARGS(( Const char *name, int naxis, int axes[] ));
-extern void basclose ARGS(( Void *op ));
-extern int basread ARGS(( Void *op, int indx, FLOAT *array, FLOAT badpixel ));
-extern int bassetpl ARGS(( Void *op, int naxis, int axes[] ));
-extern void basrdhdd ARGS(( Void *op, Const char *key,double *val,double def ));
-extern void basrdhdr ARGS(( Void *op, Const char *key, FLOAT *val,FLOAT rdef ));
-extern void basrdhdi ARGS(( Void *op, Const char *key, int *val, int defval ));
-extern void basrdhda ARGS(( Void *op, Const char *key, char *val, Const char *defval, size_t maxlen ));
-extern int bashdprsnt ARGS(( Void *op, Const char *key ));
+/* FLOAT - imageP.h */
+extern void *miropen(const char *name, int naxis, int axes[]);
+extern void  mirclose(void *op);
+extern  int  mirread(void *op, int indx, FLOAT *array, FLOAT badpixel);
+extern  int  mirsetpl(void *op, int naxis, int axes[]);
+extern void  mirrdhdd(void *op, const char *key,double *val,double def);
+extern void  mirrdhdr(void *op, const char *key, FLOAT *val,FLOAT rdef);
+extern void  mirrdhdi(void *op, const char *key, int *val, int defval);
+extern void  mirrdhda(void *op, const char *key, char *val, \
+		      const char *defval, size_t maxlen);
+extern  int  mirhdprsnt(void *op, const char *key);
+extern void *fitopen(const char *name, int naxis, int axes[]);
+extern void  fitclose(void *op);
+extern  int  fitread(void *op, int indx, FLOAT *data, FLOAT badpixel);
+extern  int  fitsetpl(void *op, int naxis, int axes[]);
+extern void  fitrdhdd(void *op, const char *key,double *val,double def);
+extern void  fitrdhdr(void *op, const char *key, FLOAT *val,FLOAT rdef);
+extern void  fitrdhdi(void *op, const char *key, int *val, int defval);
+extern void  fitrdhda(void *op, const char *key, char *val, \
+		      const char *defval, size_t maxlen);
+extern  int  fithdprsnt(void *op, const char *key);
+extern void *basopen(const char *name, int naxis, int axes[]);
+extern void  basclose(void *op);
+extern  int  basread(void *op, int indx, FLOAT *array, FLOAT badpixel);
+extern  int  bassetpl(void *op, int naxis, int axes[]);
+extern void  basrdhdd(void *op, const char *key,double *val,double def);
+extern void  basrdhdr(void *op, const char *key, FLOAT *val,FLOAT rdef);
+extern void  basrdhdi(void *op, const char *key, int *val, int defval);
+extern void  basrdhda(void *op, const char *key, char *val, \
+		      const char *defval, size_t maxlen);
+extern  int  bashdprsnt(void *op, const char *key);
 
 #ifdef WIP_DRIVERS
 #undef WIP_DRIVERS
@@ -55,15 +55,16 @@ extern int bashdprsnt ARGS(( Void *op, Const char *key ));
  */
 typedef struct {
     char   *imtype;
-    Void *(*imopen)  ARGS(( Const char *name, int naxis, int axes[] ));
-    void  (*imclose) ARGS(( Void *op ));
-     int  (*imread)  ARGS(( Void *op, int indx, FLOAT *array, FLOAT badpixel ));
-     int  (*imsetpl) ARGS(( Void *op, int naxis, int axes[] ));
-    void  (*imrdhdd) ARGS(( Void *op, Const char *key, double *val, double defval ));
-    void  (*imrdhdr) ARGS(( Void *op,Const char *key,FLOAT *val,FLOAT defval ));
-    void  (*imrdhdi) ARGS(( Void *op, Const char *key, int *val, int defval ));
-    void  (*imrdhda) ARGS(( Void *op, Const char *key, char *val, Const char *defval, size_t maxlen ));
-     int  (*imhdprsnt) ARGS(( Void *op, Const char *key ));
+    void *(*imopen)  (const char *name, int naxis, int axes[]);
+    void  (*imclose) (void *op);
+     int  (*imread)  (void *op, int indx, FLOAT *array, FLOAT badpixel);
+     int  (*imsetpl) (void *op, int naxis, int axes[]);
+    void  (*imrdhdd) (void *op, const char *key, double *val, double defval);
+    void  (*imrdhdr) (void *op,const char *key,FLOAT *val,FLOAT defval);
+    void  (*imrdhdi) (void *op, const char *key, int *val, int defval);
+    void  (*imrdhda) (void *op, const char *key, char *val, \
+		      const char *defval, size_t maxlen);
+     int  (*imhdprsnt) (void *op, const char *key);
 } IMFORMAT;
 
 static IMFORMAT Format_Table[] = {

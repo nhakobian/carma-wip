@@ -11,7 +11,7 @@
 	21jan98 jm  Modified definition of WIPINIT for VMS machines.
 
 Routines:
-int wipinit ARGS(( void ));
+int wipinit(void);
 */
 
 #define WIP_VOCAB
@@ -35,11 +35,7 @@ COMMAND *ENDIF  = (COMMAND *)NULL;
 /* Code */
 
 /* Returns 0 if this has already been done or okay; 1 if error. */
-#ifdef PROTOTYPE
 int wipinit(void)
-#else
-int wipinit()
-#endif /* PROTOTYPE */
 {
     char *ep, *ptr;
     char buf[BUFSIZ];

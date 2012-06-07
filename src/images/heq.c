@@ -7,9 +7,8 @@
  *                 now only the color palette is changed.
  *
  *  Routines:
- *    void wipheq ARGS(( int nx, int ny, float **image,
- *                      int x1, int x2, int y1, int y2,
- *                      float blank, float min, float max, int nbins ));
+ *    void wipheq(int nx, int ny, float **image, int x1, int x2, int y1, \
+ *                int y2, float blank, float min, float max, int nbins);
  */
 
 #include "wip.h"
@@ -35,23 +34,8 @@
  *   blank  Values less than this threshold are omitted from the histogram.
  *   nbins  Number of bins to partition the data into the histogram.
  */
-#ifdef PROTOTYPE
 void wipheq(int nx, int ny, float **image, int x1, int x2, int y1, int y2,
   float blank, float min, float max, int nbins)
-#else
-void wipheq(nx, ny, image, x1, x2, y1, y2, blank, min, max, nbins)
-int nx;
-int ny;
-float **image;
-int x1;
-int x2;
-int y1;
-int y2;
-float blank;
-float min;
-float max;
-int nbins;
-#endif /* PROTOTYPE */
 {
     int idx, i, j;
     int itf, npix;
