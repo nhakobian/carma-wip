@@ -25,15 +25,7 @@ void wipvfield ARGS(( float x[], float y[], float r[], float phi[], int npts, fl
  *  open >.  Values of 0.3 to 0.7 give reasonable results.  The
  *  default value for "vent" is 0.3.
  */
-#ifdef PROTOTYPE
 void wiparrow(float xp, float yp, float angle, float vent)
-#else
-void wiparrow(xp, yp, angle, vent)
-float xp;
-float yp;
-float angle;
-float vent;
-#endif /* PROTOTYPE */
 {
     int fill;
     float cx, cy;
@@ -50,18 +42,7 @@ float vent;
     return;
 }
 
-#ifdef PROTOTYPE
 void wipvfield(float x[], float y[], float r[], float phi[], int npts, float angle, float vent)
-#else
-void wipvfield(x, y, r, phi, npts, angle, vent)
-float x[];
-float y[];
-float r[];
-float phi[];
-int npts;
-float angle;
-float vent;
-#endif /* PROTOTYPE */
 {
     register int i;
     int fill;

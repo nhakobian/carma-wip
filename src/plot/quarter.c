@@ -17,12 +17,7 @@ int wipquarter ARGS(( int quadrant ));
 /* Code */
 
 /* Returns 0 on success; 1 on error. */
-#ifdef PROTOTYPE
 int wipquarter(int quadrant)
-#else
-int wipquarter(quadrant)
-int quadrant;
-#endif /* PROTOTYPE */
 {
     Void *curimage;
     int nx, ny;

@@ -19,13 +19,7 @@ void wipfixcurs ARGS(( Const char *cmdname, char *rest, LOGICAL keep ));
 /* Code */
 
 /* Interactive cursor routine. */
-#ifdef PROTOTYPE
 void wipcursor(float *cx, float *cy, LOGICAL keep)
-#else
-void wipcursor(cx, cy, keep)
-float *cx, *cy;
-LOGICAL keep;
-#endif /* PROTOTYPE */
 {
       Void *curimage;
       char ch[2];
@@ -152,14 +146,7 @@ EOLOOP:
       return;
 }
 
-#ifdef PROTOTYPE
 void wipfixcurs(Const char *cmdname, char *rest, LOGICAL keep)
-#else
-void wipfixcurs(cmdname, rest, keep)
-Const char *cmdname;
-char *rest;
-LOGICAL keep;
-#endif /* PROTOTYPE */
 {
       char *par, *ptr;
       char save[STRINGSIZE];

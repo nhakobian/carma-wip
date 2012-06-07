@@ -31,13 +31,7 @@ int wipscale ARGS(( float scalex, float scaley, int k ));
  *
  *  Returns 0 if success; 1 on error.
  */
-#ifdef PROTOTYPE
 int wipscale(float scalex, float scaley, int k)
-#else
-int wipscale(scalex, scaley, k)
-float scalex, scaley;
-int k;
-#endif /* PROTOTYPE */
 {
     float deltax, deltay;
     float x1, x2, y1, y2;

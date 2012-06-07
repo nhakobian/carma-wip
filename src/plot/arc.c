@@ -64,12 +64,7 @@ int wipbeam ARGS(( float major, float minor, float posangle, float offx,
  *
  *  Returns 0 if successful; 1 on error.
  */
-#ifdef PROTOTYPE
 int wiparc(float majx, float majy, float arcangle, float angle, float start)
-#else
-int wiparc(majx, majy, arcangle, angle, start)
-float majx, majy, arcangle, angle, start;
-#endif /* PROTOTYPE */
 {
     register int j;
     int nstep;
@@ -194,20 +189,8 @@ float majx, majy, arcangle, angle, start;
  *
  *  Returns 0 if successful; 1 on error.
  */
-#ifdef PROTOTYPE
 int wipbeam(float major, float minor, float posangle, float offx,
     float offy, int fillcolor, float scale, int bgrect)
-#else
-int wipbeam(major, minor, posangle, offx, offy, fillcolor, scale, bgrect)
-float major;
-float minor;
-float posangle;
-float offx;
-float offy;
-int fillcolor;
-float scale;
-int bgrect;
-#endif /* PROTOTYPE */
 {
     int color, fill, style;
     int status;

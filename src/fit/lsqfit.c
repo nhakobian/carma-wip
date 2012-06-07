@@ -45,12 +45,7 @@ int lsqfit ARGS(( float x[], float y[], int ndata, float sig[], int mwt,\
  *  From NUMERICAL RECIPES (pg. 168), 9/14/88 jm.
  *  From NUMERICAL RECIPES in C 2nd Ed. (pg. 214), 7/23/93 jm.
  */
-#ifdef PROTOTYPE
 static double gammln(float x)
-#else
-static double gammln(x)
-float x;
-#endif /* PROTOTYPE */
 {
     register int j;
     double y, tmp, ser;
@@ -82,12 +77,7 @@ float x;
  *  From NUMERICAL RECIPES (pg. 174), 9/14/88 jm.
  *  From NUMERICAL RECIPES in C 2nd Ed. (pg. 219), 7/23/93 jm.
  */
-#ifdef PROTOTYPE
 static float gcf(float a, float x)
-#else
-static float gcf(a, x)
-float a, x;
-#endif /* PROTOTYPE */
 {
     register int n;
     float an, b, c, d, del, f;
@@ -126,12 +116,7 @@ float a, x;
  *  From NUMERICAL RECIPES (pg. 173), 9/14/88 jm.
  *  From NUMERICAL RECIPES in C 2nd Ed. (pg. 218), 7/23/93 jm.
  */
-#ifdef PROTOTYPE
 static float gser(float a, float x)
-#else
-static float gser(a, x)
-float a, x;
-#endif /* PROTOTYPE */
 {
     register int n;
     float sum, del, ap;
@@ -170,12 +155,7 @@ float a, x;
  *  From NUMERICAL RECIPES (pg. 173), 9/14/88 jm.
  *  From NUMERICAL RECIPES in C 2nd Ed. (pg. 218), 7/23/93 jm.
  */
-#ifdef PROTOTYPE
 static float gammq(float a, float x)
-#else
-static float gammq(a, x)
-float a, x;
-#endif /* PROTOTYPE */
 {
     float gamser, gammcf;
 
@@ -216,15 +196,8 @@ float a, x;
  *              indicate the number of elements in the sig[] array.
  *  23jul93 jm  Modified to return r in q slot for mwt=0.
  */
-#ifdef PROTOTYPE
 int lsqfit(float x[], float y[], int ndata, float sig[], int mwt, float *a,
   float *b, float *siga, float *sigb, float *chi2, float *q)
-#else
-int lsqfit(x, y, ndata, sig, mwt, a, b, siga, sigb, chi2, q)
-float x[], y[], sig[];
-int ndata, mwt;
-float *a, *b, *siga, *sigb, *chi2, *q;
-#endif /* PROTOTYPE */
 {
     register int i;
     float t, ss, sx, sy, sxoss, st2, sigdat;

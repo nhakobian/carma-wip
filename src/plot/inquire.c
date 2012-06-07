@@ -16,12 +16,7 @@ int wipishard ARGS(( void ));
 /* Code */
 
 /* Returns a pointer to the item inquired for if found; NULL otherwise. */
-#ifdef PROTOTYPE
 char *wipinquire(Const char *item)
-#else
-char *wipinquire(item)
-Const char *item;
-#endif /* PROTOTYPE */
 {
       char *s;
       char string[STRINGSIZE];
@@ -69,11 +64,7 @@ Const char *item;
  *  Returns 1 if the current device is a hardcopy unit; 0 if not or
  *  if an error occured trying to inquire.
  */
-#ifdef PROTOTYPE
 int wipishard(void)
-#else
-int wipishard()
-#endif /* PROTOTYPE */
 {
       char *string;
 

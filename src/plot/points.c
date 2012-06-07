@@ -22,13 +22,7 @@ int wippoints ARGS(( int nstyle, float style[], int nxy, float x[], \
  *    (2) FRAC(STYLE) is the relative expansion (0 means 1 however).
  *  The C array can be used to specify different colors for each point.
  */
-#ifdef PROTOTYPE
 int wippoints(int nstyle, float style[], int nxy, float x[], float y[], int nc, float c[])
-#else
-int wippoints(nstyle, style, nxy, x, y, nc, c)
-int nstyle, nxy, nc;
-float style[], x[], y[], c[];
-#endif /* PROTOTYPE */
 {
     register int j;
     int symbol;

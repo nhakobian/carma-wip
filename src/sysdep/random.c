@@ -28,12 +28,7 @@ float wipgaussdev ARGS(( long int *seed ));
  *  Set the seed to any negative value to initialize or reinitialize
  *  the sequence.
  */
-#ifdef PROTOTYPE
 float wiprand(long int *seed)
-#else
-float wiprand(seed)
-long int *seed;
-#endif /* PROTOTYPE */
 {
     int j;
     long int k;
@@ -75,12 +70,7 @@ long int *seed;
  *  deviates.  Set the seed to any negative value to initialize or
  *  reinitialize the sequence.
  */
-#ifdef PROTOTYPE
 float wipgaussdev(long int *seed)
-#else
-float wipgaussdev(seed)
-long int *seed;
-#endif /* PROTOTYPE */
 {
     static int iset = 0;
     static float gset;

@@ -29,12 +29,7 @@ void wipaitoffgrid ARGS(( int nlong, int nlats ));
  *  a rectangle dimension 4 x 2 units can be plotted horizontally.
  *  This is the bounding rectangle of the Aitoff plot.
  */
-#ifdef PROTOTYPE
 static void setaitoff(float *xscale, float *yscale, float *xorg, float *yorg)
-#else
-static void setaitoff(xscale, yscale, xorg, yorg)
-float *xscale, *yscale, *xorg, *yorg;
-#endif /* PROTOTYPE */
 {
     float rmax, scale;
     float xszdef, yszdef, xszusr, yszusr;
@@ -68,13 +63,7 @@ float *xscale, *yscale, *xorg, *yorg;
  *  will be in internal Aitoff units where "*x" is in the range [-2, 2]
  *  and "*y" is in the range [-1, 1].
  */
-#ifdef PROTOTYPE
 static void aitoffConvert(float l, float b, float *x, float *y)
-#else
-static void aitoffConvert(l, b, x, y)
-float l, b;
-float *x, *y;
-#endif /* PROTOTYPE */
 {
     float lover2, den;
     float radl, radb;
@@ -105,13 +94,7 @@ float *x, *y;
 }
 
 /*  Converts elements in x and y arrays to Aitoff positions. */
-#ifdef PROTOTYPE
 void wipaitoff(int nxy, float x[], float y[])
-#else
-void wipaitoff(nxy, x, y)
-int nxy;
-float x[], y[];
-#endif /* PROTOTYPE */
 {
     register int j;
     float xout, yout;
@@ -132,13 +115,7 @@ float x[], y[];
  *  This routine generates an Aitoff equal-area projection of the
  *  whole sky, centered on (long = 0, lat = 0).
  */
-#ifdef PROTOTYPE
 void wipaitoffgrid(int nlong, int nlats)
-#else
-void wipaitoffgrid(nlong, nlats)
-int nlong;
-int nlats;
-#endif /* PROTOTYPE */
 {
     register int j;
     float bb, ll, xc, yc;

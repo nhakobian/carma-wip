@@ -48,13 +48,7 @@ static LOGICAL termidle = FALSE;      /* T if terminal; F if hardcopy. */
 /* Code */
 
 /* WIPEXECUTE returns 0 if no error; 1 otherwise. */
-#ifdef PROTOTYPE
 int wipexecute(Const char *commandname, char *line)
-#else
-int wipexecute(commandname, line)
-Const char *commandname;
-char *line;
-#endif /* PROTOTYPE */
 {
       Void *curimage;                /* Pointer to current image.      */
       char *par, *ptr;

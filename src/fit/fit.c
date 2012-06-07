@@ -43,14 +43,7 @@ static Logical YRangeLimited = FALSE;
 
 /* Code */
 
-#ifdef PROTOTYPE
 static float getLegendre(float xval, float poly[], int npoly)
-#else
-static float getLegendre(xval, poly, npoly)
-float xval;
-float poly[];
-int npoly;
-#endif /* PROTOTYPE */
 {
     int j;
     float twox, f1, f2, d;
@@ -83,12 +76,7 @@ int npoly;
     return(yval);
 }
 
-#ifdef PROTOTYPE
 static double getfit(float xval)
-#else
-static double getfit(xval)
-float xval;
-#endif /* PROTOTYPE */
 {
     int j;
     double yval, expon;
@@ -134,16 +122,7 @@ float xval;
  *  This routine returns with a warning if no previous fit exists or
  *  if the previous fit terminated with an error.
  */
-#ifdef PROTOTYPE
 void wipplotfit(float x1, float x2, float step, float x[], int nx)
-#else
-void wipplotfit(x1, x2, step, x, nx)
-float x1;
-float x2;
-float step;
-float x[];
-int nx;
-#endif /* PROTOTYPE */
 {
     int j, n;
     float xval, yval;
@@ -190,15 +169,7 @@ int nx;
     return;
 }
 
-#ifdef PROTOTYPE
 void wipfitrange(float x1, float x2, float y1, float y2)
-#else
-void wipfitrange(x1, x2, y1, y2)
-float x1;
-float x2;
-float y1;
-float y2;
-#endif /* PROTOTYPE */
 {
     if (x1 == x2) {
       XRangeLimited = FALSE;
@@ -293,14 +264,7 @@ float y2;
  *
  *  This routine returns 0 if successful; 1 on error.
  */
-#ifdef PROTOTYPE
 int wipfit(Const char *rest, int nxy, float x[], float y[], int ns, float sig[])
-#else
-int wipfit(rest, nxy, x, y, ns, sig)
-Const char *rest;
-int nxy, ns;
-float x[], y[], sig[];
-#endif /* PROTOTYPE */
 {
     char *ptr, *type, *pvar;
     char string[STRINGSIZE];

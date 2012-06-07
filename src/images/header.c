@@ -49,16 +49,8 @@ static struct {
  *  Returns scale and offset values for the currently defined "image".
  *  Returns 0 if successful; 1 on error.
  */
-#ifdef PROTOTYPE
 static int wipheadlim(Const Void *image, Const char *xtype, Const char *ytype,
   float *xscale, float *xoff, float *yscale, float *yoff)
-#else
-static int wipheadlim(image, xtype, ytype, xscale, xoff, yscale, yoff)
-Const Void *image;
-Const char *xtype;
-Const char *ytype;
-float *xscale, *xoff, *yscale, *yoff;
-#endif /* PROTOTYPE */
 {
     char *ptr;
     char style[30];
@@ -226,14 +218,7 @@ MISTAKE:
 }
 
 /* Returns 1 if error occured; 0 if no error. */
-#ifdef PROTOTYPE
 int wipheader(int blcx, int blcy, int trcx, int trcy, Const char *xtype, Const char *ytype)
-#else
-int wipheader(blcx, blcy, trcx, trcy, xtype, ytype)
-int blcx, blcy, trcx, trcy;
-Const char *xtype;
-Const char *ytype;
-#endif /* PROTOTYPE */
 {
     Void *curimage;
     float xscale, xoff, yscale, yoff;

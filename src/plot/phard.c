@@ -20,13 +20,7 @@ int wipphard ARGS(( Const char *device, Const char *rest ));
  *  Use as: PHARD PLAYBACK-DEVICE MACRO-NAME [MACRO-ARGS ...]
  *  Returns 0 on success; 1 on error.
  */
-#ifdef PROTOTYPE
 int wipphard(Const char *device, Const char *rest)
-#else
-int wipphard(device, rest)
-Const char *device;
-Const char *rest;
-#endif /* PROTOTYPE */
 {
     char *fileptr;
     char current[STRINGSIZE];

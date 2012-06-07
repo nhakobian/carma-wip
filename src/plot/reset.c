@@ -12,11 +12,7 @@ void wipreset ARGS(( void ));
 
 /* Code */
 
-#ifdef PROTOTYPE
 void wipreset(void)
-#else
-void wipreset()
-#endif /* PROTOTYPE */
 {
       float tr[6];
 

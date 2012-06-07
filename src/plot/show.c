@@ -25,12 +25,7 @@ char *wipifmt ARGS(( float arg ));
 /* Code */
 
 /* Presents some general information to the user. */
-#ifdef PROTOTYPE
 void wipshow(Const char *rest)
-#else
-void wipshow(rest)
-Const char *rest;
-#endif /* PROTOTYPE */
 {
     Void *curimage;
     char *ptr, *fmt;
@@ -290,13 +285,7 @@ Const char *rest;
     }
 }
 
-#ifdef PROTOTYPE
 char *wipfpfmt(float arg, int nfig)
-#else
-char *wipfpfmt(arg, nfig)
-float arg;
-int nfig;
-#endif /* PROTOTYPE */
 {
       int ndec, iexpo, nchar;
       char *ptr, fspec;
@@ -328,12 +317,7 @@ int nfig;
       return(ptr);
 }
 
-#ifdef PROTOTYPE
 char *wipifmt(float arg)
-#else
-char *wipifmt(arg)
-float arg;
-#endif /* PROTOTYPE */
 {
       int iexpo, nchar;
       char *ptr;

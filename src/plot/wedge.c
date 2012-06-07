@@ -40,17 +40,7 @@ typedef enum {NONE, LEFT, RIGHT, TOP, BOTTOM} SIDE;
  *
  *  Returns 0 on success; 1 on error.
  */
-#ifdef PROTOTYPE
 static int wipPwedge(char *cside, float disp, float thick, float bg, float fg, char *label)
-#else
-static int wipPwedge(cside, disp, thick, bg, fg, label)
-char *cside;
-float disp;
-float thick;
-float bg;
-float fg;
-char *label;
-#endif /* PROTOTYPE */
 {
     char *wlabel;
     char defLabel[6];
@@ -215,17 +205,7 @@ char *label;
  *
  *  Returns 0 on success; 1 on error.
  */
-#ifdef PROTOTYPE
 int wipwedge(char *side, float disp, float thick, float bg, float fg, char *label)
-#else
-int wipwedge(side, disp, thick, bg, fg, label)
-char *side;
-float disp;
-float thick;
-float bg;
-float fg;
-char *label;
-#endif /* PROTOTYPE */
 {
     int nside;
 
@@ -245,13 +225,7 @@ char *label;
 }
 
 #ifdef TEST
-#ifdef PROTOTYPE
 main(int argc, char *argv[])
-#else
-main(argc, argv)
-int argc;
-char *argv[];
-#endif /* PROTOTYPE */
 {
     char ch;
     char device[80];
