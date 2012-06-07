@@ -7,7 +7,7 @@
         12dec94 jm  Transfer function is now done by reset call.
 
 Routines:
-int wipdevice ARGS(( Const char *rest ));
+int wipdevice ARGS(( const char *rest ));
 void wipclose ARGS(( void ));
 */
 
@@ -21,7 +21,7 @@ void wipclose ARGS(( void ));
  *  Opens a new device and sets up some initial plot parameters.
  *  Returns 0 if new device successfully set; 1 otherwise (on error).
  */
-int wipdevice(Const char *rest)
+int wipdevice(const char *rest)
 {
     char *par, *ptr;
     char string[BUFSIZ];

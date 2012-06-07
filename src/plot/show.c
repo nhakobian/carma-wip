@@ -13,7 +13,7 @@
 	24apr96 jm  Modified to use wipgetcir.
 
 Routines:
-void wipshow ARGS(( Const char *rest ));
+void wipshow ARGS(( const char *rest ));
 char *wipfpfmt ARGS(( float arg, int nfig ));
 char *wipifmt ARGS(( float arg ));
 */
@@ -25,7 +25,7 @@ char *wipifmt ARGS(( float arg ));
 /* Code */
 
 /* Presents some general information to the user. */
-void wipshow(Const char *rest)
+void wipshow(const char *rest)
 {
     void *curimage;
     char *ptr, *fmt;

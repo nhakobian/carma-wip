@@ -6,7 +6,7 @@
 	26aug94 jm  Modified to set and reset hardcopy user variable.
 
 Routines:
-int wipphard ARGS(( Const char *device, Const char *rest ));
+int wipphard ARGS(( const char *device, const char *rest ));
 */
 
 #include "wip.h"
@@ -20,7 +20,7 @@ int wipphard ARGS(( Const char *device, Const char *rest ));
  *  Use as: PHARD PLAYBACK-DEVICE MACRO-NAME [MACRO-ARGS ...]
  *  Returns 0 on success; 1 on error.
  */
-int wipphard(Const char *device, Const char *rest)
+int wipphard(const char *device, const char *rest)
 {
     char *fileptr;
     char current[STRINGSIZE];

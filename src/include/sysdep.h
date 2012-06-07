@@ -45,7 +45,7 @@
 #define Fgets        fgets
 
 #ifdef convex
-extern char *getenv ARGS(( Const char *name ));
+extern char *getenv ARGS(( const char *name ));
 #endif /* convex */
 
 #define GetEnv       getenv

@@ -58,7 +58,6 @@
 
 /* only Ansi C is now supported */
 
-#define Const const
 #include <stdarg.h>
 #define ARGS(alist) alist
 

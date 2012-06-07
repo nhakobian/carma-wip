@@ -33,16 +33,16 @@
  *    14sep06 pjt  add TYPE_DOUBLE for 64bit support (BITPIX=-64)
  *
  * Routines:
- * void *fitopen(Const char *name, int naxis, int axes[]);
+ * void *fitopen(const char *name, int naxis, int axes[]);
  * void fitclose(void *file);
  * int fitread(void *file, int indx, FLOAT *array, FLOAT badpixel);
  * int fitsetpl(void *file, int naxis, int axes[]);
- * void fitrdhdd(void *file, Const char *keyword, double *value, double defval);
- * void fitrdhdr(void *file, Const char *keyword, FLOAT *value, FLOAT defval);
- * void fitrdhdi(void *file, Const char *keyword, int *value, int defval);
- * void fitrdhda(void *file, Const char *keyword, char *value, Const char *defval, size_t maxlen);
- * int fithdprsnt(void *file, Const char *keyword);
- * static int fitsrch(FITS *f, Const char *keyword, char card[80]);
+ * void fitrdhdd(void *file, const char *keyword, double *value, double defval);
+ * void fitrdhdr(void *file, const char *keyword, FLOAT *value, FLOAT defval);
+ * void fitrdhdi(void *file, const char *keyword, int *value, int defval);
+ * void fitrdhda(void *file, const char *keyword, char *value, const char *defval, size_t maxlen);
+ * int fithdprsnt(void *file, const char *keyword);
+ * static int fitsrch(FITS *f, const char *keyword, char card[80]);
  *
  * TODO:   cannot handle images > 2GB
  */
@@ -75,7 +75,7 @@ typedef struct {
 
 /* Declare private routine. */
 
-static int fitsrch ARGS(( FITS *f, Const char *keyword, char card[80] ));
+static int fitsrch ARGS(( FITS *f, const char *keyword, char card[80] ));
 
 /* Declare static variables. */
 
@@ -84,7 +84,7 @@ static char *Buf2 = (char *)NULL;
 static size_t Maxdim = 0;
 
 /***********************************************************************/
-void *fitopen(Const char *name, int naxis, int nsize[])
+void *fitopen(const char *name, int naxis, int nsize[])
 /*
   This opens a FITS file and readies it for i/o.
 
@@ -510,7 +510,7 @@ int fitsetpl(void *file, int naxis, int axes[])
 }
 
 /***********************************************************************/
-void fitrdhdd(void *file, Const char *keyword, double *value, double def)
+void fitrdhdd(void *file, const char *keyword, double *value, double def)
 /*
   This reads the value of a double-valued FITS keyword from the file header.
 
@@ -558,7 +558,7 @@ void fitrdhdd(void *file, Const char *keyword, double *value, double def)
 }
 
 /***********************************************************************/
-void fitrdhdr(void *file, Const char *keyword, FLOAT *value, FLOAT def)
+void fitrdhdr(void *file, const char *keyword, FLOAT *value, FLOAT def)
 /*
   This reads the value of a real-valued FITS keyword from the file header.
 
@@ -580,7 +580,7 @@ void fitrdhdr(void *file, Const char *keyword, FLOAT *value, FLOAT def)
 }
 
 /***********************************************************************/
-void fitrdhdi(void *file, Const char *keyword, int *value, int def)
+void fitrdhdi(void *file, const char *keyword, int *value, int def)
 /*
   This reads the value of a integer-valued FITS keyword from the file header.
 
@@ -602,7 +602,7 @@ void fitrdhdi(void *file, Const char *keyword, int *value, int def)
 }
 
 /***********************************************************************/
-void fitrdhda(void *file, Const char *keyword, char *value, Const char *defval, size_t maxlen)
+void fitrdhda(void *file, const char *keyword, char *value, const char *defval, size_t maxlen)
 /*
   This reads the value of a character FITS keyword from the file header.
 
@@ -691,7 +691,7 @@ void fitrdhd(void *file, int n, char card[81])
 }
 
 /***********************************************************************/
-int fithdprsnt(void *file, Const char *keyword)
+int fithdprsnt(void *file, const char *keyword)
 /*
   Returns 1 if keyword is present in header; 0 otherwise.
 -----------------------------------------------------------------------*/
@@ -709,7 +709,7 @@ int fithdprsnt(void *file, Const char *keyword)
 }
 
 /***********************************************************************/
-static int fitsrch(FITS *f, Const char *keyword, char card[80])
+static int fitsrch(FITS *f, const char *keyword, char card[80])
 /*
   This searches for a FITS keyword in a file.
   Returns -1 if header not present; 0 indexed card number otherwise.

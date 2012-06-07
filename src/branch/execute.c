@@ -35,7 +35,7 @@
 
 
 Routines:
-int wipexecute ARGS(( Const char *commandname, char *line ));
+int wipexecute ARGS(( const char *commandname, char *line ));
 */
 
 #include "wip.h"
@@ -48,7 +48,7 @@ static LOGICAL termidle = FALSE;      /* T if terminal; F if hardcopy. */
 /* Code */
 
 /* WIPEXECUTE returns 0 if no error; 1 otherwise. */
-int wipexecute(Const char *commandname, char *line)
+int wipexecute(const char *commandname, char *line)
 {
       void *curimage;                /* Pointer to current image.      */
       char *par, *ptr;

@@ -9,7 +9,7 @@
 Routines:
 int wiplevels ARGS(( char *rest, float levels[], int maxlev ));
 int wipautolevs ARGS(( char *rest, float levels[], int maxlev, float pmin, float pmax ));
-int wipscalevels ARGS(( Const char *stype, float slev, float pmin, float pmax, float levels[], int nlev ));
+int wipscalevels ARGS(( const char *stype, float slev, float pmin, float pmax, float levels[], int nlev ));
 */
 
 #include "wip.h"
@@ -121,7 +121,7 @@ int wipautolevs(char *rest, float levels[], int maxlev, float pmin, float pmax)
  *  and ("stype" is "absolute"), then no changes will be applied to the
  *  input contour level array.
  */
-int wipscalevels(Const char *stype, float slev, float pmin, float pmax, float levels[], int nlev)
+int wipscalevels(const char *stype, float slev, float pmin, float pmax, float levels[], int nlev)
 {
     char *leveltype;
     int i, ilev;

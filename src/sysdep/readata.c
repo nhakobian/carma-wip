@@ -28,7 +28,7 @@
 Routines:
 void wiplines ARGS(( int first, int last ));
 void wipgetlines ARGS(( int *first, int *last ));
-int wipopenfile ARGS(( Const char *name ));
+int wipopenfile ARGS(( const char *name ));
 int wipreadcol ARGS(( float array[], int maxsize, int nc ));
 char *wipreadstr ARGS(( int first, int second ));
 */
@@ -64,7 +64,7 @@ void wipgetlines(int *first, int *last)
 }
 
 /*  Returns 1 on error; 0 otherwise. */
-int wipopenfile(Const char *name)
+int wipopenfile(const char *name)
 {
     char *ptr;
     char enddata[8];

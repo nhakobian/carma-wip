@@ -23,7 +23,7 @@ static double getfit ARGS(( float xval ));
 
 void wipplotfit ARGS(( float x1, float x2, float step, float x[], int nx ));
 void wipfitrange ARGS(( float x1, float x2, float y1, float y2 ));
-int wipfit ARGS(( Const char *rest, int nxy, float x[], float y[], int ns, float sig[] ));
+int wipfit ARGS(( const char *rest, int nxy, float x[], float y[], int ns, float sig[] ));
 */
 
 #include "wip.h"
@@ -264,7 +264,7 @@ void wipfitrange(float x1, float x2, float y1, float y2)
  *
  *  This routine returns 0 if successful; 1 on error.
  */
-int wipfit(Const char *rest, int nxy, float x[], float y[], int ns, float sig[])
+int wipfit(const char *rest, int nxy, float x[], float y[], int ns, float sig[])
 {
     char *ptr, *type, *pvar;
     char string[STRINGSIZE];

@@ -43,15 +43,15 @@
  *
  *----------------------------------------------------------------------
  * Routines:
- *  void *basopen(Const char *name, int naxis, int axes[]);
+ *  void *basopen(const char *name, int naxis, int axes[]);
  *  void basclose(void *file);
  *  int basread(void *file, int indx, FLOAT *array, FLOAT badpixel);
  *  int bassetpl(void *file, int naxis, int axes[]);
- *  void basrdhdd(void *file, Const char *keyword, double *value,double defval);
- *  void basrdhdr(void *file, Const char *keyword, FLOAT *value, FLOAT defval);
- *  void basrdhdi(void *file, Const char *keyword, int *value, int defval);
- *  void basrdhda(void *file, Const char *keyword, char *value, Const char *defval, size_t maxlen);
- *  int bashdprsnt(void *file, Const char *keyword);
+ *  void basrdhdd(void *file, const char *keyword, double *value,double defval);
+ *  void basrdhdr(void *file, const char *keyword, FLOAT *value, FLOAT defval);
+ *  void basrdhdi(void *file, const char *keyword, int *value, int defval);
+ *  void basrdhda(void *file, const char *keyword, char *value, const char *defval, size_t maxlen);
+ *  int bashdprsnt(void *file, const char *keyword);
  */
 
 #define WIP_IMAGE
@@ -85,7 +85,7 @@ static char *Buf2 = (char *)NULL;
 static size_t Maxdim = 0;
 
 /************************************************************************/
-void *basopen(Const char *name, int naxis, int axes[])
+void *basopen(const char *name, int naxis, int axes[])
 /* basopen -- Open an image file.
 
   Input:
@@ -465,7 +465,7 @@ int bassetpl(void *file, int naxis, int axes[])
 
 /* ARGSUSED */
 /************************************************************************/
-void basrdhdd(void *file, Const char *keyword, double *value, double defval)
+void basrdhdd(void *file, const char *keyword, double *value, double defval)
 /* basrdhdd -- Read a double precision-valued header variable.
 
   Input:
@@ -485,7 +485,7 @@ void basrdhdd(void *file, Const char *keyword, double *value, double defval)
 
 /* ARGSUSED */
 /************************************************************************/
-void basrdhdr(void *file, Const char *keyword, FLOAT *value, FLOAT defval)
+void basrdhdr(void *file, const char *keyword, FLOAT *value, FLOAT defval)
 /* basrdhdr -- Read a real-valued header variable.
 
   Input:
@@ -508,7 +508,7 @@ void basrdhdr(void *file, Const char *keyword, FLOAT *value, FLOAT defval)
 
 /* ARGSUSED */
 /************************************************************************/
-void basrdhdi(void *file, Const char *keyword, int *value, int defval)
+void basrdhdi(void *file, const char *keyword, int *value, int defval)
 /* basrdhdi -- Read an integer-valued header variable.
 
   Input:
@@ -531,7 +531,7 @@ void basrdhdi(void *file, Const char *keyword, int *value, int defval)
 
 /* ARGSUSED */
 /************************************************************************/
-void basrdhda(void *file, Const char *keyword, char *value, Const char *defval, size_t maxlen)
+void basrdhda(void *file, const char *keyword, char *value, const char *defval, size_t maxlen)
 /* basrdhda -- Read a string-valued header variable.
 
   Input:
@@ -560,7 +560,7 @@ void basrdhda(void *file, Const char *keyword, char *value, Const char *defval, 
 
 /* ARGSUSED */
 /**********************************************************************/
-int bashdprsnt(void *file, Const char *keyword)
+int bashdprsnt(void *file, const char *keyword)
 /*
   Returns 1 if keyword is present in header; 0 otherwise.
 ------------------------------------------------------------------------*/

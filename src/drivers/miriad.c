@@ -25,17 +25,17 @@
  *                   the corresponding MIRIAD libraries....... i.e. xyio.c   
  *
  * Routines:
- * void *miropen(Const char *name, int naxis, int axes[]);
+ * void *miropen(const char *name, int naxis, int axes[]);
  * void mirclose(void *file);
  * int mirread(void *file, int indx, FLOAT *array, FLOAT badpixel);
  * int mirsetpl(void *file, int naxis, int axes[]);
- * void mirrdhdd(void *file, Const char *keyword, double *value, double defval);
- * void mirrdhdr(void *file, Const char *keyword, FLOAT *value, FLOAT defval);
- * void mirrdhdi(void *file, Const char *keyword, int *value, int defval);
- * void mirrdhda(void *file, Const char *keyword, char *value, Const char *defval, size_t maxlen);
- * int mirhdprsnt(void *file, Const char *keyword);
- * static char *mirsrch(MIRIAD *f, Const char *keyword, long int *size, long int *offset);
- * static MIRMASK *mirfindmask(MIRIAD *f, Const char *name, int nx);
+ * void mirrdhdd(void *file, const char *keyword, double *value, double defval);
+ * void mirrdhdr(void *file, const char *keyword, FLOAT *value, FLOAT defval);
+ * void mirrdhdi(void *file, const char *keyword, int *value, int defval);
+ * void mirrdhda(void *file, const char *keyword, char *value, const char *defval, size_t maxlen);
+ * int mirhdprsnt(void *file, const char *keyword);
+ * static char *mirsrch(MIRIAD *f, const char *keyword, long int *size, long int *offset);
+ * static MIRMASK *mirfindmask(MIRIAD *f, const char *name, int nx);
  * static int maskread(MIRIAD *f,int *flags, size_t length, long int offset);
  */
 
@@ -110,14 +110,14 @@ typedef struct {
 
 /* Declare private routines. */
 
-static char *mirsrch(MIRIAD *f, Const char *keyword, long int *size, long int *offset);
-static MIRMASK *mirfindmask(MIRIAD *f, Const char *name, int nx);
+static char *mirsrch(MIRIAD *f, const char *keyword, long int *size, long int *offset);
+static MIRMASK *mirfindmask(MIRIAD *f, const char *name, int nx);
 static int maskread(MIRIAD *f,int *flags, size_t len, long int offset);
 
 /* Declare static variables (if needed). */
 
 /************************************************************************/
-void *miropen(Const char *name, int naxis, int axes[])
+void *miropen(const char *name, int naxis, int axes[])
 /* miropen -- Open an image file.
 
   Input:
@@ -453,7 +453,7 @@ int mirsetpl(void *file, int naxis, int axes[])
     return 0;
 }
 /************************************************************************/
-void mirrdhdd(void *file, Const char *keyword, double *value, double defval)
+void mirrdhdd(void *file, const char *keyword, double *value, double defval)
 /* rdhdd -- Read a double precision-valued header variable.
 
   Input:
@@ -525,7 +525,7 @@ void mirrdhdd(void *file, Const char *keyword, double *value, double defval)
 }
 
 /************************************************************************/
-void mirrdhdr(void *file, Const char *keyword, FLOAT *value, FLOAT defval)
+void mirrdhdr(void *file, const char *keyword, FLOAT *value, FLOAT defval)
 /* mirrdhdr -- Read a real-valued header variable.
 
   Input:
@@ -547,7 +547,7 @@ void mirrdhdr(void *file, Const char *keyword, FLOAT *value, FLOAT defval)
 }
 
 /************************************************************************/
-void mirrdhdi(void *file, Const char *keyword, int *value, int defval)
+void mirrdhdi(void *file, const char *keyword, int *value, int defval)
 /* mirrdhdi -- Read an integer-valued header variable.
 
   Input:
@@ -569,7 +569,7 @@ void mirrdhdi(void *file, Const char *keyword, int *value, int defval)
 }
 
 /************************************************************************/
-void mirrdhda(void *file, Const char *keyword, char *value, Const char *defval, size_t maxlen)
+void mirrdhda(void *file, const char *keyword, char *value, const char *defval, size_t maxlen)
 /* mirrdhda -- Read a string-valued header variable.
 
   Input:
@@ -621,7 +621,7 @@ void mirrdhda(void *file, Const char *keyword, char *value, Const char *defval, 
 }
 
 /**********************************************************************/
-int mirhdprsnt(void *file, Const char *keyword)
+int mirhdprsnt(void *file, const char *keyword)
 /*
   Returns 1 if keyword is present in header; 0 otherwise.
 ------------------------------------------------------------------------*/
@@ -642,7 +642,7 @@ int mirhdprsnt(void *file, Const char *keyword)
 }
 
 /**********************************************************************/
-static char *mirsrch(MIRIAD *f, Const char *keyword, long int *size, long int *seekloc)
+static char *mirsrch(MIRIAD *f, const char *keyword, long int *size, long int *seekloc)
 /*
   This searches for a MIRIAD header item.
   Returns a char string of the header item found; NULL otherwise.
@@ -690,7 +690,7 @@ static char *mirsrch(MIRIAD *f, Const char *keyword, long int *size, long int *s
 }
 
 /************************************************************************/
-static MIRMASK *mirfindmask(MIRIAD *f, Const char *name, int nx)
+static MIRMASK *mirfindmask(MIRIAD *f, const char *name, int nx)
 {
     char *item;
     char s[ITEM_HDR_SIZE];

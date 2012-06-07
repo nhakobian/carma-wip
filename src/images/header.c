@@ -17,10 +17,10 @@
  *		  making the former static since only the later calls it.
  *
  * Routines:
- * static int wipheadlim ARGS(( Const void *image, Const char *xtype,
- *  Const char *ytype, float *xscale, float *xoff, float *yscale, float *yoff));
+ * static int wipheadlim ARGS(( const void *image, const char *xtype,
+ *  const char *ytype, float *xscale, float *xoff, float *yscale, float *yoff));
  * int wipheader ARGS(( int blcx, int blcy, int trcx, int trcy,
- *  Const char *xtype, Const char *ytype ));
+ *  const char *xtype, const char *ytype ));
  */
 
 #include "wip.h"
@@ -49,7 +49,7 @@ static struct {
  *  Returns scale and offset values for the currently defined "image".
  *  Returns 0 if successful; 1 on error.
  */
-static int wipheadlim(Const void *image, Const char *xtype, Const char *ytype,
+static int wipheadlim(const void *image, const char *xtype, const char *ytype,
   float *xscale, float *xoff, float *yscale, float *yoff)
 {
     char *ptr;
@@ -218,7 +218,7 @@ MISTAKE:
 }
 
 /* Returns 1 if error occured; 0 if no error. */
-int wipheader(int blcx, int blcy, int trcx, int trcy, Const char *xtype, Const char *ytype)
+int wipheader(int blcx, int blcy, int trcx, int trcy, const char *xtype, const char *ytype)
 {
     void *curimage;
     float xscale, xoff, yscale, yoff;

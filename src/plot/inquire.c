@@ -5,7 +5,7 @@
 		    flag.  Now, a return of NULL means an error.
 
 Routines:
-char *wipinquire ARGS(( Const char *item ));
+char *wipinquire ARGS(( const char *item ));
 int wipishard ARGS(( void ));
 */
 
@@ -16,7 +16,7 @@ int wipishard ARGS(( void ));
 /* Code */
 
 /* Returns a pointer to the item inquired for if found; NULL otherwise. */
-char *wipinquire(Const char *item)
+char *wipinquire(const char *item)
 {
       char *s;
       char string[STRINGSIZE];

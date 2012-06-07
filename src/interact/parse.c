@@ -10,12 +10,12 @@
 
 Routines:
 char *wipparse ARGS(( char **line ));
-int wipcountwords ARGS(( Const char *line ));
+int wipcountwords ARGS(( const char *line ));
 void wiplower ARGS(( char *s ));
 void wipupper ARGS(( char *s ));
-char *wipleading ARGS(( Const char *line ));
+char *wipleading ARGS(( const char *line ));
 int wiplenc ARGS(( char *c ));
-char *wipnewstring ARGS(( Const char *string ));
+char *wipnewstring ARGS(( const char *string ));
 int wiparguments ARGS(( char **rest, int n, double arg[] ));
 */
 
@@ -45,7 +45,7 @@ char *wipparse(char **line)
     return(par);                                  /* Return found word. */
 }
 
-int wipcountwords(Const char *line)
+int wipcountwords(const char *line)
 {
     register int n = 0;
     char *s;
@@ -72,7 +72,7 @@ void wipupper(char *s)
       *s++ = (islower((int)j) ? (char)toupper((int)j) : j);
 }
 
-char *wipleading(Const char *line)
+char *wipleading(const char *line)
 {
     register char *s;
 
@@ -104,7 +104,7 @@ int wiplenc(char *c)
  *  Copies an instance of a string.  You must release this memory with Free()!
  *  Returns a NULL pointer if the input string is empty or on an error.
  */
-char *wipnewstring(Const char *string)
+char *wipnewstring(const char *string)
 {
     char *newstr;
     size_t strsize;

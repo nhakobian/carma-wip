@@ -15,13 +15,13 @@
 
 /* Code in wip/branch */
 
-extern     int   wipexecute ARGS(( Const char *cmdname, char *line ));
+extern     int   wipexecute ARGS(( const char *cmdname, char *line ));
 
 extern     int   wipprocess ARGS(( char *cmdline, int *mode, LOGICAL keep ));
 
 extern     int   wipinit ARGS(( void ));
 
-/* static void   usage ARGS(( Const char *filename )); */
+/* static void   usage ARGS(( const char *filename )); */
 /*        void   main ARGS(( int argc, char *argv[] )); */
 
 
@@ -30,29 +30,29 @@ extern     int   wipinit ARGS(( void ));
 extern    void   wipextrema ARGS(( float **image, int nx, int ny, float *min, float *max ));
 
 /*  static  void   wipimagefree ARGS(( void *image )); */
-/*  static WIPIMAGE *getimage ARGS(( Const char *file, int plane, float blank )); */
-extern    void  *wipimage ARGS(( Const char *file, int plane, float blank ));
-extern    void   wipimagenxy ARGS(( Const void *image, int *nx, int *ny ));
+/*  static WIPIMAGE *getimage ARGS(( const char *file, int plane, float blank )); */
+extern    void  *wipimage ARGS(( const char *file, int plane, float blank ));
+extern    void   wipimagenxy ARGS(( const void *image, int *nx, int *ny ));
 extern    void   wipimageminmax ARGS(( void *image, float *min, float *max, int force ));
-extern     int   wipimagexists ARGS(( Const void *image ));
-extern   float **wipimagepic ARGS(( Const void *image ));
+extern     int   wipimagexists ARGS(( const void *image ));
+extern   float **wipimagepic ARGS(( const void *image ));
 extern     int   wipimlogscale ARGS(( void *image, float scale ));
 extern     int   wipimsetminmax ARGS(( void *image, float min, float max ));
-extern     int   wipimgethead ARGS(( Const void *image, int axis, double *crval, double *crpix, double *cdelt, char *ctype ));
-extern     int   wipimctype ARGS(( Const void *image, int axis, char *ctype ));
-extern    char  *wipimtype ARGS(( Const void *image ));
-extern     int   wipimplane ARGS(( Const void *image ));
-extern     int   wipimhdprsnt ARGS(( Const void *image, Const char *hdname ));
-extern     int   wipimhdval ARGS(( Const void *image, Const char *hdname, double *retval ));
-extern     int   wipimhdstr ARGS(( Const void *image, Const char *hdname, char *retval, size_t maxlen ));
-extern    void  *wipimcur ARGS(( Const char *imagename ));
-extern    void   wipimsetcur ARGS(( Const char *imagename, Const void *image ));
-extern    void   wipfreeimage ARGS(( Const char *imagename ));
+extern     int   wipimgethead ARGS(( const void *image, int axis, double *crval, double *crpix, double *cdelt, char *ctype ));
+extern     int   wipimctype ARGS(( const void *image, int axis, char *ctype ));
+extern    char  *wipimtype ARGS(( const void *image ));
+extern     int   wipimplane ARGS(( const void *image ));
+extern     int   wipimhdprsnt ARGS(( const void *image, const char *hdname ));
+extern     int   wipimhdval ARGS(( const void *image, const char *hdname, double *retval ));
+extern     int   wipimhdstr ARGS(( const void *image, const char *hdname, char *retval, size_t maxlen ));
+extern    void  *wipimcur ARGS(( const char *imagename ));
+extern    void   wipimsetcur ARGS(( const char *imagename, const void *image ));
+extern    void   wipfreeimage ARGS(( const char *imagename ));
 
-/* static  int   wipheadlim ARGS(( Const void *image, Const char *xtype,
-Const char *ytype, float *xscale, float *xoff, float *yscale, float *yoff )); */
+/* static  int   wipheadlim ARGS(( const void *image, const char *xtype,
+const char *ytype, float *xscale, float *xoff, float *yscale, float *yoff )); */
 
-extern     int   wipheader ARGS(( int blcx, int blcy, int trcx, int trcy, Const char *xtype, Const char *ytype ));
+extern     int   wipheader ARGS(( int blcx, int blcy, int trcx, int trcy, const char *xtype, const char *ytype ));
 
 extern     int   wipsmooth ARGS(( float **array, int nx, int ny, int order, \
       float blank ));
@@ -64,48 +64,48 @@ extern COMMAND  *create_command ARGS(( void ));
 extern    void   add_command ARGS(( COMMAND *cmd ));
 extern    void   delete_command ARGS(( COMMAND *cmd ));
 
-extern    void   wipdecode ARGS(( Const char *string, char *outstr, size_t maxout ));
+extern    void   wipdecode ARGS(( const char *string, char *outstr, size_t maxout ));
 
 /*  static  void   add_to_help ARGS(( COMMAND *cmd, char *helpline )); */
 extern     int   wiphelp ARGS(( char *rest ));
 
 extern COMMAND  *wipifxecute ARGS(( char **rest ));
 
-extern    void   wipsaveline ARGS(( COMMAND *macro, Const char *line ));
+extern    void   wipsaveline ARGS(( COMMAND *macro, const char *line ));
 extern COMMAND  *wipstartins ARGS(( char *rest ));
-extern    void   wipinsert ARGS(( COMMAND *command, Const char *line ));
+extern    void   wipinsert ARGS(( COMMAND *command, const char *line ));
 extern     int   wipdelete ARGS(( char *rest ));
-extern COMMAND  *wipstartmac ARGS(( Const char *macname ));
+extern COMMAND  *wipstartmac ARGS(( const char *macname ));
 
-extern COMMAND  *find_command ARGS(( COMMAND *start, Const char *cmdname, int exact ));
+extern COMMAND  *find_command ARGS(( COMMAND *start, const char *cmdname, int exact ));
 extern COMMAND  *wipinterpret ARGS(( char **cmdline ));
 
-extern     int   wiplist ARGS(( int line1, int line2, Const char *rest ));
+extern     int   wiplist ARGS(( int line1, int line2, const char *rest ));
 
 extern COMMAND  *wiploopxecute ARGS(( char **cmdline, int *ncount ));
 
-extern COMMAND  *create_macro ARGS(( Const char *macname ));
-extern    void   add_to_macro ARGS(( COMMAND *mac, Const char *cmdline ));
-extern    void   insert_macro ARGS(( COMMAND *mac, Const char *cmdline, int before ));
+extern COMMAND  *create_macro ARGS(( const char *macname ));
+extern    void   add_to_macro ARGS(( COMMAND *mac, const char *cmdline ));
+extern    void   insert_macro ARGS(( COMMAND *mac, const char *cmdline, int before ));
 extern    void   delete_macro ARGS(( COMMAND *mac, int first, int last ));
 
-/*  static  char  *domacsubs ARGS(( char *string, Const char *line, char *macarg[] )); */
-extern     int   wipmaxecute ARGS(( COMMAND *mac, int cnt, Const char *rest ));
+/*  static  char  *domacsubs ARGS(( char *string, const char *line, char *macarg[] )); */
+extern     int   wipmaxecute ARGS(( COMMAND *mac, int cnt, const char *rest ));
 
 extern    char  *wipparse ARGS(( char **line ));
-extern     int   wipcountwords ARGS(( Const char *line ));
+extern     int   wipcountwords ARGS(( const char *line ));
 extern    void   wiplower ARGS(( char *line ));
 extern    void   wipupper ARGS(( char *line ));
-extern    char  *wipleading ARGS(( Const char *line ));
+extern    char  *wipleading ARGS(( const char *line ));
 extern     int   wiplenc ARGS(( char *line ));
-extern    char  *wipnewstring ARGS(( Const char *string ));
+extern    char  *wipnewstring ARGS(( const char *string ));
 extern     int   wiparguments ARGS(( char **rest, int numarg, double arg[] ));
 
-extern     int   wipreadinput ARGS(( Const char *rest ));
-extern     int   wipwritemac ARGS(( Const char *file, Const char *macs ));
-extern     int   wipplayback ARGS(( Const char *rest ));
-extern     int   wipreadmac ARGS(( Const char *rest ));
-extern     int   wipmacroinput ARGS(( Const char *file ));
+extern     int   wipreadinput ARGS(( const char *rest ));
+extern     int   wipwritemac ARGS(( const char *file, const char *macs ));
+extern     int   wipplayback ARGS(( const char *rest ));
+extern     int   wipreadmac ARGS(( const char *rest ));
+extern     int   wipmacroinput ARGS(( const char *file ));
 
 
 /* Code in wip/fit */
@@ -113,7 +113,7 @@ extern     int   wipmacroinput ARGS(( Const char *file ));
 /*  static float getfit ARGS(( float xval )); */
 extern    void   wipplotfit ARGS(( float x1, float x2, float step, float x[], int nx ));
 extern    void   wipfitrange ARGS(( float x1, float x2, float y1, float y2 ));
-extern     int   wipfit ARGS(( Const char *rest, int nxy, float x[], \
+extern     int   wipfit ARGS(( const char *rest, int nxy, float x[], \
       float y[], int ns, float sig[] ));
 
 /*  static void fgauss ARGS(( float x, float a[], float *y, float dyda[], \
@@ -169,9 +169,9 @@ extern    void   wiprange ARGS(( int nx, float x[], float *xmin, float *xmax ));
 extern     int   wiperrorbar ARGS(( int locat, float x[], float y[], float err[], int nxy ));
 
 extern    void   wipcursor ARGS(( float *cx, float *cy, LOGICAL keep ));
-extern    void   wipfixcurs ARGS(( Const char *cmd, char *rest, LOGICAL keep ));
+extern    void   wipfixcurs ARGS(( const char *cmd, char *rest, LOGICAL keep ));
 
-extern     int   wipdevice ARGS(( Const char *devicename ));
+extern     int   wipdevice ARGS(( const char *devicename ));
 extern    void   wipclose ARGS(( void ));
 
 extern    void   wipheq ARGS(( int nx, int ny, float **image,  \
@@ -184,12 +184,12 @@ extern     int   wipbar ARGS(( int npts, float x[], float y[], int nc, float col
 extern   float   wipimval ARGS(( float **image, int nx, int ny, float cx, float cy, float tr[], LOGICAL *error ));
 extern    char  *wipradecfmt ARGS(( float position ));
 
-extern    char  *wipinquire ARGS(( Const char *item ));
+extern    char  *wipinquire ARGS(( const char *item ));
 extern     int   wipishard ARGS(( void ));
 
 extern     int   wiplevels ARGS(( char *rest, float level[], int maxlev ));
 extern     int   wipautolevs ARGS(( char *rest, float level[], int maxlev, float min, float max ));
-extern     int   wipscalevels ARGS(( Const char *stype, float slev, float pmin, float pmax, float levels[], int nlev ));
+extern     int   wipscalevels ARGS(( const char *stype, float slev, float pmin, float pmax, float levels[], int nlev ));
 
 extern   float  *vector ARGS(( int nx ));
 extern   float **matrix ARGS(( int offx, int nx, int offy, int ny ));
@@ -204,12 +204,12 @@ extern    void   wippalette ARGS(( int which, int levels ));
 
 extern    void   wippanel ARGS(( int nx, int ny, int k ));
 
-extern     int   wipphard ARGS(( Const char *device, Const char *rest ));
+extern     int   wipphard ARGS(( const char *device, const char *rest ));
 
 extern     int   wippoints ARGS(( int nstyle, float style[], int nxy, float x[], float y[], int nc, float c[] ));
 
-extern    void   wipputlabel ARGS(( Const char *line, double justify ));
-extern    char  *fixputlabel ARGS(( Const char *cmdname, char *rest, LOGICAL save ));
+extern    void   wipputlabel ARGS(( const char *line, double justify ));
+extern    char  *fixputlabel ARGS(( const char *cmdname, char *rest, LOGICAL save ));
 extern     int   wipmtext ARGS(( char *side, float disp, float coord, float just, char *line ));
 
 extern     int   wipquarter ARGS(( int quadrant ));
@@ -245,7 +245,7 @@ extern    void   wipgetcir ARGS(( int *cmin, int *cmax ));
 extern     int   wipDebugMode ARGS(( void ));
 
 
-extern    void   wipshow ARGS(( Const char *rest ));
+extern    void   wipshow ARGS(( const char *rest ));
 extern    char  *wipfpfmt ARGS(( float arg, int nsig ));
 extern    char  *wipifmt ARGS(( float arg ));
 
@@ -261,23 +261,23 @@ extern    void   wipsetQuiet ARGS(( int quiet ));
 extern    void   wipbegin ARGS(( int disable, int justread ));
 extern    void   wipexit ARGS(( int status ));
 #ifndef NOVARARGS
-extern    void   wipoutput ARGS(( FILE *fp, Const char *fmt, ... ));
+extern    void   wipoutput ARGS(( FILE *fp, const char *fmt, ... ));
 #else
 #define wipoutput (void)fprintf
 #endif /* !NOVARARGS */
-extern     int   wipinput ARGS(( FILE *fp, Const char *prompt, char *line, size_t maxsize ));
+extern     int   wipinput ARGS(( FILE *fp, const char *prompt, char *line, size_t maxsize ));
 
 extern   float   wiprand ARGS(( long int *seed ));
 extern   float   wipgaussdev ARGS(( long int *seed ));
 
 extern    void   wiplines ARGS(( int first, int last ));
 extern    void   wipgetlines ARGS(( int *first, int *last ));
-extern     int   wipopenfile ARGS(( Const char *file ));
+extern     int   wipopenfile ARGS(( const char *file ));
 extern     int   wipreadcol ARGS(( float array[], int maxsize, int ncol ));
 extern    char  *wipreadstr ARGS(( int first, int second ));
 
-extern     int   wipspool ARGS(( Const char *spoolfile ));
-extern     int   wipcommand ARGS(( Const char *command ));
+extern     int   wipspool ARGS(( const char *spoolfile ));
+extern     int   wipcommand ARGS(( const char *command ));
 
 /*** Defined in image.h ***
 extern    void   unpack16_c ARGS(( char *in, int *out, int n ));
@@ -289,54 +289,54 @@ extern    void   unpackd_c ARGS(( char *in, double *out, int n ));
 
 /* Code in wip/variables */
 
-/*  static   int   wipisop ARGS(( Const char *inword )); */
-/*  static double  wipdoop ARGS(( Const char *op, double arg1, double arg2, LOGICAL *error )); */
-/*  static   int   wipisfunction ARGS(( Const char *inword )); */
-/*  static double  wipdofunc ARGS(( Const char *inword, double arg, LOGICAL *error )); */
-extern     int   wipisnumber ARGS(( Const char *inword, double *retval ));
-extern    void   wipecho ARGS(( Const char *input ));
-extern     int   wipsetuser ARGS(( Const char *input ));
-extern    char  *wipgettoken ARGS(( char *out, Const char *in, char **next ));
-extern     int   wiptokenexists ARGS(( Const char *inword ));
-extern  double   wipevaluate ARGS(( Const char *inword, LOGICAL *error ));
-extern    char  *wipbracextract ARGS(( Const char *inword, char **left ));
+/*  static   int   wipisop ARGS(( const char *inword )); */
+/*  static double  wipdoop ARGS(( const char *op, double arg1, double arg2, LOGICAL *error )); */
+/*  static   int   wipisfunction ARGS(( const char *inword )); */
+/*  static double  wipdofunc ARGS(( const char *inword, double arg, LOGICAL *error )); */
+extern     int   wipisnumber ARGS(( const char *inword, double *retval ));
+extern    void   wipecho ARGS(( const char *input ));
+extern     int   wipsetuser ARGS(( const char *input ));
+extern    char  *wipgettoken ARGS(( char *out, const char *in, char **next ));
+extern     int   wiptokenexists ARGS(( const char *inword ));
+extern  double   wipevaluate ARGS(( const char *inword, LOGICAL *error ));
+extern    char  *wipbracextract ARGS(( const char *inword, char **left ));
 
-extern     int   wipnewitem ARGS(( Const char *string ));
-extern     int   wipfreeitem ARGS(( Const char *string ));
-extern     int   wipisuserfunc ARGS(( Const char *name ));
-extern  double   wipuserfunc ARGS(( Const char *inword, double arg, LOGICAL *error ));
+extern     int   wipnewitem ARGS(( const char *string ));
+extern     int   wipfreeitem ARGS(( const char *string ));
+extern     int   wipisuserfunc ARGS(( const char *name ));
+extern  double   wipuserfunc ARGS(( const char *inword, double arg, LOGICAL *error ));
 
 extern    void   clear_stack ARGS(( void ));
 extern     int   push_stack ARGS(( double value ));
 extern     int   pop_stack ARGS(( double *value ));
 
 /*  static     int   initString ARGS(( void )); */
-/*  static WSTRINGS  *find_string ARGS(( Const char *name )); */
-extern     int   wipisstring ARGS(( Const char *name ));
-extern    char  *wipgetstring ARGS(( Const char *name ));
-extern     int   wipsetstring ARGS(( Const char *name, Const char *value ));
-extern     int   wipNewStrVar ARGS(( Const char *name ));
-extern     int   wipFreeString ARGS(( Const char *name ));
+/*  static WSTRINGS  *find_string ARGS(( const char *name )); */
+extern     int   wipisstring ARGS(( const char *name ));
+extern    char  *wipgetstring ARGS(( const char *name ));
+extern     int   wipsetstring ARGS(( const char *name, const char *value ));
+extern     int   wipNewStrVar ARGS(( const char *name ));
+extern     int   wipFreeString ARGS(( const char *name ));
 
 /*  static     int   initVariable ARGS(( void )); */
-/*  static VARIABLE *find_variable ARGS(( Const char *name )); */
-extern     int   wipisvar ARGS(( Const char *name ));
-extern  double   wipgetvar ARGS(( Const char *name, LOGICAL *error ));
-extern     int   wipsetvar ARGS(( Const char *name, double value ));
-extern     int   wipNewVariable ARGS(( Const char *name ));
-extern     int   wipFreeVariable ARGS(( Const char *name ));
+/*  static VARIABLE *find_variable ARGS(( const char *name )); */
+extern     int   wipisvar ARGS(( const char *name ));
+extern  double   wipgetvar ARGS(( const char *name, LOGICAL *error ));
+extern     int   wipsetvar ARGS(( const char *name, double value ));
+extern     int   wipNewVariable ARGS(( const char *name ));
+extern     int   wipFreeVariable ARGS(( const char *name ));
 
 /*  static     int   initVector ARGS(( void )); */
-/*  static VECTOR *find_vector ARGS(( Const char *name, int *indx )); */
-extern     int   wipisvec ARGS(( Const char *name ));
-extern  double   wipgetvec ARGS(( Const char *name, LOGICAL *error ));
-extern     int   wipsetvec ARGS(( Const char *name, double value ));
-extern   float  *wipvector ARGS(( Const char *name, int *maxsize, int *currentSize ));
-extern     int   wipvectornpts ARGS(( Const char *name, int currentSize ));
-extern     int   wipisvecfunc ARGS(( Const char *inword ));
-extern  double   wipvecfunc ARGS(( Const char *inword, Const char *arg, LOGICAL *error ));
-extern     int   wipvectorinit ARGS(( Const char *name, int npts, Const char *expression ));
-extern     int   wipNewVector ARGS(( Const char *name, int size ));
-extern     int   wipFreeVector ARGS(( Const char *name ));
+/*  static VECTOR *find_vector ARGS(( const char *name, int *indx )); */
+extern     int   wipisvec ARGS(( const char *name ));
+extern  double   wipgetvec ARGS(( const char *name, LOGICAL *error ));
+extern     int   wipsetvec ARGS(( const char *name, double value ));
+extern   float  *wipvector ARGS(( const char *name, int *maxsize, int *currentSize ));
+extern     int   wipvectornpts ARGS(( const char *name, int currentSize ));
+extern     int   wipisvecfunc ARGS(( const char *inword ));
+extern  double   wipvecfunc ARGS(( const char *inword, const char *arg, LOGICAL *error ));
+extern     int   wipvectorinit ARGS(( const char *name, int npts, const char *expression ));
+extern     int   wipNewVector ARGS(( const char *name, int size ));
+extern     int   wipFreeVector ARGS(( const char *name ));
 
 #endif /* WIP_DECLARE */

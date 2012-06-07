@@ -11,8 +11,8 @@
 		    parse the arguments.
 
 Routines:
-void wipputlabel ARGS(( Const char *line, double xjust ));
-char *fixputlabel ARGS(( Const char *commname, char *rest, LOGICAL save ));
+void wipputlabel ARGS(( const char *line, double xjust ));
+char *fixputlabel ARGS(( const char *commname, char *rest, LOGICAL save ));
 int wipmtext ARGS(( char *side, float disp, float coord, float just, char *line ));
 */
 
@@ -30,7 +30,7 @@ int wipmtext ARGS(( char *side, float disp, float coord, float just, char *line 
  *          = 0.5: centered
  *          = 0.x: 0.x*100% right justified
  */
-void wipputlabel(Const char *line, double xjust)
+void wipputlabel(const char *line, double xjust)
 {
     char newstr[STRINGSIZE];
     float xlen, ylen;
@@ -63,7 +63,7 @@ void wipputlabel(Const char *line, double xjust)
  *  the position is loaded with a "move" command.  On return, the
  *  pointer contains the string "str" preceeded by the value ABS(x).
  */
-char *fixputlabel(Const char *commname, char *rest, LOGICAL save)
+char *fixputlabel(const char *commname, char *rest, LOGICAL save)
 {
     char *par, *ptr;
     char outputstr[STRINGSIZE];

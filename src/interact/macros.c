@@ -9,9 +9,9 @@
 
 
 Routines:
-COMMAND *create_macro ARGS(( Const char *name ));
-void add_to_macro ARGS(( COMMAND *vb, Const char *macline ));
-void insert_macro ARGS(( COMMAND *vb, Const char *macline, int before ));
+COMMAND *create_macro ARGS(( const char *name ));
+void add_to_macro ARGS(( COMMAND *vb, const char *macline ));
+void insert_macro ARGS(( COMMAND *vb, const char *macline, int before ));
 void delete_macro ARGS(( COMMAND *vb, int first, int last ));
 */
 
@@ -22,7 +22,7 @@ void delete_macro ARGS(( COMMAND *vb, int first, int last ));
 
 /* Code */
 
-COMMAND *create_macro(Const char *name)
+COMMAND *create_macro(const char *name)
 {
     char *nameptr;
     COMMAND *com;
@@ -70,7 +70,7 @@ COMMAND *create_macro(Const char *name)
     return(com);
 }
 
-void add_to_macro(COMMAND *vb, Const char *macline)
+void add_to_macro(COMMAND *vb, const char *macline)
 {
     int addAtTheEnd = -1;
 
@@ -82,7 +82,7 @@ void add_to_macro(COMMAND *vb, Const char *macline)
  *  Inserts a command line "macline" in the PCMACRO "vb" just before
  *  the line number "before".
  */
-void insert_macro(COMMAND *vb, Const char *macline, int before)
+void insert_macro(COMMAND *vb, const char *macline, int before)
 {
     register int j;
     char *lineptr;

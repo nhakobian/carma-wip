@@ -17,11 +17,11 @@
          9oct00 pjt no more PROTOTYPEs
 
 Routines:
-int wipreadinput ARGS(( Const char *rest ));
-int wipwritemac ARGS(( Const char *file, Const char *macs ));
-int wipplayback ARGS(( Const char *line ));
-int wipreadmac ARGS(( Const char *rest ));
-int wipmacroinput ARGS(( Const char *filename ));
+int wipreadinput ARGS(( const char *rest ));
+int wipwritemac ARGS(( const char *file, const char *macs ));
+int wipplayback ARGS(( const char *line ));
+int wipreadmac ARGS(( const char *rest ));
+int wipmacroinput ARGS(( const char *filename ));
 */
 
 #define WIP_VOCAB
@@ -39,7 +39,7 @@ static char inpfile[MAXLEVEL][STRINGSIZE];
 /* Code */
 
 /*  Returns 0 if successful; 1 on errors. */
-int wipreadinput(Const char *rest)
+int wipreadinput(const char *rest)
 {
       char *ptr, *par;
       char string[STRINGSIZE], full[STRINGSIZE];
@@ -119,7 +119,7 @@ int wipreadinput(Const char *rest)
 }
 
 /*  Returns 0 if no error; 1 otherwise. */
-int wipwritemac(Const char *file, Const char *macs)
+int wipwritemac(const char *file, const char *macs)
 {
     char *ptr, *mac;
     char buffer[STRINGSIZE];
@@ -181,7 +181,7 @@ int wipwritemac(Const char *file, Const char *macs)
 }
 
 /*  Returns 0 if no error; 1 otherwise. */
-int wipplayback(Const char *macro)
+int wipplayback(const char *macro)
 {
     char *ptr, *mac;
     char macstr[STRINGSIZE];
@@ -208,7 +208,7 @@ int wipplayback(Const char *macro)
 }
 
 /*  Returns 0 if no error; 1 otherwise. */
-int wipreadmac(Const char *rest)
+int wipreadmac(const char *rest)
 {
     char *name;
     char *ptr, *par;
@@ -289,7 +289,7 @@ int wipreadmac(Const char *rest)
 }
 
 /*  Returns 0 if no error; 1 otherwise. */
-int wipmacroinput(Const char *filename)
+int wipmacroinput(const char *filename)
 {
     char *ptr, *par;
     char string[STRINGSIZE], full[STRINGSIZE];

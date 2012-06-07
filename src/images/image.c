@@ -37,25 +37,25 @@
  *
  * Routines:
  * static void wipimagefree ARGS(( void *image ));
- * static WIPIMAGE *getimage ARGS(( Const char *file, int plane, float blank ));
- * void *wipimage ARGS(( Const char *file, int plane, float blank ));
- * void wipimagenxy ARGS(( Const void *image, int *nx, int *ny ));
+ * static WIPIMAGE *getimage ARGS(( const char *file, int plane, float blank ));
+ * void *wipimage ARGS(( const char *file, int plane, float blank ));
+ * void wipimagenxy ARGS(( const void *image, int *nx, int *ny ));
  * void wipimageminmax ARGS(( void *image, float *min, float *max, int force ));
- * int wipimagexists ARGS(( Const void *image ));
- * float **wipimagepic ARGS(( Const void *image ));
+ * int wipimagexists ARGS(( const void *image ));
+ * float **wipimagepic ARGS(( const void *image ));
  * int wipimlogscale ARGS(( void *image, float scale ));
  * int wipimsetminmax ARGS(( void *image, float min, float max ));
- * int wipimgethead ARGS(( Const void *image, int axis, double *crval,
+ * int wipimgethead ARGS(( const void *image, int axis, double *crval,
  *   double *crpix, double *cdelt, char *ctype ));
- * int wipimctype ARGS(( Const void *image, int axis, char *ctype ));
- * char *wipimtype ARGS(( Const void *image ));
- * int wipimplane ARGS(( Const void *image ));
- * int wipimhdprsnt ARGS(( Const void *image, Const char *hdname ));
- * int wipimhdval ARGS(( Const void *image, Const char *hdname, double *retval ));
- * int wipimhdstr ARGS(( Const void *image, Const char *hdname, char *retval, size_t maxlen ));
- * void *wipimcur ARGS(( Const char *imagename ));
- * void wipimsetcur ARGS(( Const char *imagename, Const void *image ));
- * void wipfreeimage ARGS(( Const char *imagename ));
+ * int wipimctype ARGS(( const void *image, int axis, char *ctype ));
+ * char *wipimtype ARGS(( const void *image ));
+ * int wipimplane ARGS(( const void *image ));
+ * int wipimhdprsnt ARGS(( const void *image, const char *hdname ));
+ * int wipimhdval ARGS(( const void *image, const char *hdname, double *retval ));
+ * int wipimhdstr ARGS(( const void *image, const char *hdname, char *retval, size_t maxlen ));
+ * void *wipimcur ARGS(( const char *imagename ));
+ * void wipimsetcur ARGS(( const char *imagename, const void *image ));
+ * void wipfreeimage ARGS(( const char *imagename ));
  */
 
 #define WIP_IMAGE
@@ -116,7 +116,7 @@ static void wipimagefree(void *image)
  *  Fill the real array pixels[ny][nx] and the structure image.
  *  Returns a pointer to the structure if successful; NULL on error.
  */
-static WIPIMAGE *getimage(Const char *filename, int plane, float blank)
+static WIPIMAGE *getimage(const char *filename, int plane, float blank)
 {
 
     void *handle;         /* Opaque handle returned from open routine. */
@@ -243,7 +243,7 @@ static WIPIMAGE *getimage(Const char *filename, int plane, float blank)
     return(image);
 }
 
-void *wipimage(Const char *filename, int plane, float blank)
+void *wipimage(const char *filename, int plane, float blank)
 {
     char dummy[80];
     int nx, ny;
@@ -276,7 +276,7 @@ void *wipimage(Const char *filename, int plane, float blank)
 }
 
 
-void wipimagenxy(Const void *image, int *nx, int *ny)
+void wipimagenxy(const void *image, int *nx, int *ny)
 {
     WIPIMAGE *ptr;
 
@@ -317,7 +317,7 @@ void wipimageminmax(void *image, float *min, float *max, int force)
 }
 
 /*  Returns 1 if the named image exists and has data; 0 otherwise. */
-int wipimagexists(Const void *image)
+int wipimagexists(const void *image)
 {
     int doesItExist;
     WIPIMAGE *ptr;
@@ -331,7 +331,7 @@ int wipimagexists(Const void *image)
 }
 
 /*  Returns a pointer to the image data if it exists; NULL otherwise. */
-float **wipimagepic(Const void *image)
+float **wipimagepic(const void *image)
 {
     WIPIMAGE *ptr;
 
@@ -392,7 +392,7 @@ int wipimsetminmax(void *image, float min, float max)
  *  Note: ctype must be declared as large as the structure element!
  *  No test of this is done.
  */
-int wipimgethead(Const void *image, int axis, double *crval, double *crpix, double *cdelt, char *ctype)
+int wipimgethead(const void *image, int axis, double *crval, double *crpix, double *cdelt, char *ctype)
 {
     WIPIMAGE *ptr;
 
@@ -421,7 +421,7 @@ int wipimgethead(Const void *image, int axis, double *crval, double *crpix, doub
  *  routine assumes that the size of the string pointed to by "ctype"
  *  is large enough to hold the information.
  */
-int wipimctype(Const void *image, int axis, char *ctype)
+int wipimctype(const void *image, int axis, char *ctype)
 {
     WIPIMAGE *ptr;
 
@@ -441,7 +441,7 @@ int wipimctype(Const void *image, int axis, char *ctype)
 }
 
 /* Returns NULL if no image; otherwise pointer to name of image type loaded. */
-char *wipimtype(Const void *image)
+char *wipimtype(const void *image)
 {
     WIPIMAGE *ptr;
 
@@ -455,7 +455,7 @@ char *wipimtype(Const void *image)
 }
 
 /* Returns 0 if no image is present; current plane number otherwise. */
-int wipimplane(Const void *image)
+int wipimplane(const void *image)
 {
     WIPIMAGE *ptr;
 
@@ -469,7 +469,7 @@ int wipimplane(Const void *image)
 }
 
 /* Returns 1 if header name is present; 0 otherwise. */
-int wipimhdprsnt(Const void *image, Const char *hdname)
+int wipimhdprsnt(const void *image, const char *hdname)
 {
     IMFORMAT *fmt;
     WIPIMAGE *ptr;
@@ -489,7 +489,7 @@ int wipimhdprsnt(Const void *image, Const char *hdname)
 }
 
 /* Returns 0 and header value if image is present; 1 otherwise (error). */
-int wipimhdval(Const void *image, Const char *hdname, double *retval)
+int wipimhdval(const void *image, const char *hdname, double *retval)
 {
     IMFORMAT *fmt;
     WIPIMAGE *ptr;
@@ -513,7 +513,7 @@ int wipimhdval(Const void *image, Const char *hdname, double *retval)
 /*
  *  Returns the length of the requested string header if "image" is present
  *  and the header item exists; 0 otherwise (error). */
-int wipimhdstr(Const void *image, Const char *hdname, char *retval, size_t maxlen)
+int wipimhdstr(const void *image, const char *hdname, char *retval, size_t maxlen)
 {
     int retlen;
     IMFORMAT *fmt;
@@ -537,7 +537,7 @@ int wipimhdstr(Const void *image, Const char *hdname, char *retval, size_t maxle
 }
 
 /* Returns NULL if imagename is not present; opaque pointer otherwise. */
-void *wipimcur(Const char *imagename)
+void *wipimcur(const char *imagename)
 {
     char string[STRINGSIZE];
     IMSTACK *ptr;
@@ -553,7 +553,7 @@ void *wipimcur(Const char *imagename)
     return( ((ptr == (IMSTACK *)NULL) ? (void *)NULL : ptr->image) );
 }
 
-void wipimsetcur(Const char *imagename, Const void *image)
+void wipimsetcur(const char *imagename, const void *image)
 {
     char string[STRINGSIZE];
     IMSTACK *ptr, *new, *last;
@@ -583,7 +583,7 @@ void wipimsetcur(Const char *imagename, Const void *image)
     return;
 }
 
-void wipfreeimage(Const char *imagename)
+void wipfreeimage(const char *imagename)
 {
     char string[STRINGSIZE];
     IMSTACK *ptr, *last;

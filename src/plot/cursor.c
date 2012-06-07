@@ -8,7 +8,7 @@
 
 Routines:
 void wipcursor ARGS(( float *cx, float *cy, LOGICAL keep ));
-void wipfixcurs ARGS(( Const char *cmdname, char *rest, LOGICAL keep ));
+void wipfixcurs ARGS(( const char *cmdname, char *rest, LOGICAL keep ));
 */
 
 #define WIP_VOCAB
@@ -146,7 +146,7 @@ EOLOOP:
       return;
 }
 
-void wipfixcurs(Const char *cmdname, char *rest, LOGICAL keep)
+void wipfixcurs(const char *cmdname, char *rest, LOGICAL keep)
 {
       char *par, *ptr;
       char save[STRINGSIZE];

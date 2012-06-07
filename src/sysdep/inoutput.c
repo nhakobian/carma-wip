@@ -22,8 +22,8 @@ Routines:
 void wipsetQuiet ARGS(( int quiet ));
 void wipbegin ARGS(( int disable, int justread ));
 void wipexit ARGS(( int status ));
-void wipoutput ARGS(( FILE *fp, Const char *fmt, ... ));
-int  wipinput ARGS((FILE *file, Const char *prompt, char *line, size_t maxlen));
+void wipoutput ARGS(( FILE *fp, const char *fmt, ... ));
+int  wipinput ARGS((FILE *file, const char *prompt, char *line, size_t maxlen));
 */
 
 #include "wip.h"
@@ -98,7 +98,7 @@ void wipexit(int status)
 
 #ifndef NOVARARGS
 /*VARARGS2*/
-void wipoutput(FILE *fp, Const char *fmt, ...)
+void wipoutput(FILE *fp, const char *fmt, ...)
 {
     va_list ap;
 
@@ -135,7 +135,7 @@ void wipoutput(FILE *fp, Const char *fmt, ...)
  *  Returns EOF (see <stdio.h>) at the end of file, NULL for an empty
  *  input line, or the number of characters read.
  */
-int wipinput(FILE *file, Const char *prompt, char *line, size_t maxchar)
+int wipinput(FILE *file, const char *prompt, char *line, size_t maxchar)
 {
     size_t nch;
     LOGICAL promptExists;

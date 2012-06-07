@@ -9,7 +9,7 @@
 
 
 Routines:
-COMMAND *find_command ARGS(( COMMAND *first, Const char *inname, int exact ));
+COMMAND *find_command ARGS(( COMMAND *first, const char *inname, int exact ));
 COMMAND *wipinterpret ARGS(( char **line ));
 */
 
@@ -29,10 +29,10 @@ COMMAND *wipinterpret ARGS(( char **line ));
  *  to a COMMAND pointer is returned.  A pointer to NULL is returned
  *  on any error.
  */
-COMMAND *find_command(COMMAND *first, Const char *inname, int exact)
+COMMAND *find_command(COMMAND *first, const char *inname, int exact)
 {
     char *ptr;
-    Const char *endstr = "end";
+    const char *endstr = "end";
     int numberOfChoices;
     size_t lenpar;
     COMMAND *ret;
