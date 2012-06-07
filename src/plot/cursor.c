@@ -21,7 +21,7 @@ void wipfixcurs ARGS(( Const char *cmdname, char *rest, LOGICAL keep ));
 /* Interactive cursor routine. */
 void wipcursor(float *cx, float *cy, LOGICAL keep)
 {
-      Void *curimage;
+      void *curimage;
       char ch[2];
       char full[80];
       int firstime;

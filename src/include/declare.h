@@ -29,27 +29,27 @@ extern     int   wipinit ARGS(( void ));
 
 extern    void   wipextrema ARGS(( float **image, int nx, int ny, float *min, float *max ));
 
-/*  static  void   wipimagefree ARGS(( Void *image )); */
+/*  static  void   wipimagefree ARGS(( void *image )); */
 /*  static WIPIMAGE *getimage ARGS(( Const char *file, int plane, float blank )); */
-extern    Void  *wipimage ARGS(( Const char *file, int plane, float blank ));
-extern    void   wipimagenxy ARGS(( Const Void *image, int *nx, int *ny ));
-extern    void   wipimageminmax ARGS(( Void *image, float *min, float *max, int force ));
-extern     int   wipimagexists ARGS(( Const Void *image ));
-extern   float **wipimagepic ARGS(( Const Void *image ));
-extern     int   wipimlogscale ARGS(( Void *image, float scale ));
-extern     int   wipimsetminmax ARGS(( Void *image, float min, float max ));
-extern     int   wipimgethead ARGS(( Const Void *image, int axis, double *crval, double *crpix, double *cdelt, char *ctype ));
-extern     int   wipimctype ARGS(( Const Void *image, int axis, char *ctype ));
-extern    char  *wipimtype ARGS(( Const Void *image ));
-extern     int   wipimplane ARGS(( Const Void *image ));
-extern     int   wipimhdprsnt ARGS(( Const Void *image, Const char *hdname ));
-extern     int   wipimhdval ARGS(( Const Void *image, Const char *hdname, double *retval ));
-extern     int   wipimhdstr ARGS(( Const Void *image, Const char *hdname, char *retval, size_t maxlen ));
-extern    Void  *wipimcur ARGS(( Const char *imagename ));
-extern    void   wipimsetcur ARGS(( Const char *imagename, Const Void *image ));
+extern    void  *wipimage ARGS(( Const char *file, int plane, float blank ));
+extern    void   wipimagenxy ARGS(( Const void *image, int *nx, int *ny ));
+extern    void   wipimageminmax ARGS(( void *image, float *min, float *max, int force ));
+extern     int   wipimagexists ARGS(( Const void *image ));
+extern   float **wipimagepic ARGS(( Const void *image ));
+extern     int   wipimlogscale ARGS(( void *image, float scale ));
+extern     int   wipimsetminmax ARGS(( void *image, float min, float max ));
+extern     int   wipimgethead ARGS(( Const void *image, int axis, double *crval, double *crpix, double *cdelt, char *ctype ));
+extern     int   wipimctype ARGS(( Const void *image, int axis, char *ctype ));
+extern    char  *wipimtype ARGS(( Const void *image ));
+extern     int   wipimplane ARGS(( Const void *image ));
+extern     int   wipimhdprsnt ARGS(( Const void *image, Const char *hdname ));
+extern     int   wipimhdval ARGS(( Const void *image, Const char *hdname, double *retval ));
+extern     int   wipimhdstr ARGS(( Const void *image, Const char *hdname, char *retval, size_t maxlen ));
+extern    void  *wipimcur ARGS(( Const char *imagename ));
+extern    void   wipimsetcur ARGS(( Const char *imagename, Const void *image ));
 extern    void   wipfreeimage ARGS(( Const char *imagename ));
 
-/* static  int   wipheadlim ARGS(( Const Void *image, Const char *xtype,
+/* static  int   wipheadlim ARGS(( Const void *image, Const char *xtype,
 Const char *ytype, float *xscale, float *xoff, float *yscale, float *yoff )); */
 
 extern     int   wipheader ARGS(( int blcx, int blcy, int trcx, int trcy, Const char *xtype, Const char *ytype ));

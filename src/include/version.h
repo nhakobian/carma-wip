@@ -9,7 +9,7 @@
 	1.6 01oct92 Continued structure change and manual upgrade.
 	1.7 10nov93 Minor modification to clean up compiler warnings and
 		    add checks against empty data files.  Added Gaussian
-		    fitting and logarithm command.  Added Void opaque
+		    fitting and logarithm command.  Added void opaque
 		    pointer and ANSI-fied driver code.  Added READLINE
 		    ability.  Reorganized image include section.  Also
 		    updated the manual.

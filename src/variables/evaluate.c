@@ -403,7 +403,7 @@ void wipecho(Const char *input)
  */
 int wipsetuser(Const char *rest)
 {
-    Void *curimage;                  /* Pointer to current image item. */
+    void *curimage;                  /* Pointer to current image item. */
     char *ptr, *token, *next;
     char tokenstring[STRINGSIZE];        /* Storage for current token. */
     char word[BUFSIZ];                  /* Local copy of input string. */
@@ -595,7 +595,7 @@ int wiptokenexists(Const char *inword)
 
 double wipevaluate(Const char *inword, LOGICAL *error)
 {
-    Void *curimage;                     /* Pointer to current image item. */
+    void *curimage;                     /* Pointer to current image item. */
     char *par, *ptr, *op, *next;
     char *openbrace, *closebrace;
     char opstring[50];            /* Storage for binary operation string. */

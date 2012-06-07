@@ -27,7 +27,7 @@ char *wipifmt ARGS(( float arg ));
 /* Presents some general information to the user. */
 void wipshow(Const char *rest)
 {
-    Void *curimage;
+    void *curimage;
     char *ptr, *fmt;
     char user[4];                    /* Storage for storage register name. */
     char format[STRINGSIZE];             /* Local storage for rest string. */

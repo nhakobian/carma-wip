@@ -12,12 +12,12 @@
  *		  I have expanded the input pixel range by 0.5 at each edge.
  *    15aug92 jm  Modified to return status int, increased error checking,
  *		  and cleaned up code a bit.
- *    10nov93 jm  Modified declarations to usage of Void.
+ *    10nov93 jm  Modified declarations to usage of void.
  *    12dec94 jm  Merged wipheadlim() and wipheader() into one file
  *		  making the former static since only the later calls it.
  *
  * Routines:
- * static int wipheadlim ARGS(( Const Void *image, Const char *xtype,
+ * static int wipheadlim ARGS(( Const void *image, Const char *xtype,
  *  Const char *ytype, float *xscale, float *xoff, float *yscale, float *yoff));
  * int wipheader ARGS(( int blcx, int blcy, int trcx, int trcy,
  *  Const char *xtype, Const char *ytype ));
@@ -49,7 +49,7 @@ static struct {
  *  Returns scale and offset values for the currently defined "image".
  *  Returns 0 if successful; 1 on error.
  */
-static int wipheadlim(Const Void *image, Const char *xtype, Const char *ytype,
+static int wipheadlim(Const void *image, Const char *xtype, Const char *ytype,
   float *xscale, float *xoff, float *yscale, float *yoff)
 {
     char *ptr;
@@ -220,7 +220,7 @@ MISTAKE:
 /* Returns 1 if error occured; 0 if no error. */
 int wipheader(int blcx, int blcy, int trcx, int trcy, Const char *xtype, Const char *ytype)
 {
-    Void *curimage;
+    void *curimage;
     float xscale, xoff, yscale, yoff;
     float xmin, xmax, ymin, ymax;
     float tr[6];

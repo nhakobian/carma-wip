@@ -19,7 +19,7 @@ int wipquarter ARGS(( int quadrant ));
 /* Returns 0 on success; 1 on error. */
 int wipquarter(int quadrant)
 {
-    Void *curimage;
+    void *curimage;
     int nx, ny;
     int x1, x2, y1, y2;
 

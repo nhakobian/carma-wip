@@ -22,7 +22,7 @@
 #define Strchr       strchr
 #define Strstr       strstr
 
-#define Free(x)      (void)free((Void *)(x))
+#define Free(x)      (void)free((void *)(x))
 #define Malloc       malloc
 
 #define Fopen        fopen
