@@ -1,6 +1,7 @@
 # Updated makefile to make it more readable.
 
-SRC_BRANCH    = execute.c process.c wipinit.c wipmain.c
+SRC_MAIN      = src/branch/wipmain.c
+SRC_BRANCH    = execute.c process.c wipinit.c
 SRC_DRIVERS   = basic.c fits.c miriad.c
 SRC_FIT       = fit.c gaussfit.c lsqfit.c medfit.c polyfit.c
 SRC_IMAGES    = extrema.c header.c heq.c image.c smooth.c
@@ -36,9 +37,16 @@ all: wip
 .c.o :
 	$(CC) $(OPTS) $(CFLAGS) $(INC) -DHELPFILE=$(HELP) -c $< -o $*.o
 
-wip: $(OBJ)
-	$(CC) $(CFLAGS) -o wip $(OBJ) -L$(MIRLIB) -Wl,-rpath,$(MIRLIB) \
-	   -L/usr/X11R6/lib -lcpgplot -lpgplot -lX11 -lgcc -ldl -lm -lreadline
+libwip: $(OBJ)
+	$(CC) $(CFLAGS) -shared -Wl,-soname,libwip.so -o libwip.so \
+	   $(OBJ) -lcpgplot -lpgplot -lreadline -L$(MIRLIB) \
+	   -Wl,-rpath,$(MIRLIB)
+
+wip: libwip
+	$(CC) $(CFLAGS) $(INC) -o wip $(SRC_MAIN) -L$(MIRLIB) \
+	   -Wl,-rpath,$(MIRLIB) -Wl,-rpath,$(CURDIR) -L. \
+	   -L/usr/X11R6/lib -lcpgplot -lpgplot \
+	   -lreadline -lwip
 
 pwip: $(OBJ)
 	cd pWip; /usr/bin/swig -python wip.i
@@ -46,7 +54,9 @@ pwip: $(OBJ)
 	ld -rpath $(MIRLIB) -L$(MIRLIB) -lreadline -lcpgplot -lpgplot -shared -o pWip/_wip.so $(OBJ) pWip/wip_wrap.o
 
 clean:
-	rm -f libwip.a *.o wip
+	rm -f libwip.so *.o wip
 	rm -f src/*/*.o
 	rm -f pWip/wip.py pWip/wip.pyc pWip/_wip.so pWip/wip_wrap.c \
 	   pWip/wip_wrap.o
+	rm -f .wiphistory
+
