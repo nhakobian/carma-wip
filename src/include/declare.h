@@ -272,8 +272,6 @@ extern   float   wipgaussdev ARGS(( long int *seed ));
 
 extern    void   wiplines ARGS(( int first, int last ));
 extern    void   wipgetlines ARGS(( int *first, int *last ));
-extern    void   wipdatarray ARGS(( int nrow, int ncol ));
-extern    void   wipinternaldata ARGS(( void ));
 extern     int   wipopenfile ARGS(( Const char *file ));
 extern     int   wipreadcol ARGS(( float array[], int maxsize, int ncol ));
 extern    char  *wipreadstr ARGS(( int first, int second ));
