@@ -7,8 +7,8 @@
         12dec94 jm  Transfer function is now done by reset call.
 
 Routines:
-int wipdevice ARGS(( const char *rest ));
-void wipclose ARGS(( void ));
+ int wipdevice(const char *rest);
+void wipclose(void);
 */
 
 #include "wip.h"

@@ -13,9 +13,9 @@
 	24apr96 jm  Modified to use wipgetcir.
 
 Routines:
-void wipshow ARGS(( const char *rest ));
-char *wipfpfmt ARGS(( float arg, int nfig ));
-char *wipifmt ARGS(( float arg ));
+void  wipshow(const char *rest);
+char *wipfpfmt(float arg, int nfig);
+char *wipifmt(float arg);
 */
 
 #include "wip.h"

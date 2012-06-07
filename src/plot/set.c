@@ -8,31 +8,31 @@
 	13nov96 jm  Added wipDebugMode() routine.
 
 Routines:
-void wipcolor ARGS(( int color ));
-void wipexpand ARGS(( double exp ));
-void wipfill ARGS(( int fill ));
-void wipfont ARGS(( int font ));
-void wipltype ARGS(( int style ));
-void wiplw ARGS(( int width ));
-void wipsetbgci ARGS(( int color ));
-void wipsetitf ARGS(( int type ));
-void wipsetangle ARGS(( double ang ));
-void wipsetslope ARGS(( double xa, double xb, double ya, double yb ));
-void wiplimits ARGS(( void ));
-void wipgetlimits ARGS(( float *x1, float *x2, float *y1, float *y2 ));
-void wipviewport ARGS(( void ));
-void wipgetvp ARGS(( float *vx1, float *vx2, float *vy1, float *vy2 ));
-void wipsetr ARGS(( float tr[] ));
-void wipgetr ARGS(( float tr[] ));
-void wipsetsub ARGS(( int subx1, int subx2, int suby1, int suby2 ));
-void wipgetsub ARGS(( int *subx1, int *subx2, int *suby1, int *suby2 ));
-void wipsetick ARGS(( float xtick, int nxsub, float ytick, int nysub ));
-void wipgetick ARGS(( float *xtick, int *nxsub, float *ytick, int *nysub ));
-void wipsetsubmar ARGS(( float subx, float suby ));
-void wipgetsubmar ARGS(( float *subx, float *suby ));
-void wipsetcir ARGS(( int cmin, int cmax ));
-void wipgetcir ARGS(( int *cmin, int *cmax ));
-int  wipDebugMode ARGS(( void ));
+void wipcolor(int color);
+void wipexpand(double exp);
+void wipfill(int fill);
+void wipfont(int font);
+void wipltype(int style);
+void wiplw(int width);
+void wipsetbgci(int color);
+void wipsetitf(int type);
+void wipsetangle(double ang);
+void wipsetslope(double xa, double xb, double ya, double yb);
+void wiplimits(void);
+void wipgetlimits(float *x1, float *x2, float *y1, float *y2);
+void wipviewport(void);
+void wipgetvp(float *vx1, float *vx2, float *vy1, float *vy2);
+void wipsetr(float tr[]);
+void wipgetr(float tr[]);
+void wipsetsub(int subx1, int subx2, int suby1, int suby2);
+void wipgetsub(int *subx1, int *subx2, int *suby1, int *suby2);
+void wipsetick(float xtick, int nxsub, float ytick, int nysub);
+void wipgetick(float *xtick, int *nxsub, float *ytick, int *nysub);
+void wipsetsubmar(float subx, float suby);
+void wipgetsubmar(float *subx, float *suby);
+void wipsetcir(int cmin, int cmax);
+void wipgetcir(int *cmin, int *cmax);
+ int wipDebugMode(void);
 */
 
 #include "wip.h"

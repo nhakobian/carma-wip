@@ -5,7 +5,7 @@
 	24jun96 jm  Made negative third argument mean left-right-top-down.
 
 Routines:
-void wippanel ARGS(( int nx, int ny, int k ));
+void wippanel(int nx, int ny, int k);
 */
 
 #include "wip.h"

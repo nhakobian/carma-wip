@@ -6,8 +6,8 @@
 		    duration string rather than a local scope one.
 
 Routines:
-float wipimval ARGS(( float **image, int nx, int ny, float xpos, float ypos, float tr[], LOGICAL *error ));
-char *wipradecfmt ARGS(( float position ));
+float wipimval (float **image, int nx, int ny, float xpos, float ypos, float tr[], LOGICAL *error);
+char *wipradecfmt(float position);
 */
 
 #include "wip.h"

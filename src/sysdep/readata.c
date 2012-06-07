@@ -26,11 +26,11 @@
         14apr10 pjt no more prototypes
 
 Routines:
-void wiplines ARGS(( int first, int last ));
-void wipgetlines ARGS(( int *first, int *last ));
-int wipopenfile ARGS(( const char *name ));
-int wipreadcol ARGS(( float array[], int maxsize, int nc ));
-char *wipreadstr ARGS(( int first, int second ));
+void  wiplines(int first, int last);
+void  wipgetlines(int *first, int *last);
+ int  wipopenfile(const char *name);
+ int  wipreadcol(float array[], int maxsize, int nc);
+char *wipreadstr(int first, int second);
 */
 
 #include "wip.h"

@@ -5,7 +5,7 @@
 		    using a passed LOGICAL pointer.
 
 Routines:
-int wipscale ARGS(( float scalex, float scaley, int k ));
+int wipscale(float scalex, float scaley, int k);
 */
 
 #include "wip.h"

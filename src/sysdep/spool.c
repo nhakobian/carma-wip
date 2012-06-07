@@ -8,8 +8,8 @@
 	 9oct00 pjt no more PROTOTYPEs
 
 Routines:
-int wipspool ARGS(( const char *file ));
-int wipcommand ARGS(( const char *command ));
+int wipspool(const char *file);
+int wipcommand(const char *command);
 */
 
 #include "wip.h"

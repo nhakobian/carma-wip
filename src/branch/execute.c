@@ -35,7 +35,7 @@
 
 
 Routines:
-int wipexecute ARGS(( const char *commandname, char *line ));
+int wipexecute(const char *commandname, char *line);
 */
 
 #include "wip.h"

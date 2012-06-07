@@ -11,9 +11,9 @@
 		    parse the arguments.
 
 Routines:
-void wipputlabel ARGS(( const char *line, double xjust ));
-char *fixputlabel ARGS(( const char *commname, char *rest, LOGICAL save ));
-int wipmtext ARGS(( char *side, float disp, float coord, float just, char *line ));
+void  wipputlabel(const char *line, double xjust);
+char *fixputlabel(const char *commname, char *rest, LOGICAL save);
+ int  wipmtext(char *side, float disp, float coord, float just, char *line);
 */
 
 #define WIP_VOCAB

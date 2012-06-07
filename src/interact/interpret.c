@@ -9,8 +9,8 @@
 
 
 Routines:
-COMMAND *find_command ARGS(( COMMAND *first, const char *inname, int exact ));
-COMMAND *wipinterpret ARGS(( char **line ));
+COMMAND *find_command(COMMAND *first, const char *inname, int exact);
+COMMAND *wipinterpret(char **line);
 */
 
 #define WIP_VOCAB

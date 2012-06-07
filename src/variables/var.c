@@ -14,13 +14,13 @@
          9oct00 pjt no more PROTOTYPE
 
 Routines:
-static int initVariable ARGS(( void ));
-static VARIABLE *find_variable ARGS(( const char *inname ));
-int wipisvar ARGS(( const char *name ));
-double wipgetvar ARGS(( const char *inword, LOGICAL *error ));
-int wipsetvar ARGS(( const char *inword, double value ));
-int wipNewVariable ARGS(( const char *name ));
-int wipFreeVariable ARGS(( const char *name ));
+static      int  initVariable(void);
+static VARIABLE *find_variable(const char *inname);
+            int  wipisvar(const char *name);
+         double  wipgetvar(const char *inword, LOGICAL *error);
+            int  wipsetvar(const char *inword, double value);
+            int  wipNewVariable(const char *name);
+            int  wipFreeVariable(const char *name);
 */
 
 #define WIP_VARIABLES

@@ -7,9 +7,9 @@
 		     of the bar and to also specify the "width" of a bar.
 
 Routines:
-int wiphline ARGS((int npts, float x[], float y[], float gap, int center));
-int wipbar ARGS((int nxy, float x[], float y[], int nc, float col[], int loc,
-  int dolimit, float barlimit, float barwidth));
+int wiphline(int npts, float x[], float y[], float gap, int center);
+int wipbar(int nxy, float x[], float y[], int nc, float col[], int loc, \
+           int dolimit, float barlimit, float barwidth);
 */
 
 #include "wip.h"

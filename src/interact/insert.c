@@ -8,11 +8,11 @@
 
 
 Routines:
-void wipsaveline ARGS(( COMMAND *macro, const char *line ));
-COMMAND *wipstartins ARGS(( char *string ));
-void wipinsert ARGS(( COMMAND *command, const char *string ));
-int wipdelete ARGS(( char *string ));
-COMMAND *wipstartmac ARGS(( const char *string ));
+   void  wipsaveline(COMMAND *macro, const char *line);
+COMMAND *wipstartins(char *string);
+   void  wipinsert(COMMAND *command, const char *string);
+    int  wipdelete(char *string);
+COMMAND *wipstartmac(const char *string);
 */
 
 #define WIP_VOCAB

@@ -24,8 +24,8 @@
 
 
 Routines:
-static void usage ARGS(( const char *filename ));
-void main ARGS(( int argc, char *argv[] ));
+static void usage(const char *filename);
+       void main(int argc, char *argv[]);
 */
 
 #include "version.h"

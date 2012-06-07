@@ -9,10 +9,10 @@
 
 
 Routines:
-COMMAND *create_macro ARGS(( const char *name ));
-void add_to_macro ARGS(( COMMAND *vb, const char *macline ));
-void insert_macro ARGS(( COMMAND *vb, const char *macline, int before ));
-void delete_macro ARGS(( COMMAND *vb, int first, int last ));
+COMMAND *create_macro(const char *name);
+   void  add_to_macro(COMMAND *vb, const char *macline);
+   void  insert_macro(COMMAND *vb, const char *macline, int before);
+   void  delete_macro(COMMAND *vb, int first, int last);
 */
 
 #define WIP_VOCAB

@@ -3,9 +3,9 @@
 	10apr91 jm  Original code.
 
 Routines:
-void wipmove ARGS(( float x, float y ));
-void wipdraw ARGS(( float x, float y ));
-void wipgetcxy ARGS(( float *cx, float *cy ));
+void wipmove(float x, float y);
+void wipdraw(float x, float y);
+void wipgetcxy(float *cx, float *cy);
 */
 
 #include "wip.h"

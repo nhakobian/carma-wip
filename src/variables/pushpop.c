@@ -5,9 +5,9 @@
          9oct00 pjt no more PROTOTYPE
 
 Routines:
-void clear_stack ARGS(( void ));
-int push_stack ARGS(( double value ));
-int pop_stack ARGS(( double *value ));
+void clear_stack(void);
+ int push_stack(double value);
+ int pop_stack(double *value);
 */
 
 #include "wip.h"

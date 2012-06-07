@@ -5,8 +5,8 @@
 		    flag.  Now, a return of NULL means an error.
 
 Routines:
-char *wipinquire ARGS(( const char *item ));
-int wipishard ARGS(( void ));
+char *wipinquire(const char *item);
+ int  wipishard(void);
 */
 
 #include "wip.h"

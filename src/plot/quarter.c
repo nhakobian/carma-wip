@@ -7,7 +7,7 @@
 	10nov93 jm  Modified image variable to new opaque pointer type.
 
 Routines:
-int wipquarter ARGS(( int quadrant ));
+int wipquarter(int quadrant);
 */
 
 #include "wip.h"

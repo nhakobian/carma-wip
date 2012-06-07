@@ -27,23 +27,23 @@
   In other words, get your own book!
 
 Routines:
-static void fgauss ARGS(( float x, float a[], float *y, float dyda[], int na ));
-static void mrqcof ARGS(( float x[], float y[], float sig[], int ndata, \
-  float a[], int ia[], int ma, float **alpha, float beta[], float *chisq, \
-  void (*funcs) ARGS(( float, float [], float *, float [], int )) ));
-static int gaussj ARGS(( float **a, int n, float **b, int m ));
-static void covsrt ARGS(( float **covar, int ma, int ia[], int mfit ));
-static int mrqmin ARGS(( float x[], float y[], float sig[], int ndata, \
-  float a[], int ia[], int ma, float **covar, float **alpha, float *chisq, \
-  void (*funcs) ARGS(( float, float [], float *, float [], int )), \
-  float *alamda ));
-static int gaussfit ARGS(( float x[], float y[], int ndata, \
-  float sig[], int nsig, float a[], int ia[], int ma, float *chisq ));
-static int moment ARGS(( float x[], float y[], int n, float *amp, \
-  float *xmean, float *sdev ));
-
-int wipgaussfit ARGS(( char *rest, float x[], float y[], int nxy, \
-  float sig[], int nsig, int ngauss, float terms[] ));
+static void fgauss(float x, float a[], float *y, float dyda[], int na);
+static void mrqcof(float x[], float y[], float sig[], int ndata, \
+                    float a[], int ia[], int ma, float **alpha, float beta[], \
+                    float *chisq, void (*funcs) (float, float [], \
+                    float *, float [], int));
+static  int gaussj(float **a, int n, float **b, int m);
+static void covsrt(float **covar, int ma, int ia[], int mfit);
+static  int mrqmin(float x[], float y[], float sig[], int ndata, float a[], \
+                   int ia[], int ma, float **covar, float **alpha, \
+                   float *chisq, void (*funcs) (float, float [], float *, \
+                   float [], int), float *alamda);
+static  int gaussfit(float x[], float y[], int ndata, float sig[], int nsig, \
+                     float a[], int ia[], int ma, float *chisq);
+static  int moment(float x[], float y[], int n, float *amp, float *xmean, \
+                   float *sdev);
+        int wipgaussfit(char *rest, float x[], float y[], int nxy, \
+                        float sig[], int nsig, int ngauss, float terms[]);
 */
 
 /*   undef this if you *must* be in the old incompatible mode */

@@ -25,13 +25,13 @@
   In other words, get your own book!
 
 Routines:
-static double gammln ARGS(( float x ));
-static float gcf ARGS(( float a, float x ));
-static float gser ARGS(( float a, float x ));
-static float gammq ARGS(( float a, float x ));
+static double gammln(float x);
+static  float gcf(float a, float x);
+static  float gser(float a, float x);
+static  float gammq(float a, float x);
 
-int lsqfit ARGS(( float x[], float y[], int ndata, float sig[], int mwt,\
-  float *a, float *b, float *siga, float *sigb, float *chi2, float *q ));
+int lsqfit(float x[], float y[], int ndata, float sig[], int mwt, float *a, \
+           float *b, float *siga, float *sigb, float *chi2, float *q);
 */
 
 #include "wip.h"

@@ -15,10 +15,10 @@
         13nov96 jm  Changed default action of label to draw a basic box.
 
 Routines:
-static int wipPwedge ARGS(( char *cside, float disp, float thick,
-			    float bg, float fg, char *label ));
-int wipwedge ARGS(( char *side, float disp, float thick,
-		    float bg, float fg, char *label ));
+static int wipPwedge(char *cside, float disp, float thick, float bg, float fg,\
+                     char *label);
+       int wipwedge(char *side, float disp, float thick, float bg, float fg, \
+                    char *label);
 */
 
 #include "wip.h"

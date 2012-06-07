@@ -3,8 +3,8 @@
 	02jul96 jm  Original code adopted from Numerical Recipies.
 
 Routines:
-float wiprand ARGS(( long int *seed ));
-float wipgaussdev ARGS(( long int *seed ));
+float wiprand(long int *seed);
+float wipgaussdev(long int *seed);
 */
 
 #include <wip.h>

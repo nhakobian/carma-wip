@@ -7,8 +7,8 @@
 	12oct95 jm  Modified fix routine to call wipgetcxy.
 
 Routines:
-void wipcursor ARGS(( float *cx, float *cy, LOGICAL keep ));
-void wipfixcurs ARGS(( const char *cmdname, char *rest, LOGICAL keep ));
+void wipcursor(float *cx, float *cy, LOGICAL keep);
+void wipfixcurs(const char *cmdname, char *rest, LOGICAL keep);
 */
 
 #define WIP_VOCAB

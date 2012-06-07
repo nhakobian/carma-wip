@@ -7,10 +7,10 @@
 	18jul94 jm  Globe was flipped in x/y; fixed now.
 
 Routines:
-static void setaitoff ARGS(( float *xscale, float *yscale, float *xorg, float *yorg ));
-static void aitoffConvert ARGS(( float l, float b, float *x, float *y ));
-void wipaitoff ARGS(( int nxy, float x[], float y[] ));
-void wipaitoffgrid ARGS(( int nlong, int nlats ));
+static void setaitoff(float *xscale, float *yscale, float *xorg, float *yorg);
+static void aitoffConvert(float l, float b, float *x, float *y);
+  void wipaitoff(int nxy, float x[], float y[]);
+  void wipaitoffgrid(int nlong, int nlats);
 */
 
 #include "wip.h"

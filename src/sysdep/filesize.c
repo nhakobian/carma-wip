@@ -5,7 +5,7 @@
          9oct00 pjt no PROTOTYPE's
 
 Routines:
-long int filesize ARGS(( FILE *fp ));
+long int filesize(FILE *fp);
 */
 
 #include "wip.h"

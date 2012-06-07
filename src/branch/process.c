@@ -9,7 +9,7 @@
                 (thanks to Gary Fuller for pointing this out).
 
 Routines:
-int wipprocess ARGS(( char *cmdline, int *mode, LOGICAL keep ));
+int wipprocess(char *cmdline, int *mode, LOGICAL keep);
 */
 
 #define WIP_VOCAB

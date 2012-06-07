@@ -36,26 +36,26 @@
  *    
  *
  * Routines:
- * static void wipimagefree ARGS(( void *image ));
- * static WIPIMAGE *getimage ARGS(( const char *file, int plane, float blank ));
- * void *wipimage ARGS(( const char *file, int plane, float blank ));
- * void wipimagenxy ARGS(( const void *image, int *nx, int *ny ));
- * void wipimageminmax ARGS(( void *image, float *min, float *max, int force ));
- * int wipimagexists ARGS(( const void *image ));
- * float **wipimagepic ARGS(( const void *image ));
- * int wipimlogscale ARGS(( void *image, float scale ));
- * int wipimsetminmax ARGS(( void *image, float min, float max ));
- * int wipimgethead ARGS(( const void *image, int axis, double *crval,
- *   double *crpix, double *cdelt, char *ctype ));
- * int wipimctype ARGS(( const void *image, int axis, char *ctype ));
- * char *wipimtype ARGS(( const void *image ));
- * int wipimplane ARGS(( const void *image ));
- * int wipimhdprsnt ARGS(( const void *image, const char *hdname ));
- * int wipimhdval ARGS(( const void *image, const char *hdname, double *retval ));
- * int wipimhdstr ARGS(( const void *image, const char *hdname, char *retval, size_t maxlen ));
- * void *wipimcur ARGS(( const char *imagename ));
- * void wipimsetcur ARGS(( const char *imagename, const void *image ));
- * void wipfreeimage ARGS(( const char *imagename ));
+ * static void wipimagefree(void *image);
+ * static WIPIMAGE *getimage(const char *file, int plane, float blank);
+ * void *wipimage(const char *file, int plane, float blank);
+ * void wipimagenxy(const void *image, int *nx, int *ny);
+ * void wipimageminmax(void *image, float *min, float *max, int force);
+ * int wipimagexists(const void *image);
+ * float **wipimagepic(const void *image);
+ * int wipimlogscale(void *image, float scale);
+ * int wipimsetminmax(void *image, float min, float max);
+ * int wipimgethead(const void *image, int axis, double *crval,
+ *   double *crpix, double *cdelt, char *ctype);
+ * int wipimctype(const void *image, int axis, char *ctype);
+ * char *wipimtype(const void *image);
+ * int wipimplane(const void *image);
+ * int wipimhdprsnt(const void *image, const char *hdname);
+ * int wipimhdval(const void *image, const char *hdname, double *retval);
+ * int wipimhdstr(const void *image, const char *hdname, char *retval, size_t maxlen);
+ * void *wipimcur(const char *imagename);
+ * void wipimsetcur(const char *imagename, const void *image);
+ * void wipfreeimage(const char *imagename);
  */
 
 #define WIP_IMAGE

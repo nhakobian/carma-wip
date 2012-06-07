@@ -24,10 +24,9 @@
 	02oct96 jm  Added offx/y for beam command.
 
 Routines:
-int wiparc ARGS(( float majx, float majy, float arcangle, float angle,
-  float start ));
-int wipbeam ARGS(( float major, float minor, float posangle, float offx,
-  float offy, int fillcolor, float scale, int bgrect ));
+int wiparc(float majx, float majy, float arcangle, float angle, float start);
+int wipbeam(float major, float minor, float posangle, float offx, float offy, \
+            int fillcolor, float scale, int bgrect);
 */
 
 #include "wip.h"

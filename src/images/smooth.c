@@ -3,7 +3,7 @@
 	10jul96 jm  Original Code.
 
 Routines:
-int wipsmooth ARGS(( float **array, int nx, int ny, int order, float blank ));
+int wipsmooth(float **array, int nx, int ny, int order, float blank);
 */
 
 #include "wip.h"

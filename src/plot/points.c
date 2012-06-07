@@ -6,8 +6,8 @@
 	13feb95 jm  Modified to only call wipcolor when they change.
 
 Routines:
-int wippoints ARGS(( int nstyle, float style[], int nxy, float x[], \
-  float y[], int nc, float c[] ));
+int wippoints(int nstyle, float style[], int nxy, float x[], \
+              float y[], int nc, float c[]);
 */
 
 #include "wip.h"

@@ -8,10 +8,10 @@
 	            (6400408 bytes)
 
 Routines:
-float *vector ARGS(( int nx ));
-float **matrix ARGS(( int offx, int nx, int offy, int ny ));
-void freevector ARGS(( float *vector ));
-void freematrix ARGS(( float **matrix, int offx, int offy ));
+float  *vector(int nx);
+float **matrix(int offx, int nx, int offy, int ny);
+ void   freevector(float *vector);
+ void   freematrix(float **matrix, int offx, int offy);
 */
 
 #include "wip.h"

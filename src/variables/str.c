@@ -16,13 +16,13 @@
          9oct00 pjt no more PROTOTYPE
 
 Routines:
-static int initString ARGS(( void ));
-static WSTRINGS *find_string ARGS(( const char *inname ));
-int wipisstring ARGS(( const char *name ));
-char *wipgetstring ARGS(( const char *inword ));
-int wipsetstring ARGS(( const char *input, const char *value ));
-int wipNewStrVar ARGS(( const char *string ));
-int wipFreeString ARGS(( const char *string ));
+static      int  initString(void);
+static WSTRINGS *find_string(const char *inname);
+            int  wipisstring(const char *name);
+           char *wipgetstring(const char *inword);
+            int  wipsetstring(const char *input, const char *value);
+            int  wipNewStrVar(const char *string);
+            int  wipFreeString(const char *string);
 */
 
 #define WIP_STRING

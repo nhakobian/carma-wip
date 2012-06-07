@@ -5,7 +5,7 @@
 
 
 Routines:
-COMMAND *wiploopxecute ARGS(( char **line, int *ncount ));
+COMMAND *wiploopxecute(char **line, int *ncount);
 */
 
 #define WIP_VOCAB

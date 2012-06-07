@@ -18,8 +18,8 @@
 
 
 Routines:
-static char *domacsubs ARGS(( char *string, const char *line, char *macarg[] ));
-int wipmaxecute ARGS(( COMMAND *comm, int count, const char *rest ));
+static char *domacsubs(char *string, const char *line, char *macarg[]);
+        int  wipmaxecute(COMMAND *comm, int count, const char *rest);
 */
 
 #define WIP_VOCAB

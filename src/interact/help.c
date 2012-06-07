@@ -13,8 +13,8 @@
 
 
 Routines:
-static void add_to_help ARGS(( COMMAND *cmd, char *helpline ));
-int wiphelp ARGS(( char *line ));
+static void add_to_help(COMMAND *cmd, char *helpline);
+        int wiphelp(char *line;
 */
 
 #define WIP_VOCAB

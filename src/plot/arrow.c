@@ -4,8 +4,9 @@
 	12oct95 jm  Modified wiparrow to call wipgetcxy.
 
 Routines:
-void wiparrow ARGS(( float xp, float yp, float angle, float vent ));
-void wipvfield ARGS(( float x[], float y[], float r[], float phi[], int npts, float angle, float vent ));
+void wiparrow(float xp, float yp, float angle, float vent);
+void wipvfield(float x[], float y[], float r[], float phi[], int npts, \
+               float angle, float vent);
 */
 
 #include "wip.h"

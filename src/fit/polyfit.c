@@ -6,23 +6,21 @@
 		    unnecessarily (and causing incorrect results).
 
 Routines:
-static void fleg ARGS(( float x, float pl[], int nl ));
-static void fpoly ARGS(( float x, float p[], int np ));
-static float pythag ARGS(( float a, float b ));
-static int svbksb ARGS(( float **u, float w[], float **v, int m, int n, \
-    float b[], float x[] ));
-static int svdcmp ARGS(( float **a, int m, int n, float w[], float **v ));
-static int svdfit ARGS(( float x[], float y[], int nxy, \
-    float sig[], int nsig, float a[], int ma, float **u, float **v, \
-    float w[], float *chisq, \
-    void (*funcs) ARGS(( float, float [], int )) ));
-static int svdvar ARGS(( float **v, int ma, float w[], float **cvm ));
-static int polyfit ARGS(( float x[], float y[], int nxy, \
-    float sig[], int nsig, int type, int npoly, float poly[], float err[], \
-    float *chisq ));
-
-int wippolyfit ARGS(( char *rest, float x[], float y[], int nxy, \
-    float sig[], int nsig, int npoly, float poly[] ));
+static  void fleg(float x, float pl[], int nl);
+static  void fpoly(float x, float p[], int np);
+static float pythag(float a, float b);
+static   int svbksb(float **u, float w[], float **v, int m, int n, float b[], \
+                    float x[]);
+static   int svdcmp(float **a, int m, int n, float w[], float **v);
+static   int svdfit(float x[], float y[], int nxy, float sig[], int nsig, \
+                    float a[], int ma, float **u, float **v, float w[], \
+                    float *chisq, void (*funcs)(float, float [], int));
+static   int svdvar(float **v, int ma, float w[], float **cvm);
+static   int polyfit(float x[], float y[], int nxy, float sig[], int nsig, \
+                     int type, int npoly, float poly[], float err[], \
+                     float *chisq);
+         int wippolyfit(char *rest, float x[], float y[], int nxy, \
+                        float sig[], int nsig, int npoly, float poly[]);
 */
 
 #include "wip.h"

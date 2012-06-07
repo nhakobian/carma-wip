@@ -59,8 +59,6 @@
 /* only Ansi C is now supported */
 
 #include <stdarg.h>
-#define ARGS(alist) alist
-
 
 /*
  *  The next two definitions are used by the fseek() and ftell() routines;

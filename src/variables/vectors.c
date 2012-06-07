@@ -24,18 +24,19 @@
         30nov00 pjt ansi-c
 
 Routines:
-static int initVector ARGS(( void ));
-static VECTOR *find_vector ARGS(( const char *inname, int *indx ));
-int wipisvec ARGS(( const char *name ));
-double wipgetvec ARGS(( const char *inword, LOGICAL *error ));
-int wipsetvec ARGS(( const char *inword, double value ));
-float *wipvector ARGS(( const char *inword, int *maxsize, int *currentsize ));
-int wipvectornpts ARGS(( const char *inword, int currentsize ));
-int wipisvecfunc ARGS(( const char *inword ));
-double wipvecfunc ARGS(( const char *inword, const char *arg, LOGICAL *error ));
-int wipvectorinit ARGS(( const char *name, int npts, const char *expression ));
-int wipNewVector ARGS(( const char *name, int size ));
-int wipFreeVector ARGS(( const char *name ));
+static    int  initVector(void);
+static VECTOR *find_vector(const char *inname, int *indx);
+          int  wipisvec(const char *name);
+       double  wipgetvec(const char *inword, LOGICAL *error);
+          int  wipsetvec(const char *inword, double value);
+        float *wipvector(const char *inword, int *maxsize, int *currentsize);
+          int  wipvectornpts(const char *inword, int currentsize);
+          int  wipisvecfunc(const char *inword);
+       double  wipvecfunc(const char *inword, const char *arg, LOGICAL *error);
+          int  wipvectorinit(const char *name, int npts, \
+                             const char *expression);
+          int  wipNewVector(const char *name, int size);
+          int  wipFreeVector(const char *name);
 */
 
 #define WIP_VECTORS

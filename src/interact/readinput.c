@@ -17,11 +17,11 @@
          9oct00 pjt no more PROTOTYPEs
 
 Routines:
-int wipreadinput ARGS(( const char *rest ));
-int wipwritemac ARGS(( const char *file, const char *macs ));
-int wipplayback ARGS(( const char *line ));
-int wipreadmac ARGS(( const char *rest ));
-int wipmacroinput ARGS(( const char *filename ));
+int wipreadinput(const char *rest);
+int wipwritemac(const char *file, const char *macs);
+int wipplayback(const char *line);
+int wipreadmac(const char *rest);
+int wipmacroinput(const char *filename);
 */
 
 #define WIP_VOCAB

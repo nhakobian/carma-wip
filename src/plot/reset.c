@@ -3,7 +3,7 @@
 	03may91 jm  Original code.
 
 Routines:
-void wipreset ARGS(( void ));
+void wipreset(void);
 */
 
 #include "wip.h"

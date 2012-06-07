@@ -17,17 +17,18 @@
 	
 
 Routines:
-static int wipisop ARGS(( const char *inword ));
-static double wipdoop ARGS(( const char *op, double arg1, double arg2, LOGICAL *error ));
-static int wipisfunction ARGS(( const char *inword ));
-static double wipdofunc ARGS(( const char *inwrd, double arg, LOGICAL *error ));
-int    wipisnumber ARGS(( const char *inword, double *retval ));
-void   wipecho ARGS(( const char *input ));
-int    wipsetuser ARGS(( const char *input ));
-char  *wipgettoken ARGS(( char *output, const char *input, char **next ));
-int wiptokenexists ARGS(( const char *inword ));
-double wipevaluate ARGS(( const char *inword, LOGICAL *error ));
-char  *wipbracextract ARGS(( const char *inword, char **left ));
+static    int  wipisop(const char *inword);
+static double  wipdoop(const char *op, double arg1, double arg2, \
+                      LOGICAL *error);
+static    int  wipisfunction(const char *inword);
+static double  wipdofunc(const char *inwrd, double arg, LOGICAL *error);
+          int  wipisnumber(const char *inword, double *retval);
+         void  wipecho(const char *input);
+          int  wipsetuser(const char *input);
+         char *wipgettoken(char *output, const char *input, char **next);
+          int  wiptokenexists(const char *inword);
+       double  wipevaluate(const char *inword, LOGICAL *error);
+         char *wipbracextract(const char *inword, char **left);
 */
 
 #include "wip.h"

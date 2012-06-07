@@ -7,9 +7,8 @@
  *                 now only the color palette is changed.
  *
  *  Routines:
- *    void wipheq ARGS(( int nx, int ny, float **image,
- *                      int x1, int x2, int y1, int y2,
- *                      float blank, float min, float max, int nbins ));
+ *    void wipheq(int nx, int ny, float **image, int x1, int x2, int y1, \
+ *                int y2, float blank, float min, float max, int nbins);
  */
 
 #include "wip.h"

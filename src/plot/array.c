@@ -8,9 +8,9 @@
 	12oct95 jm  Modified wiperrorbar() to permit locations 5/6.
 
 Routines:
-void wiplogarithm ARGS(( float array[], int nxy, float scale ));
-void wiprange ARGS(( int nx, float x[], float *xmin, float *xmax ));
-int wiperrorbar ARGS(( int location, float x[], float y[], float err[], int nxy ));
+void wiplogarithm(float array[], int nxy, float scale);
+void wiprange(int nx, float x[], float *xmin, float *xmax);
+ int wiperrorbar(int location, float x[], float y[], float err[], int nxy);
 */
 
 #include "wip.h"

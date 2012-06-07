@@ -5,7 +5,7 @@
 	27sep96 jm  Added cyclic table.
 
 Routines:
-void wippalette ARGS(( int which, int levels ));
+void wippalette(int which, int levels);
 */
 
 #include "wip.h"

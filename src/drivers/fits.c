@@ -75,7 +75,7 @@ typedef struct {
 
 /* Declare private routine. */
 
-static int fitsrch ARGS(( FITS *f, const char *keyword, char card[80] ));
+static int fitsrch(FITS *f, const char *keyword, char card[80]);
 
 /* Declare static variables. */
 

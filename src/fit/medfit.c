@@ -25,11 +25,11 @@
   In other words, get your own book!
 
 Routines:
-static void hpsort ARGS(( unsigned long int n, float ra[] ));
-static float rofunc ARGS(( float b, float x[], float y[], float arr[], \
-  int npts, float *aa, float *abdev ));
-int medfit ARGS(( float x[], float y[], int ndata, float *a, float *b, \
-  float *abdev ));
+static  void hpsort(unsigned long int n, float ra[]);
+static float rofunc(float b, float x[], float y[], float arr[], int npts, \
+                    float *aa, float *abdev);
+         int medfit(float x[], float y[], int ndata, float *a, float *b, \
+                    float *abdev);
 */
 
 #include "wip.h"

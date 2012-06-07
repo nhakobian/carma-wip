@@ -17,10 +17,11 @@
  *		  making the former static since only the later calls it.
  *
  * Routines:
- * static int wipheadlim ARGS(( const void *image, const char *xtype,
- *  const char *ytype, float *xscale, float *xoff, float *yscale, float *yoff));
- * int wipheader ARGS(( int blcx, int blcy, int trcx, int trcy,
- *  const char *xtype, const char *ytype ));
+ *  static int wipheadlim(const void *image, const char *xtype, \
+ *                        const char *ytype, float *xscale, float *xoff, \
+ *                        float *yscale, float *yoff);
+ *         int wipheader(int blcx, int blcy, int trcx, int trcy, \
+ *                       const char *xtype, const char *ytype);
  */
 
 #include "wip.h"

@@ -12,10 +12,10 @@
          9oct00 pjt no more PROTOTYPE #ifdefs
 
 Routines:
-int wipnewitem ARGS(( const char *string ));
-int wipfreeitem ARGS(( const char *string ));
-int wipisuserfunc ARGS(( const char *name ));
-double wipuserfunc ARGS(( const char *inword, double arg, LOGICAL *error ));
+   int wipnewitem(const char *string);
+   int wipfreeitem(const char *string);
+   int wipisuserfunc(const char *name);
+double wipuserfunc(const char *inword, double arg, LOGICAL *error);
 */
 
 #include "wip.h"

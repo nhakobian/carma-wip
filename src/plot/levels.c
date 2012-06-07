@@ -7,9 +7,11 @@
 	12dec94 jm  Removed task wipsetslev().
 
 Routines:
-int wiplevels ARGS(( char *rest, float levels[], int maxlev ));
-int wipautolevs ARGS(( char *rest, float levels[], int maxlev, float pmin, float pmax ));
-int wipscalevels ARGS(( const char *stype, float slev, float pmin, float pmax, float levels[], int nlev ));
+int wiplevels(char *rest, float levels[], int maxlev);
+int wipautolevs(char *rest, float levels[], int maxlev, float pmin, \
+                float pmax);
+int wipscalevels(const char *stype, float slev, float pmin, float pmax, \
+                 float levels[], int nlev);
 */
 
 #include "wip.h"

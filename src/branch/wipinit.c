@@ -11,7 +11,7 @@
 	21jan98 jm  Modified definition of WIPINIT for VMS machines.
 
 Routines:
-int wipinit ARGS(( void ));
+int wipinit(void);
 */
 
 #define WIP_VOCAB

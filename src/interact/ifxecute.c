@@ -45,7 +45,7 @@
  *      routine reverts to the old scheme.  5nov91 jm.
  *
  * Routines:
- * COMMAND *wipifxecute ARGS(( char **rest ));
+ * COMMAND *wipifxecute(char **rest);
  */
 
 #define WIP_VOCAB

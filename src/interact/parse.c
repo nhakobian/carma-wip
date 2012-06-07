@@ -9,14 +9,14 @@
 	09oct00 pjt no more PROTOTYPE #ifdef
 
 Routines:
-char *wipparse ARGS(( char **line ));
-int wipcountwords ARGS(( const char *line ));
-void wiplower ARGS(( char *s ));
-void wipupper ARGS(( char *s ));
-char *wipleading ARGS(( const char *line ));
-int wiplenc ARGS(( char *c ));
-char *wipnewstring ARGS(( const char *string ));
-int wiparguments ARGS(( char **rest, int n, double arg[] ));
+char *wipparse(char **line);
+ int  wipcountwords(const char *line);
+void  wiplower(char *s);
+void  wipupper(char *s);
+char *wipleading(const char *line);
+ int  wiplenc(char *c);
+char *wipnewstring(const char *string);
+ int  wiparguments(char **rest, int n, double arg[]);
 */
 
 #include "wip.h"

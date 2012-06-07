@@ -6,7 +6,7 @@
 	26aug94 jm  Modified to set and reset hardcopy user variable.
 
 Routines:
-int wipphard ARGS(( const char *device, const char *rest ));
+int wipphard(const char *device, const char *rest);
 */
 
 #include "wip.h"
