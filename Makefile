@@ -48,10 +48,12 @@ wip: libwip
 	   -L/usr/X11R6/lib -lcpgplot -lpgplot \
 	   -lreadline -lwip
 
-pwip: $(OBJ)
+pwip: libwip
 	cd pWip; /usr/bin/swig -python wip.i
-	$(CC) $(OPTS) $(CFLAGS) -c pWip/wip_wrap.c -o pWip/wip_wrap.o -I/usr/include/python2.7 $(INC)
-	ld -rpath $(MIRLIB) -L$(MIRLIB) -lreadline -lcpgplot -lpgplot -shared -o pWip/_wip.so $(OBJ) pWip/wip_wrap.o
+	$(CC) $(OPTS) $(CFLAGS) -c pWip/wip_wrap.c -o pWip/wip_wrap.o \
+	   -I/usr/include/python2.7 $(INC)
+	ld -rpath $(MIRLIB) -rpath $(CURDIR) -L$(CURDIR) -L$(MIRLIB) -lwip \
+	   -shared -o pWip/_wip.so pWip/wip_wrap.o
 
 clean:
 	rm -f libwip.so *.o wip
