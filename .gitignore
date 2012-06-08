@@ -2,7 +2,8 @@
 wip
 libwip.so
 .wiphistory
-pWip/_wip.so
-pWip/wip.py
-pWip/wip.pyc
-pWip/wip_wrap.c
+python-wip/_wip.so
+python-wip/wip.py
+python-wip/wip.pyc
+python-wip/_wip_wrap.c
+python-wip/_wip_wrap.o
