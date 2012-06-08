@@ -1,4 +1,4 @@
-%module wip
+%module cwip
 %{
   #include "wip.h"
 %}

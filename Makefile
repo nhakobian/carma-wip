@@ -48,17 +48,17 @@ wip: libwip
 	   -L/usr/X11R6/lib -lcpgplot -lpgplot \
 	   -lreadline -lwip
 
-pwip: libwip
-	cd python-wip; /usr/bin/swig -python _wip.i
-	$(CC) $(OPTS) $(CFLAGS) -c python-wip/_wip_wrap.c \
-	   -o python-wip/_wip_wrap.o -I/usr/include/python2.7 $(INC)
+pynwip: libwip
+	cd pynwip; /usr/bin/swig -python _cwip.i
+	$(CC) $(OPTS) $(CFLAGS) -c pynwip/_cwip_wrap.c \
+	   -o pynwip/_cwip_wrap.o -I/usr/include/python2.7 $(INC)
 	ld -rpath $(MIRLIB) -rpath $(CURDIR) -L$(CURDIR) -L$(MIRLIB) -lwip \
-	   -shared -o python-wip/_wip.so python-wip/_wip_wrap.o
+	   -shared -o pynwip/_cwip.so pynwip/_cwip_wrap.o
 
 clean:
 	rm -f libwip.so *.o wip
 	rm -f src/*/*.o
-	rm -f python-wip/wip.py python-wip/wip.pyc python-wip/_wip.so \
-	   python-wip/_wip_wrap.c python-wip/_wip_wrap.o
+	rm -f pynwip/cwip.py pynwip/cwip.pyc pynwip/_cwip.so \
+	   pynwip/_cwip_wrap.c pynwip/_cwip_wrap.o
 	rm -f .wiphistory
 
