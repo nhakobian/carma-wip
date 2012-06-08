@@ -60,5 +60,6 @@ clean:
 	rm -f src/*/*.o
 	rm -f pynwip/cwip.py pynwip/cwip.pyc pynwip/_cwip.so \
 	   pynwip/_cwip_wrap.c pynwip/_cwip_wrap.o
+	rm -f pynwip/*.pyc
 	rm -f .wiphistory
 
