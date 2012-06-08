@@ -1,7 +1,17 @@
 %module cwip
+%include "typemaps.i"
+ /*%feature("autodoc")*/
 %{
   #include "wip.h"
 %}
+
+typedef enum {FALSE, TRUE} LOGICAL;
+
+/*cpgplot defs */
+extern void cpgtbox(const char *xopt, float xtick, int nxsub, \
+		    const char *yopt, float ytick, int nysub);
+extern void cpgpage(void);
+extern void cpgpt(int n, const float *xpts, const float *ypts, int symbol);
 
 /* Code in wip/branch */
 
@@ -158,7 +168,8 @@ extern    void   wipgetr(float tr[]);
 extern    void   wipsetsub(int subx1, int subx2, int suby1, int suby2);
 extern    void   wipgetsub(int *subx1, int *subx2, int *suby1, int *suby2);
 extern    void   wipsetick(float xtick, int nxsub, float ytick, int nysub);
-extern    void   wipgetick(float *xtick, int *nxsub, float *ytick, int *nysub);
+extern    void   wipgetick(float *OUTPUT, int *OUTPUT, float *OUTPUT, int *OUTPUT);
+/*extern    void   wipgetick(float *xtick, int *nxsub, float *ytick, int *nysub);*/
 extern    void   wipsetsubmar(float subx, float suby);
 extern    void   wipgetsubmar(float *subx, float *suby);
 extern    void   wipsetcir(int cmin, int cmax);
