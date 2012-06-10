@@ -195,6 +195,15 @@ class wip():
         """
         cwip.wipmtext(side, disp, just, coord, string)
 
+    def panel(self, nx, ny, panel):
+        """
+        Sets the plot lovation to a subpanel.
+        """
+        # if (wiparguments(&line, 3, arg) != 3) goto MISTAKE;
+        # nx = NINT(arg[0]); ny = NINT(arg[1]); narg = NINT(arg[2]);
+        # wippanel(nx, ny, narg);
+        cwip.wippanel(nx, ny, panel)
+
     def points(self, x=None, y=None, style=[2], color=[]):
         """
         Draws points of the current style at each (x,y).
@@ -259,8 +268,8 @@ class wip():
     bgci        = NotImplemented
     """Sets the text background color index to N."""
 
-    buffer      = NotImplemented
-    """Predefined macro name that refers to the entire command buffer."""
+    # buffer      = NotImplemented
+    # """Predefined macro name that refers to the entire command buffer."""
 
     color       = NotImplemented
     """Select color for lines and characters."""
@@ -417,9 +426,6 @@ class wip():
 
     palette     = NotImplemented
     """Sets the color palette to entry K."""
-
-    panel       = NotImplemented
-    """Sets the plot lovation to a subpanel."""
 
     paper       = NotImplemented
     """Change the size of the view surface."""

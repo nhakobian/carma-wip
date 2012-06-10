@@ -103,6 +103,7 @@ void wipgetick(float *OUTPUT, int *OUTPUT, float *OUTPUT, int *OUTPUT);
 void wipclose(void);
 void wiplimits(void);
 void wipmove(float x, float y);
+void wippanel(int nx, int ny, int k);
 
 /* WIPPOINTS wrapper begin 
    int wippoints(int nstyle, float style[], int nxy, float x[], \
