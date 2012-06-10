@@ -253,9 +253,6 @@ class wip():
     arrow       = NotImplemented
     """Draws an arrow."""
 
-    #ask         = NotImplemented
-    #"""Changes the current device prompt state."""
-
     autolevs    = NotImplemented
     """Sets up the contour levels automatically."""
 
@@ -268,26 +265,11 @@ class wip():
     bgci        = NotImplemented
     """Sets the text background color index to N."""
 
-    # buffer      = NotImplemented
-    # """Predefined macro name that refers to the entire command buffer."""
-
     color       = NotImplemented
     """Select color for lines and characters."""
 
     contour     = NotImplemented
     """Makes a contour plot of an array read with IMAGE."""
-
-    cursor      = NotImplemented
-    """Enables cursor and returns x-y location and the key pressed."""
-
-    data        = NotImplemented
-    """Opens the file 'fspec' for reading data."""
-
-    define      = NotImplemented
-    """Creates the Macro 'xxx' and enters define mode."""
-
-    delete      = NotImplemented
-    """Removes the commands N1-N2 from a macro buffer."""
 
     dot         = NotImplemented
     """Makes a point of the current style at the current location."""
@@ -295,15 +277,6 @@ class wip():
     draw        = NotImplemented
     """Draws a line to (X,Y) from the current coordinate position."""
 
-    echo        = NotImplemented
-    """Displays the result of EXPRESSION on the screen."""
-
-    ecolumn     = NotImplemented
-    """Reads error bar data from column N of the data file."""
-
-    # end         = NotImplemented
-    # """Terminates define mode, insert mode, or exits from the program."""
-    
     environment = NotImplemented
     """Sets the user limits and draws a box."""
 
@@ -325,23 +298,14 @@ class wip():
     font        = NotImplemented
     """Sets the font type to type N."""
 
-    # free        = NotImplemented
-    # """Releases items created with the NEW command."""
-
     globe       = NotImplemented
     """Draws a 'globe' with nlong/nlat long/lat lines."""
 
     halftone    = NotImplemented
     """Produces a halftone plot of an image."""
 
-    # hardcopy    = NotImplemented
-    # """Causes a stored printer plot to be plotted."""
-
     header      = NotImplemented
     """Loads header information of the current image."""
-
-    # help        = NotImplemented
-    # """Prints an explanation of the command xxx."""
 
     hi2d        = NotImplemented
     """Draws a histogram of the data read by IMAGE."""
@@ -355,41 +319,14 @@ class wip():
     id          = NotImplemented
     """Puts an identification label at the bottom of a plot."""
 
-    # if          = NotImplemented
-    # """Executes xxx if EXPRESSION is true."""
-
-    image       = NotImplemented
-    """Reads in an image from file 'fspec'."""
-
-    # initialize  = NotImplemented
-    # """Sets V to the result of EXPRESSION."""
-
-    # input       = NotImplemented
-    # """Reads plot commands from file 'fspec' and executes them."""
-
-    # insert      = NotImplemented
-    # """Commands are inserted before command N in a macro."""
-
     itf         = NotImplemented
     """Sets the current image transfer function to N."""
 
     label       = NotImplemented
     """Writes the string STR at the current cursor position."""
 
-    # lcur        = NotImplemented
-    # """Draws a line using the cursor."""
-
-    ldev        = NotImplemented
-    """Lists the devices currently available."""
-
     levels      = NotImplemented
     """Sets the contour levels for a contour plot."""
-
-    lines       = NotImplemented
-    """Limits the C, Y, E, and PCOLUMN file read to lines L1-L2."""
-
-    # list        = NotImplemented
-    # """Lists the commands of macro xxx."""
 
     logarithm   = NotImplemented
     """Takes the scaled logarithm of vectors and images."""
@@ -397,17 +334,11 @@ class wip():
     lookup      = NotImplemented
     """Loads a RGB color lookup table."""
 
-    # loop        = NotImplemented
-    # """Executes the macro XXX COUNT times."""
-
     lstyle      = NotImplemented
     """Sets the current line style to N."""
 
     lwidth      = NotImplemented
     """Sets the current line width attribute to N."""
-
-    # macro       = NotImplemented
-    # """Used to define macros using an external file."""
 
     minmax      = NotImplemented
     """List the maximum and minimum values of the current image."""
@@ -415,29 +346,11 @@ class wip():
     move        = NotImplemented
     """Sets the current world (user) position to (x,y)."""
 
-    # ncurse      = NotImplemented
-    # """Marks a set of points using the cursor."""
-
-    # new         = NotImplemented
-    # """Creates a new string variable, user variable, or vector."""
-
-    # olin        = NotImplemented
-    # """Marks a set of points using the cursor."""
-
     palette     = NotImplemented
     """Sets the color palette to entry K."""
 
     paper       = NotImplemented
     """Change the size of the view surface."""
-
-    pcolumn     = NotImplemented
-    """Reads point type data from column N of the current data file."""
-
-    # phard       = NotImplemented
-    # """Spool a plot to an alternative device."""
-
-    # playback    = NotImplemented
-    # """Replay macro XXX or command in the command buffer."""
 
     plotfit     = NotImplemented
     """Draws a plot of the most recent fit."""
@@ -448,14 +361,8 @@ class wip():
     putlabel    = NotImplemented
     """Writes justified text STR at the current location."""
 
-    quarter     = NotImplemented
-    """Allows quick selection of a subsection of the current image."""
-
     range       = NotImplemented
     """Limits the range over which to fit."""
-
-    # read        = NotImplemented
-    # """Reads plot commands from file 'fspec'."""
 
     rect        = NotImplemented
     """Draw a rectangle, using fill-area attributes."""
@@ -469,20 +376,8 @@ class wip():
     scale       = NotImplemented
     """Sets the viewport size scale."""
 
-    # set         = NotImplemented
-    # """Sets the user variable V to result of EXPRESSION."""
-
-    # show        = NotImplemented
-    # """Shows current limits and attributes."""
-
     slevel      = NotImplemented
     """Sets the type and value used to scale contour levels."""
-
-    # string      = NotImplemented
-    # """Sets a string variable 'name' from a file."""
-
-    subimage    = NotImplemented
-    """Sets the index range of a subimage."""
 
     submargin   = NotImplemented
     """Sets the gap between individual panels."""
@@ -514,16 +409,90 @@ class wip():
     winadj      = NotImplemented
     """Sets limits and viewport to same aspect ratio."""
 
+    #####
+    ##### Data read routines that currently will not be implemented.
+    #####
+    # data        = NotImplemented
+    # """Opens the file 'fspec' for reading data."""
+    # ecolumn     = NotImplemented
+    # """Reads error bar data from column N of the data file."""
+    # pcolumn     = NotImplemented
+    # """Reads point type data from column N of the current data file."""
+    # xcolumn     = NotImplemented
+    # """Reads X data from column N of the current file."""
+    # ycolumn     = NotImplemented
+    # """Reads Y data from column N of the current file."""
+
+    #####
+    ##### Image read routines that currently will not be implemented.
+    #####
+    # image       = NotImplemented
+    # """Reads in an image from file 'fspec'."""
+    # quarter     = NotImplemented
+    # """Allows quick selection of a subsection of the current image."""
+    # subimage    = NotImplemented
+    # """Sets the index range of a subimage."""
+
+    #####
+    ##### Interactive commands that will not be implemented.
+    #####
+    # ask         = NotImplemented
+    # """Changes the current device prompt state."""
+    # buffer      = NotImplemented
+    # """Predefined macro name that refers to the entire command buffer."""
+    # cursor      = NotImplemented
+    # """Enables cursor and returns x-y location and the key pressed."""
+    # define      = NotImplemented
+    # """Creates the Macro 'xxx' and enters define mode."""
+    # delete      = NotImplemented
+    #"""Removes the commands N1-N2 from a macro buffer."""
+    # echo        = NotImplemented
+    # """Displays the result of EXPRESSION on the screen."""
+    # end         = NotImplemented
+    # """Terminates define mode, insert mode, or exits from the program."""
+    # free        = NotImplemented
+    # """Releases items created with the NEW command."""
+    # hardcopy    = NotImplemented
+    # """Causes a stored printer plot to be plotted."""
+    # help        = NotImplemented
+    # """Prints an explanation of the command xxx."""
+    # if          = NotImplemented
+    # """Executes xxx if EXPRESSION is true."""
+    # initialize  = NotImplemented
+    # """Sets V to the result of EXPRESSION."""
+    # input       = NotImplemented
+    # """Reads plot commands from file 'fspec' and executes them."""
+    # insert      = NotImplemented
+    # """Commands are inserted before command N in a macro."""
+    # lcur        = NotImplemented
+    # """Draws a line using the cursor."""
+    # ldev        = NotImplemented
+    # """Lists the devices currently available."""
+    # lines       = NotImplemented
+    # """Limits the C, Y, E, and PCOLUMN file read to lines L1-L2."""
+    # list        = NotImplemented
+    # """Lists the commands of macro xxx."""
+    # loop        = NotImplemented
+    # """Executes the macro XXX COUNT times."""
+    # macro       = NotImplemented
+    # """Used to define macros using an external file."""
+    # ncurse      = NotImplemented
+    # """Marks a set of points using the cursor."""
+    # new         = NotImplemented
+    # """Creates a new string variable, user variable, or vector."""
+    # olin        = NotImplemented
+    # """Marks a set of points using the cursor."""
+    # phard       = NotImplemented
+    # """Spool a plot to an alternative device."""
+    # playback    = NotImplemented
+    # """Replay macro XXX or command in the command buffer."""
+    # read        = NotImplemented
+    # """Reads plot commands from file 'fspec'."""
+    # set         = NotImplemented
+    # """Sets the user variable V to result of EXPRESSION."""
+    # show        = NotImplemented
+    # """Shows current limits and attributes."""
+    # string      = NotImplemented
+    # """Sets a string variable 'name' from a file."""
     # write       = NotImplemented
     # """Writes macro XXX to file 'fspec'."""
-
-    xcolumn     = NotImplemented
-    """Reads X data from column N of the current file."""
-
-    ycolumn     = NotImplemented
-    """Reads Y data from column N of the current file."""
-
-
-
-
-
