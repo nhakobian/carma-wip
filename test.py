@@ -10,6 +10,7 @@ x = (numpy.array(range(100)) / 10.0) - 5.0
 y = numpy.sin(x)
 a.limits(x, y)
 a.points(x, y)
+a.connect(x, y)
 a.box()
 a.mtext('T', 1.5, 0.5, 0.5, "Sample sin(x) plot.")
 a.mtext('L', 2.0, 0.5, 0.5, "sin(x)")

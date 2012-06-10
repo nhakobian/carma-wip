@@ -27,12 +27,30 @@ class wip():
         Makes a box labeled according to LIMITS and TICKSIZE.
 
           xvars : x options string.
-
           yvars : y options string.
         """
         values = cwip.wipgetick()
         cwip.cpgtbox(xvars, values[0], values[1], yvars, values[2], values[3])
         return
+
+    def connect(self, x, y):
+        """
+        Connects (x,y) pairs with line segments.
+
+          x : (array) - Array of X values.
+          y : (array) - Array of Y values.
+        """
+        # xvec = wipvector("x", &nx, &npts);
+        # yvec = wipvector("y", &nx, &ny);
+        # npts = MIN(npts, ny);
+        # if (npts > 0) 
+        # {
+        #     cpgline(npts, xvec, yvec);
+        #     wipmove(xvec[npts-1], yvec[npts-1]);
+        # }
+        cwip.cpgline(numpy.array(x, dtype=numpy.float32), 
+                     numpy.array(y, dtype=numpy.float32))
+        cwip.wipmove(x[-1], y[-1])
     
     def device(self, device='/xs'):
         """
@@ -206,9 +224,6 @@ class wip():
 
     color       = NotImplemented
     """Select color for lines and characters."""
-
-    connect     = NotImplemented
-    """Connects (x,y) pairs with line segments."""
 
     contour     = NotImplemented
     """Makes a contour plot of an array read with IMAGE."""
