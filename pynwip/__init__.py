@@ -22,6 +22,51 @@ class wip():
 
     # Below begins reinterpreted wip functions.
 
+    def bin(self, x, y, k=1, gap=None):
+        """
+        Draws a histogram of (x,y) pairs. 
+        NSH - More accurately, it draws a plot in a stairstep model instead 
+        of a connected model.
+
+          x   : (array) - Array of X values.
+          y   : (array) - Array of Y values.
+          k   : (int)   - 1 if data is centered on bin (default)
+                          0 if data is aligned to left side of bin
+          gap : (float) - Gap in data needed to draw separate graphs
+        """
+        # narg = 1;                       /* Center bins on the X value. */
+        # if (argc == 1) 
+        # {
+        #     if (wiparguments(&line, 1, arg) != 1) goto MISTAKE;
+        #     narg = NINT(arg[0]);        /* User specifies centering. */
+        # }
+        # else if (argc > 1) 
+        # {
+        #     if (wiparguments(&line, 2, arg) != 2) goto MISTAKE;
+        #     narg = NINT(arg[0]);        /* User specifies centering. */
+        #     xfloat = arg[1];            /* Gap value. */
+        # }
+        # xvec = wipvector("x", &nx, &npts);
+        # yvec = wipvector("y", &nx, &ny);
+        # npts = MIN(npts, ny);
+        # if (npts <= 0) goto MISTAKE;
+        # if (argc > 1) 
+        # {    /* Use hline routine. */
+        #     if (wiphline(npts, xvec, yvec, xfloat, narg)) goto MISTAKE;
+        # } 
+        # else 
+        # {   /* Use cpgbin. */
+        #     cpgbin(npts, xvec, yvec, narg);
+        # }
+        # wipmove(xvec[npts-1], yvec[npts-1]);
+        x = numpy.array(x, dtype=numpy.float32)
+        y = numpy.array(y, dtype=numpy.float32)
+        if gap == None:
+            cwip.cpgbin(x, y, k)
+        else:
+            cwip.wiphline(x, y, gap, k)
+        cwip.wipmove(float(x[-1]), float(y[-1]))
+
     def box(self, xvars='bcnst', yvars='bcnst'):
         """
         Makes a box labeled according to LIMITS and TICKSIZE.
@@ -213,11 +258,6 @@ class wip():
 
     bgci        = NotImplemented
     """Sets the text background color index to N."""
-
-    bin         = NotImplemented
-    """Draws a histogram of (x,y) pairs. 
-    NSH - More accurately, it draws a plot in a stairstep model instead of a
-          connected model."""
 
     buffer      = NotImplemented
     """Predefined macro name that refers to the entire command buffer."""

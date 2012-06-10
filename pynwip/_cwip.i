@@ -20,6 +20,31 @@ void cpgswin(float x1, float x2, float y1, float y2); // Set plot limits.
 //   Writes labels, similar to mtext.
 void cpglab(const char *xlbl, const char *ylbl, const char *toplbl); 
 
+// CPGBIN Wrapper Begin
+// void cpgbin(int nbin, const float *x, const float *data, int center);
+//
+%apply (int DIM1, float* IN_ARRAY1) { (int len1, float* vec1),
+                                      (int len2, float* vec2)}
+%rename (cpgbin) mod_cpgbin;
+%exception mod_cpgbin {
+  $action
+    if (PyErr_Occurred()) SWIG_fail;
+}
+%inline %{
+  void mod_cpgbin(int len1, float* vec1, int len2, float* vec2, int center)
+  {
+    if (len1 != len2) {
+      PyErr_Format(PyExc_ValueError, "Arrays of lengths (%d,%d) given", len1,
+		   len2);
+      return;
+    }
+    cpgbin(len1, vec1, vec2, center);
+    return;
+  }
+  %}
+%clear (int len1, float* vec1), (int len2, float* vec2);
+// CPGBIN Wrapper End
+
 // CPGPT Wrapper Begin
 // void cpgpt(int n, const float *xpts, const float *ypts, int symbol);
 //      Plot points routine.
@@ -107,3 +132,29 @@ void mod_wippoints(int nstyle, float* style, int nx, float* x,
 %clear (int nstyle, float* style), (int nx, float* x), (int ny, float* y),
        (int nc, float* c);
 // WIPPOINTS wrapper end
+
+// WIPHLINE wrapper begin
+// int wiphline(int npts, float x[], float y[], float gap, int center);
+//
+%apply (int DIM1, float* IN_ARRAY1) { (int len1, float* vec1),
+                                      (int len2, float* vec2)}
+%rename (wiphline) mod_wiphline;
+%exception mod_wiphline {
+  $action
+  if (PyErr_Occurred()) SWIG_fail;
+}
+%inline %{
+  void mod_wiphline(int len1, float* vec1, int len2, float* vec2, float gap,
+		    int center)
+{
+  if (len1 != len2) {
+    PyErr_Format(PyExc_ValueError, "Arrays of lengths (%d,%d) given", len1, 
+		 len2);
+    return;
+  }
+  wiphline(len1, vec1, vec2, gap, center);
+  return;
+}
+%}
+%clear (int len1, float* vec1), (int len2, float* vec2);
+// WIPHLINE wrapper end
