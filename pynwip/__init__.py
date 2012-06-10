@@ -2,16 +2,79 @@ import cwip
 
 class wip():
     def __init__(self):
-        pass
+        """
+        Wip Interface initialization routine. Currently calls built-in wip
+        initialization.
+        """
+        cwip.wipinit()
+
+    def __del__(self):
+        """
+        Wip Interface destruction routine. The called function is an alias to
+        cpgend(), possibly update in the future to this?
+        """
+        cwip.wipclose()
     
     def NotImplemented(self):
         """Signifies that a function is not implemented. """
         raise NotImplementedError
 
     # Below begins reinterpreted wip functions.
+
+    def box(self, xvars='bcnst', yvars='bcnst'):
+        """
+        Makes a box labeled according to LIMITS and TICKSIZE.
+
+          xvars : x options string.
+
+          yvars : y options string.
+        """
+        values = cwip.wipgetick()
+        cwip.cpgtbox(xvars, values[0], values[1], yvars, values[2], values[3])
+        return
     
-    def device(self, device='/xw'):
+    def device(self, device='/xs'):
+        """
+        Initializes output to a graphics device.
+
+          device : PGPLOT device string.
+        """
         cwip.wipdevice(device)
+
+    def erase(self):
+        """
+        Erases the graphics screen.
+        """
+        cwip.cpgpage()
+
+    def mtext(self, side, disp, just, coord, string):
+        """
+        Writes the string STR relative to SIDE.
+
+          side   : (string) - L(eft), R(ight), T(op), B(ottom)
+          disp   : (float)  - Offset from axis
+          just   : (float)  - Justification, 0.5 is center, 0 is left/bottom, 
+                              1 is right/top
+          coord  : (float)  - Alignment of text, 0 is left, 0.5 is center, 
+                              1 is right.
+          string : (string) - Text to insert
+        """
+        cwip.wipmtext(side, disp, just, coord, line)
+
+    def points(self, x=None, y=None, style=[2], color=[]):
+        """
+        Draws points of the current style at each (x,y).
+
+          x     : (array) - Array of x values to plot.
+          y     : (array) - Array of y values to plot.
+          style : (array) - default [2] - array of styles at each point.
+          color : (array) - default []  - array of color indices at each point.
+        """
+        cwip.wippoints(style, x, y, color)
+
+    #
+    # Below begins list of NotImplemented functions.
+    #
 
     aitoff      = NotImplemented
     """Converts L-b coordinate values to equivalent x-y positions. """
@@ -45,9 +108,6 @@ class wip():
     NSH - More accurately, it draws a plot in a stairstep model instead of a
           connected model."""
 
-    box         = NotImplemented
-    """Makes a box labeled according to LIMITS and TICKSIZE."""
-
     buffer      = NotImplemented
     """Predefined macro name that refers to the entire command buffer."""
 
@@ -72,9 +132,6 @@ class wip():
     delete      = NotImplemented
     """Removes the commands N1-N2 from a macro buffer."""
 
-    device      = NotImplemented
-    """Initializes output to a graphics device."""
-
     dot         = NotImplemented
     """Makes a point of the current style at the current location."""
 
@@ -92,9 +149,6 @@ class wip():
     
     environment = NotImplemented
     """Sets the user limits and draws a box."""
-
-    erase       = NotImplemented
-    """Erases the graphics screen."""
 
     errorbar    = NotImplemented
     """Dears error bars on (x,y) pairs in the direction 90(K-1)."""
@@ -207,9 +261,6 @@ class wip():
     move        = NotImplemented
     """Sets the current world (user) position to (x,y)."""
 
-    mtext       = NotImplemented
-    """Writes the string STR relative to SIDE."""
-
     # ncurse      = NotImplemented
     # """Marks a set of points using the cursor."""
 
@@ -239,9 +290,6 @@ class wip():
 
     plotfit     = NotImplemented
     """Draws a plot of the most recent fit."""
-
-    points      = NotImplemented
-    """Draws points of the current style at each (x,y)."""
 
     poly        = NotImplemented
     """Draws a polygon."""
@@ -330,27 +378,8 @@ class wip():
     ylabel      = NotImplemented
     """Writes the label STR centered left of the Y axis."""
 
-class Figure():
-    def __init__(self):
-        cwip.wipinit()
-
-    def __del__(self):
-        # This is an alias to cpgend(), possibly update in the future to this?
-        cwip.wipclose()
 
 
-    def box(self, xvars='bcnst', yvars='bcnst'):
-        values = cwip.wipgetick()
-        cwip.cpgtbox(xvars, values[0], values[1], yvars, values[2], values[3])
-        return
 
-    def erase(self):
-        cwip.cpgpage()
 
-    def mtext(self, side, disp, just, coord, line):
-        # side - L(eft), R(ight), T(op), B(ottom)
-        # disp - Offset from axis
-        # just - Justification, 0.5 is center, 0 is left/bottom, 1 is right/top
-        # coord- Alignment of text, 0 is left, 0.5 is center, 1 is right.
-        # line - Text to place
-        cwip.wipmtext(side, disp, just, coord, line)
+

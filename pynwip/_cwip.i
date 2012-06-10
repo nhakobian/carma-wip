@@ -46,3 +46,33 @@ void mod_cpgpt(int len1, float* vec1, int len2, float* vec2, int symbol)
 /*    wipgetick(float *xtick , int *nxsub , float *ytick , int *nysub); */
 void  wipgetick(float *OUTPUT, int *OUTPUT, float *OUTPUT, int *OUTPUT);
  int  wipmtext(char *side, float disp, float coord, float just, char *line);
+void  wipclose(void);
+
+/* WIPPOINTS wrapper begin 
+   int  wippoints(int nstyle, float style[], int nxy, float x[], \
+                  float y[], int nc, float c[]);
+*/
+%apply (int DIM1, float* IN_ARRAY1) { (int nstyle, float* style),
+                                      (int nx, float* x),
+                                      (int ny, float* y),
+                                      (int nc, float* c) }
+%rename (wippoints) mod_wippoints;
+%exception mod_wippoints {
+  $action
+  if (PyErr_Occurred()) SWIG_fail;
+}
+%inline %{
+void mod_wippoints(int nstyle, float* style, int nx, float* x, 
+		   int ny, float* y, int nc, float* c)
+{
+  if (nx != ny) {
+    PyErr_Format(PyExc_ValueError, "Arrays of lengths (%d,%d) given", nx, ny);
+    return;
+  }
+  wippoints(nstyle, style, nx, x, y, nc, c);
+  return;
+}
+%}
+%clear (int nstyle, float* style), (int nx, float* x), (int ny, float* y),
+       (int nc, float* c);
+// WIPPOINTS wrapper end
