@@ -17,6 +17,8 @@ void cpgtbox(const char *xopt, float xtick, int nxsub, \
 	     const char *yopt, float ytick, int nysub);  // Draw box
 void cpgpage(void);  // Erase screen.
 void cpgswin(float x1, float x2, float y1, float y2); // Set plot limits.
+//   Writes labels, similar to mtext.
+void cpglab(const char *xlbl, const char *ylbl, const char *toplbl); 
 
 // CPGPT Wrapper Begin
 // void cpgpt(int n, const float *xpts, const float *ypts, int symbol);

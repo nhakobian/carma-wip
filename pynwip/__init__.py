@@ -118,7 +118,6 @@ class wip():
         cwip.wiplimits() # Grabs limits set with pgswin and also saves them
                          # as wip variables x1, x2, y1, y2.
 
-
     def mtext(self, side, disp, just, coord, string):
         """
         Writes the string STR relative to SIDE.
@@ -146,6 +145,26 @@ class wip():
         cwip.wippoints(style, numpy.array(x, dtype=numpy.float32), 
                        numpy.array(y, dtype=numpy.float32), color)
 
+    def xlabel(self, string):
+        """
+        Writes the label STR centered under the X axis.
+
+          string : (string) - Text to place along the x-axis.
+        """
+        # PGPLOT convenience function equivalent to wip command:
+        #   mtext 'B' 3.2 0.5 0.5 "STRING"
+        cwip.cpglab(string, '', '')
+
+    def ylabel(self, string):
+        """
+        Writes the label STR centered under the Y axis.
+
+          string : (string) - Text to place along the y-axis.
+        """
+        # PGPLOT convenience function equivalent to wip command:
+        #   mtext 'L' 2.2 0.5 0.5 "STRING"
+        cwip.cpglab('', string, '')
+        
     #
     # Below begins list of NotImplemented functions.
     #
@@ -440,15 +459,8 @@ class wip():
     xcolumn     = NotImplemented
     """Reads X data from column N of the current file."""
 
-    xlabel      = NotImplemented
-    """Writes the label STR centered under the X axis."""
-
     ycolumn     = NotImplemented
     """Reads Y data from column N of the current file."""
-
-    ylabel      = NotImplemented
-    """Writes the label STR centered left of the Y axis."""
-
 
 
 
