@@ -45,4 +45,4 @@ void mod_cpgpt(int len1, float* vec1, int len2, float* vec2, int symbol)
  int  wipdevice(const char *devicename);
 /*    wipgetick(float *xtick , int *nxsub , float *ytick , int *nysub); */
 void  wipgetick(float *OUTPUT, int *OUTPUT, float *OUTPUT, int *OUTPUT);
-
+ int  wipmtext(char *side, float disp, float coord, float just, char *line);
