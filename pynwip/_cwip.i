@@ -14,11 +14,13 @@ import_array();
 
 /* cpgplot defs */
 void cpgtbox(const char *xopt, float xtick, int nxsub, \
-	     const char *yopt, float ytick, int nysub);
-void cpgpage(void);
+	     const char *yopt, float ytick, int nysub);  // Draw box
+void cpgpage(void);  // Erase screen.
+void cpgswin(float x1, float x2, float y1, float y2); // Set plot limits.
 
 // CPGPT Wrapper Begin
 // void cpgpt(int n, const float *xpts, const float *ypts, int symbol);
+//      Plot points routine.
 %apply (int DIM1, float* IN_ARRAY1) { (int len1, float* vec1),
                                       (int len2, float* vec2)}
 %rename (cpgpt) mod_cpgpt;
@@ -41,16 +43,17 @@ void mod_cpgpt(int len1, float* vec1, int len2, float* vec2, int symbol)
 %clear (int len1, float* vec1), (int len2, float* vec2);
 // CPGPT Wrapper End
 
- int  wipinit(void);
- int  wipdevice(const char *devicename);
-/*    wipgetick(float *xtick , int *nxsub , float *ytick , int *nysub); */
-void  wipgetick(float *OUTPUT, int *OUTPUT, float *OUTPUT, int *OUTPUT);
- int  wipmtext(char *side, float disp, float coord, float just, char *line);
-void  wipclose(void);
+ int wipinit(void);
+ int wipdevice(const char *devicename);
+/*   wipgetick(float *xtick , int *nxsub , float *ytick , int *nysub); */
+void wipgetick(float *OUTPUT, int *OUTPUT, float *OUTPUT, int *OUTPUT);
+ int wipmtext(char *side, float disp, float coord, float just, char *line);
+void wipclose(void);
+void wiplimits(void);
 
 /* WIPPOINTS wrapper begin 
-   int  wippoints(int nstyle, float style[], int nxy, float x[], \
-                  float y[], int nc, float c[]);
+   int wippoints(int nstyle, float style[], int nxy, float x[], \
+                 float y[], int nc, float c[]);
 */
 %apply (int DIM1, float* IN_ARRAY1) { (int nstyle, float* style),
                                       (int nx, float* x),
@@ -63,7 +66,7 @@ void  wipclose(void);
 }
 %inline %{
 void mod_wippoints(int nstyle, float* style, int nx, float* x, 
-		   int ny, float* y, int nc, float* c)
+                   int ny, float* y, int nc, float* c)
 {
   if (nx != ny) {
     PyErr_Format(PyExc_ValueError, "Arrays of lengths (%d,%d) given", nx, ny);

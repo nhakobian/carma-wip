@@ -1,4 +1,5 @@
 import cwip
+import numpy
 
 class wip():
     def __init__(self):
@@ -47,6 +48,77 @@ class wip():
         """
         cwip.cpgpage()
 
+    def limits(self, *args):
+        """
+        Sets the world limits of the plot.
+        
+        Two ways to call:
+        ONE
+        ===
+          x    : (array) - Auto limits on X array.
+          y    : (array) - Auto limits on Y array.
+
+        TWO
+        ===
+          xmin : (float) - Minimum X value.
+          xmax : (float) - Maximum X value.
+          ymin : (float) - Minimum Y value.
+          ymax : (float) - Maximum Y value.
+        """
+        # xvec = wipvector("x", &nx, &npts);
+        # yvec = wipvector("y", &nx, &ny);
+        # npts = MIN(npts, ny);
+        # if (npts < 1) npts = 0;
+        # wiprange(npts, xvec, &xmin, &xmax);
+        # wiprange(npts, yvec, &ymin, &ymax);
+        # if (argc > 0) 
+        # {
+        #     if (wiparguments(&line, 4, arg) != 4) goto MISTAKE;
+        #     if (arg[0] != arg[1]) 
+        #     {
+        #         xmin = arg[0];
+        #         xmax = arg[1];
+        #     }
+        #     if (arg[2] != arg[3]) 
+        #     {
+        #         ymin = arg[2];
+        #         ymax = arg[3];
+        #     }
+        # }
+        # cpgswin(xmin, xmax, ymin, ymax);
+        # wiplimits();
+        nargs = len(args)
+
+        if (nargs == 2):
+            # Make sure input data is an array and extract extrema.
+            x_array = numpy.array(args[0])
+            y_array = numpy.array(args[1])
+            xmin = x_array.min()
+            xmax = x_array.max()
+            ymin = y_array.min()
+            ymax = y_array.max()
+            
+            # WIP gives 5% padding around each of them.
+            xpadd = (xmax - xmin) * 0.05
+            ypadd = (ymax - ymin) * 0.05
+
+            xmin -= xpadd
+            xmax += xpadd
+            ymin -= ypadd
+            ymax += ypadd
+        elif (nargs == 4):
+            xmin = float(args[0])
+            xmax = float(args[1])
+            ymin = float(args[2])
+            ymax = float(args[3])
+        else:
+            raise TypeError("Error in arguments to 'limits'.")
+
+        cwip.cpgswin(xmin, xmax, ymin, ymax) # Sets the window limits
+        cwip.wiplimits() # Grabs limits set with pgswin and also saves them
+                         # as wip variables x1, x2, y1, y2.
+
+
     def mtext(self, side, disp, just, coord, string):
         """
         Writes the string STR relative to SIDE.
@@ -59,7 +131,7 @@ class wip():
                               1 is right.
           string : (string) - Text to insert
         """
-        cwip.wipmtext(side, disp, just, coord, line)
+        cwip.wipmtext(side, disp, just, coord, string)
 
     def points(self, x=None, y=None, style=[2], color=[]):
         """
@@ -70,7 +142,9 @@ class wip():
           style : (array) - default [2] - array of styles at each point.
           color : (array) - default []  - array of color indices at each point.
         """
-        cwip.wippoints(style, x, y, color)
+        # Force cast of array to float32 in order to satisfy C array types.
+        cwip.wippoints(style, numpy.array(x, dtype=numpy.float32), 
+                       numpy.array(y, dtype=numpy.float32), color)
 
     #
     # Below begins list of NotImplemented functions.
@@ -227,9 +301,6 @@ class wip():
 
     levels      = NotImplemented
     """Sets the contour levels for a contour plot."""
-
-    limits      = NotImplemented
-    """Sets the world limits of the plot."""
 
     lines       = NotImplemented
     """Limits the C, Y, E, and PCOLUMN file read to lines L1-L2."""
