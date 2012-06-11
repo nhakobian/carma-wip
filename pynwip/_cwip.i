@@ -168,6 +168,7 @@ void wipsetangle(double ang);
 double wipgetvar(const char *inword, int *OUTPUT);
  int wiparc(float majx, float majy, float arcangle, float angle, float start);
 void wiparrow(float xp, float yp, float angle, float vent);
+void wipexpand(double exp);
 
 /* WIPPOINTS wrapper begin 
    int wippoints(int nstyle, float style[], int nxy, float x[], \

@@ -48,6 +48,13 @@ a.arc(0.3, 0.1, 45)
 a.move(-0.35, 0.5)
 a.arc(0.2, 0.2, start=90, extent=180)
 
+a.move(0.5, -0.5)
+a.putlabel("Reg sized text", 0)
+a.expand=a.expand*2
+a.move(0.5, -0.75)
+a.putlabel("Big sized text", 0)
+a.expand=a.expand/2.
+
 qx = numpy.array([-0.75, -0.5, -0.25, 0, 0.25, 0.5, 0.75], dtype=numpy.float32)
 qy = numpy.array([-0.75, -0.5, -0.25, 0, 0.25, 0.5, 0.75], dtype=numpy.float32)
 a.points(qx, qy, style=[16])
@@ -72,6 +79,10 @@ a.limits(0, 5, 0, 5)
 a.box()
 a.move(0.5, 4)
 a.arrow(1, 1, 90, 0)
+a.move(1, 4)
+a.expand=1.25
+a.arrow(1.5, 1, 45, 0)
+a.expand=1
 
 a.panel(1, 1, 1)
 a.mtext('T', 3, 0.5, 0.5, "Sample multipanel plot.")

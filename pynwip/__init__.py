@@ -37,9 +37,10 @@ class wip():
 
     def __getattr__(self, name):
         namedict = { 
-            'angle' : lambda : self._wipgetvar('angle'),
-            'tr'    : lambda : cwip.wipgetr(6),
-            'tick'  : cwip.wipgetick,
+            'angle'  : lambda : self._wipgetvar('angle'),
+            'expand' : lambda : self._wipgetvar('expand'),
+            'tr'     : lambda : cwip.wipgetr(6),
+            'tick'   : cwip.wipgetick,
             }
         
         if name not in namedict.keys():
@@ -49,8 +50,9 @@ class wip():
 
     def __setattr__(self, name, value):
         namedict = { 
-            'angle' : cwip.wipsetangle ,
-            'tr'    : lambda x : cwip.wipsetr(x) ,
+            'angle'  : cwip.wipsetangle ,
+            'expand' : cwip.wipexpand,
+            'tr'     : lambda x : cwip.wipsetr(x) ,
             }
 
         if name not in namedict.keys():
@@ -707,9 +709,6 @@ class wip():
 
     etxt        = NotImplemented
     """Erases the text from the view surface without affecting graphics."""
-
-    expand      = NotImplemented
-    """Expands all characters and points by a factor E."""
 
     fill        = NotImplemented
     """Sets the fill area style to N."""
