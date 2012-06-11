@@ -21,6 +21,25 @@ class wip():
         """Signifies that a function is not implemented. """
         raise NotImplementedError
 
+    # Attributes (wip variables)
+    def __getattr__(self, name):
+        namedict = { 'tr'  : lambda : cwip.wipgetr(6),
+                     'tick': cwip.wipgetick }
+        
+        if name not in namedict.keys():
+            raise AttributeError
+        
+        return namedict[name]()
+
+    def __setattr__(self, name, value):
+        namedict = { 'tr' : lambda x : cwip.wipsetr(x) }
+
+        if name not in namedict.keys():
+            raise AttributeError
+
+        namedict[name](value)
+
+
     # Below begins reinterpreted wip functions.
 
     def bin(self, x, y, k=1, gap=None):
@@ -75,7 +94,7 @@ class wip():
           xvars : x options string.
           yvars : y options string.
         """
-        values = cwip.wipgetick()
+        values = self.tick
         cwip.cpgtbox(xvars, values[0], values[1], yvars, values[2], values[3])
         return
 
@@ -194,8 +213,7 @@ class wip():
         nx = int(image.axes[0])
         ny = int(image.axes[1])
         #xylimits = cwip.wipgetsub()
-        tr = cwip.wipgetr(6)
-        cwip.cpgimag(image.image[0,:,:], 1, nx, 1, ny, imax, imin, tr)
+        cwip.cpgimag(image.image[0,:,:], 1, nx, 1, ny, imax, imin, self.tr)
 
     def header(self, image, xdir, ydir=None):
         """
@@ -386,7 +404,7 @@ class wip():
         # Set the transformation matrix for PGIMAG, etc.
         tr = numpy.array([xoff, xscale, 0.0, yoff, 0.0, yscale], 
                          dtype=numpy.float32)
-        cwip.wipsetr(tr)
+        self.tr = tr
 
     def limits(self, *args):
         """

@@ -65,3 +65,4 @@ a.winadj(0, 1, 0, 1)
 a.box('bc', 'bc')
 a.mtext('B', 1, 0.5, 0.5, "Viewport test")
 
+print a.tr
