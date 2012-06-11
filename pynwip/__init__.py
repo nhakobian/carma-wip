@@ -138,8 +138,6 @@ class wip():
                          numpy.array(y, dtype=numpy.float32), 
                          numpy.array(error, dtype=numpy.float32))
 
-
-
     def halftone(self):
         """
         Produces a halftone plot of an image.
@@ -191,6 +189,52 @@ class wip():
         # else
         #    cpggray(*impic, nx, ny, sx1, sx2, sy1, sy2, ymax, ymin, tr);
         pass
+
+    def header(self, xdir, ydir=None):
+        """
+        Loads header information of the current image.
+        
+          xdir : (string) - coordinate system of x axis
+          ydir : (string) - coordinate system of y axis, if none is passed
+                            defaults to same value as x-axis.
+
+          Valid coordinate system values are:
+             rd : Right ascension/declination (absolute coordinates).
+             so : Arcsecond offset positions.
+             mo : Arcminute offset positions.
+             po : Pixel offset positions.
+             px : Absolute pixel positions.
+             gl : General linear coordinates.
+             go : General linear offset coordinates.
+    
+        This function will need to be ported into python for maximum utility.
+        This function may disappear in the future and its abilities rolled into
+        functions that use/manipulate the coordinate system (halftone, contour,
+        plot, etc.
+        """
+        # par = wipgetstring("xheader");
+        # ptr = wipgetstring("yheader");
+        # if (argc == 1) {
+        #     par = wipparse(&line);
+        #     ptr = par;
+        # } else if (argc > 1) {
+        #     par = wipparse(&line);
+        #     ptr = wipparse(&line);
+        # }
+        # wipgetsub(&sx1, &sx2, &sy1, &sy2);
+        # if (wipheader(sx1, sy1, sx2, sy2, par, ptr)) goto MISTAKE;
+        if ydir == None:
+            ydir = xdir
+
+        coord_values = ['rd', 'so', 'mo', 'po', 'px', 'gl', 'go']
+
+        if xdir not in coord_values:
+            raise ValueError("%s is not a valid coordinate system." % xdir)
+        if ydir not in coord_values:
+            raise ValueError("%s is not a valid coordinate system." % ydir)
+
+        sub = cwip.wipgetsub()
+        cwip.wipheader(sub[0], sub[2], sub[1], sub[3], xdir, ydir)
 
     def limits(self, *args):
         """
@@ -421,9 +465,6 @@ class wip():
 
     globe       = NotImplemented
     """Draws a 'globe' with nlong/nlat long/lat lines."""
-
-    header      = NotImplemented
-    """Loads header information of the current image."""
 
     hi2d        = NotImplemented
     """Draws a histogram of the data read by IMAGE."""

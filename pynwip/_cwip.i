@@ -149,12 +149,16 @@ void mod_cpggray(float* a, int idim, int jdim, int i1, int i2, int j1, \
  int wipdevice(const char *devicename);
 /*   wipgetick(float *xtick , int *nxsub , float *ytick , int *nysub); */
 void wipgetick(float *OUTPUT, int *OUTPUT, float *OUTPUT, int *OUTPUT);
+/*   wipgetsub(int *subx1, int *subx2, int *suby1, int *suby2); */
+void wipgetsub(int *OUTPUT, int *OUTPUT, int *OUTPUT, int *OUTPUT);
  int wipmtext(char *side, float disp, float coord, float just, char *line);
 void wipclose(void);
 void wiplimits(void);
 void wipmove(float x, float y);
 void wippanel(int nx, int ny, int k);
 void wipputlabel(const char *line, double justify);
+ int wipheader(int blcx, int blcy, int trcx, int trcy, const char *xtype, \
+	       const char *ytype);
 
 /* WIPPOINTS wrapper begin 
    int wippoints(int nstyle, float style[], int nxy, float x[], \
