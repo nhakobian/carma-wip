@@ -139,6 +139,59 @@ class wip():
                          numpy.array(error, dtype=numpy.float32))
 
 
+
+    def halftone(self):
+        """
+        Produces a halftone plot of an image.
+        """
+        # curimage = wipimcur("curimage");
+        # if (wipimagexists(curimage) == 0) 
+        # {
+        #     wipoutput(stderr, "You must specify an image first!\n");
+        #     goto MISTAKE;
+        # }
+        # wipimagenxy(curimage, &nx, &ny);
+        # /* bg     fg */
+        # wipimageminmax(curimage, &ymin, &ymax, 0);
+        # wipgetsub(&sx1, &sx2, &sy1, &sy2);
+        # wipgetr(tr);
+        # impic = wipimagepic(curimage);
+        # wipgetcir(&cmin, &cmax);
+        # narg = -1;
+        # xfloat = -99.0;
+        # if (argc == 2) 
+        # {
+        #     if (wiparguments(&line, 2, arg) != 2) goto MISTAKE;
+        #     ymin = arg[0];
+        #     ymax = arg[1];
+        # } 
+        # else if (argc == 3) 
+        # {
+        #     if (wiparguments(&line, 3, arg) != 3) goto MISTAKE;
+        #     ymin = arg[0];
+        #     ymax = arg[1];
+        #     narg = NINT(arg[2]);
+        # }
+        # else if (argc > 3) 
+        # {
+        #     if (wiparguments(&line, 4, arg) != 4) goto MISTAKE;
+        #     ymin = arg[0];
+        #     ymax = arg[1];
+        #     narg = NINT(arg[2]);
+        #     xfloat = arg[3];
+        # }
+        # if (narg <= 0) narg = cmax - cmin + 1;
+        # hmin = ymin;
+        # hmax = ymax;
+        # if (argc > 2)                /* Only do this if requested. */
+        #     wipheq(nx, ny, impic, sx1, sx2, sy1, sy2, xfloat, ymin, ymax, \
+        #            narg);
+        # if ((cmin + 1) < cmax)
+        #    cpgimag(*impic, nx, ny, sx1, sx2, sy1, sy2, ymin, ymax, tr);
+        # else
+        #    cpggray(*impic, nx, ny, sx1, sx2, sy1, sy2, ymax, ymin, tr);
+        pass
+
     def limits(self, *args):
         """
         Sets the world limits of the plot.
@@ -368,9 +421,6 @@ class wip():
 
     globe       = NotImplemented
     """Draws a 'globe' with nlong/nlat long/lat lines."""
-
-    halftone    = NotImplemented
-    """Produces a halftone plot of an image."""
 
     header      = NotImplemented
     """Loads header information of the current image."""

@@ -96,6 +96,55 @@ void mod_cpgline(int len1, float* vec1, int len2, float* vec2)
 %clear (int len1, float* vec1), (int len2, float* vec2);
 // CPGLINE Wrapper End
 
+// NOTE: CPGIMAG and CPGGRAY share %apply and %clear directives.
+// CPGIMAG Wrapper Start
+// void cpgimag(const float *a, int idim, int jdim, int i1, int i2, int j1, \
+//              int j2, float a1, float a2, const float *tr);
+%apply (float* IN_ARRAY2, int DIM1, int DIM2) {(float* a, int idim, int jdim)}
+%apply (float* IN_ARRAY1, int DIM1) {(float* tr, int trdim)}
+%rename (cpgimag) mod_cpgimag;
+%exception mod_cpgimag {
+  $action
+  if (PyErr_Occurred()) SWIG_fail;
+}
+%inline %{
+void mod_cpgimag(float* a, int idim, int jdim, int i1, int i2, int j1, \
+                 int j2, float a1, float a2, float* tr, int trdim)
+{
+  if (trdim != 6) {
+    PyErr_Format(PyExc_ValueError, " trdim array size not equal to 6");
+    return;
+  }
+  cpgimag(a, idim, jdim, i1, i2, j1, j2, a1, a2, tr);
+  return;
+}
+%}
+// CPGIMAG Wrapper End
+// CPGGRAY Wrapper Start
+// void cpggray(const float *a, int idim, int jdim, int i1, int i2, int j1, \
+//              int j2, float fg, float bg, const float *tr);
+%rename (cpggray) mod_cpggray;
+%exception mod_cpggray {
+  $action
+  if (PyErr_Occurred()) SWIG_fail;
+}
+%inline %{
+void mod_cpggray(float* a, int idim, int jdim, int i1, int i2, int j1, \
+                 int j2, float fg, float bg, float* tr, int trdim)
+{
+  if (trdim != 6) {
+    PyErr_Format(PyExc_ValueError, " trdim array size not equal to 6");
+    return;
+  }
+  cpggray(a, idim, jdim, i1, i2, j1, j2, fg, bg, tr);
+  return;
+}
+%}
+%clear (float* a, int idim, int jdim);
+%clear (float* tr, int trdim);
+// CPGGRAY Wrapper End
+// NOTE: End of shared %apply and %clear
+
  int wipinit(void);
  int wipdevice(const char *devicename);
 /*   wipgetick(float *xtick , int *nxsub , float *ytick , int *nysub); */
