@@ -96,6 +96,24 @@ class wip():
             pa = self.angle
         cwip.wiparc(majx, majy, extent, pa, start)
 
+    def arrow(self, x, y, angle=45.0, vent=0.3):
+        """
+        Draws an arrow.
+        """
+        # xfloat = 45.0; yfloat = 0.3;
+        # if (argc == 2) {
+        #     if (wiparguments(&line, 2, arg) != 2) goto MISTAKE;
+        # } else if (argc == 3) {
+        #     if (wiparguments(&line, 3, arg) != 3) goto MISTAKE;
+        #     xfloat = arg[2];
+        # } else {
+        #     if (wiparguments(&line, 4, arg) != 4) goto MISTAKE;
+        #     xfloat = arg[2]; yfloat = arg[3];
+        # }
+        # xmax = arg[0]; ymax = arg[1];
+        # wiparrow(xmax, ymax, xfloat, yfloat);
+        cwip.wiparrow(x, y, angle, vent)
+
     def bin(self, x, y, k=1, gap=None):
         """
         Draws a histogram of (x,y) pairs. 
@@ -659,9 +677,6 @@ class wip():
 
     aitoff      = NotImplemented
     """Converts L-b coordinate values to equivalent x-y positions. """
-
-    arrow       = NotImplemented
-    """Draws an arrow."""
 
     autolevs    = NotImplemented
     """Sets up the contour levels automatically."""
