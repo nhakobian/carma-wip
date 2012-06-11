@@ -22,9 +22,25 @@ class wip():
         raise NotImplementedError
 
     # Attributes (wip variables)
+    def _wipgetvar(self, varname):
+        """
+        This is a wrapper function for grabbing wip variables that do
+        not have their own wrapping function. This performs some basic
+        error checking.
+        """
+        (value, error) = cwip.wipgetvar(varname)
+
+        if error == 1:
+            raise AttributeError
+        else:
+            return value
+
     def __getattr__(self, name):
-        namedict = { 'tr'  : lambda : cwip.wipgetr(6),
-                     'tick': cwip.wipgetick }
+        namedict = { 
+            'angle' : lambda : self._wipgetvar('angle'),
+            'tr'    : lambda : cwip.wipgetr(6),
+            'tick'  : cwip.wipgetick,
+            }
         
         if name not in namedict.keys():
             raise AttributeError
@@ -32,7 +48,10 @@ class wip():
         return namedict[name]()
 
     def __setattr__(self, name, value):
-        namedict = { 'tr' : lambda x : cwip.wipsetr(x) }
+        namedict = { 
+            'angle' : cwip.wipsetangle ,
+            'tr'    : lambda x : cwip.wipsetr(x) ,
+            }
 
         if name not in namedict.keys():
             raise AttributeError
@@ -41,6 +60,41 @@ class wip():
 
 
     # Below begins reinterpreted wip functions.
+
+    def arc(self, majx, majy, pa=None, extent=360.0, start=0.0):
+        """
+        Drawn an arc with major axes MAJX, MAJY.
+
+          majx   : (float) - length of the x axis component.
+          majy   : (float) - length of the y-axis component.
+          pa     : (float) - In degrees, the offset from the +x axis going ccw.
+                             By default takes the value of the last angle 
+                             setting or 0.
+          extent : (float) - default 360.0, how many degrees the arc is drawn
+                             through.
+          start  : (float) - default 0.0, the angle offset before arc starts
+                             being drawn.
+        """
+        # xfloat = 360.0; yfloat = 0.0;
+        # if (argc == 2) {
+        #     if (wiparguments(&line, 2, arg) != 2) goto MISTAKE;
+        # } else if (argc == 3) {
+        #     if (wiparguments(&line, 3, arg) != 3) goto MISTAKE;
+        #     xfloat = arg[2];
+        # } else {
+        #     if (wiparguments(&line, 4, arg) != 4) goto MISTAKE;
+        #     xfloat = arg[2]; yfloat = arg[3];
+        # }
+        # xmax = arg[0]; ymax = arg[1];
+        # ymin = wipgetvar("angle", &error);
+        # if (error == TRUE) goto MISTAKE;
+        # if (wiparc(xmax, ymax, xfloat, ymin, yfloat)) goto MISTAKE;
+
+        # The object self does not exist at function definition time,
+        # so we must test and define for it here.
+        if pa == None:
+            pa = self.angle
+        cwip.wiparc(majx, majy, extent, pa, start)
 
     def bin(self, x, y, k=1, gap=None):
         """
@@ -438,7 +492,7 @@ class wip():
         #         xmax = arg[1];
         #     }
         #     if (arg[2] != arg[3]) 
-        #     {
+        #     { for a passed variable
         #         ymin = arg[2];
         #         ymax = arg[3];
         #     }
@@ -478,7 +532,7 @@ class wip():
 
     def move(self, x, y):
         """
-        Sets the current world (user) position to (x,y).
+ for a passed variable        Sets the current world (user) position to (x,y).
 
           x : (float) - X position
           y : (float) - Y position
@@ -605,12 +659,6 @@ class wip():
 
     aitoff      = NotImplemented
     """Converts L-b coordinate values to equivalent x-y positions. """
-
-    angle       = NotImplemented
-    """Sets angle of text or points to D degrees."""
-
-    arc         = NotImplemented
-    """Drawn an arc with major axes MAJX, MAJY."""
 
     arrow       = NotImplemented
     """Draws an arrow."""

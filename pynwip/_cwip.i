@@ -163,6 +163,10 @@ void wippanel(int nx, int ny, int k);
 void wipputlabel(const char *line, double justify);
  int wipheader(int blcx, int blcy, int trcx, int trcy, const char *xtype, \
 	       const char *ytype);
+void wipsetangle(double ang);
+/* double wipgetvar(const char *inword, int *error)*/
+double wipgetvar(const char *inword, int *OUTPUT);
+ int wiparc(float majx, float majy, float arcangle, float angle, float start);
 
 /* WIPPOINTS wrapper begin 
    int wippoints(int nstyle, float style[], int nxy, float x[], \
