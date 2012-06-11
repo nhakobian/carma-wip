@@ -6,7 +6,7 @@ import miriad_tools
 
 a = pynwip.wip()
 a.device()
-a.paper(500, 1, units='px')
+a.paper(750, 1/1.5, units='px')
 
 x = (numpy.array(range(100)) / 10.0) - 5.0
 y = numpy.sin(x)
@@ -50,9 +50,9 @@ a.errorbar(qx, qy, numpy.array([0, 0, 0, 0, 0, 0, .1], dtype=numpy.float32), 6)
 a.panel(2, 2, -4)
 img = miriad_tools.MirImage('test.image')
 
-a.header(img.image, 'px', 'px')
-a.halftone(img.image)
-a.box()
+a.header(img, 'rd', 'rd')
+a.halftone(img)
+a.box('bcstznh', 'bcstznvd')
 
 a.panel(1, 1, 1)
 a.mtext('T', 3, 0.5, 0.5, "Sample multipanel plot.")

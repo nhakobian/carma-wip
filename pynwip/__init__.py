@@ -1,5 +1,6 @@
 import cwip
 import numpy
+import miriad_tools
 
 class wip():
     def __init__(self):
@@ -188,13 +189,13 @@ class wip():
         #    cpgimag(*impic, nx, ny, sx1, sx2, sy1, sy2, ymin, ymax, tr);
         # else
         #    cpggray(*impic, nx, ny, sx1, sx2, sy1, sy2, ymax, ymin, tr);
-        imin = image.min()
-        imax = image.max()
-        nx = image.shape[2]
-        ny = image.shape[1]
+        imin = float(image.image.min())
+        imax = float(image.image.max())
+        nx = int(image.axes[0])
+        ny = int(image.axes[1])
         #xylimits = cwip.wipgetsub()
         tr = cwip.wipgetr(6)
-        cwip.cpgimag(image[0,:,:], 1, nx, 1, ny, float(imax), float(imin), tr)
+        cwip.cpgimag(image.image[0,:,:], 1, nx, 1, ny, imax, imin, tr)
 
     def header(self, image, xdir, ydir=None):
         """
@@ -218,17 +219,6 @@ class wip():
         functions that use/manipulate the coordinate system (halftone, contour,
         plot, etc.
         """
-        # par = wipgetstring("xheader");
-        # ptr = wipgetstring("yheader");
-        # if (argc == 1) {
-        #     par = wipparse(&line);
-        #     ptr = par;
-        # } else if (argc > 1) {
-        #     par = wipparse(&line);
-        #     ptr = wipparse(&line);
-        # }
-        # wipgetsub(&sx1, &sx2, &sy1, &sy2);
-        # if (wipheader(sx1, sy1, sx2, sy2, par, ptr)) goto MISTAKE;
         if ydir == None:
             ydir = xdir
 
@@ -253,9 +243,9 @@ class wip():
 
         # For testing force size values to the following:
         blcx = 0
-        trcx = image.shape[2]
+        trcx = image.axes[0]
         blcy = 0
-        trcy = image.shape[1]
+        trcy = image.axes[1]
 
         # Expand limits to be one half pixel larger in each direction since
         # pixels have definite sise.
@@ -268,15 +258,26 @@ class wip():
         # Computes transformation matrix which is based on xscale, xoff,
         # yscale, yoff
 
-        crvalx = 0.0
-        crpixx = 0.0
-        cdeltx = 0.0
-        crvaly = 0.0
-        crpixy = 0.0
-        cdelty = 0.0
-
-        ctypex = 'px'
-        ctypey = 'px'
+        if isinstance(image, miriad_tools.MirImage) == True:
+            im_type = 'miriad'
+            crvalx = image.crval[0]
+            crpixx = image.crpix[0]
+            cdeltx = image.cdelt[0]
+            crvaly = image.crval[1]
+            crpixy = image.crpix[1]
+            cdelty = image.cdelt[1]
+            ctypex = image.ctypes_n[0].lower()
+            ctypey = image.ctypes_n[1].lower()
+        else:
+            im_type = 'pixel'
+            crvalx = 0.0
+            crpixx = 0.0
+            cdeltx = 0.0
+            crvaly = 0.0
+            crpixy = 0.0
+            cdelty = 0.0
+            ctypex = 'px'
+            ctypey = 'px'
 
         # If one of the axis is a declination axis, then set the cos factor
         # to that axis value.
@@ -309,7 +310,6 @@ class wip():
         # From the code below, it seems that FITS is in decimal degrees
         # (NOT decimal hours).
         
-        im_type = 'pixel' # place holder for testing.
         if im_type == 'miriad':
             xconvert = (3600.0 / rafacx) / rpdeg
             yconvert = (3600.0 / rafacy) / rpdeg
@@ -328,22 +328,22 @@ class wip():
         # X-direction
         if   xdir == 'rd': # RA / Dec
             xscale = xconvert * cdeltx / cosdec
-            xoff   = (xconvert * crvalx) - (crpixx * scale)
+            xoff   = (xconvert * crvalx) - (crpixx * xscale)
         elif xdir == 'so': # Arcsecond offset positions.
             xscale = xconvert * rafacx * cdeltx
-            xoff   = -crpixx * scale
+            xoff   = -crpixx * xscale
         elif xdir == 'mo': # Arcminute offset positions.
             xscale = xconvert * rafacx * cdeltx / 60.0
-            xoff   = -crpixx * scale
+            xoff   = -crpixx * xscale
         elif xdir == 'po': # Pixel offset positions.
             xscale = 1.0
             xoff   = -crpixx
         elif xdir == 'go': # General linear offset coordinates.
             xscale = cdeltx
-            xoff   = -crpixx * scale 
+            xoff   = -crpixx * xscale 
         elif xdir == 'gl': # General linear coordinates.
             xscale = cdeltx
-            xoff   = crvalx - (crpixx * scale)
+            xoff   = crvalx - (crpixx * xscale)
         else: # xdir == 'px' # Absolute pixel positions.
             xscale = 1.0
             xoff   = 0.0
@@ -351,22 +351,22 @@ class wip():
         # Repeat for ydir.
         if   ydir == 'rd': # RA / Dec
             yscale = yconvert * cdelty
-            yoff   = (yconvert * crvaly) - (crpixy * scale)
+            yoff   = (yconvert * crvaly) - (crpixy * yscale)
         elif ydir == 'so': # Arcsecond offset positions.
             yscale = yconvert * rafacy * cdelty
-            yoff   = -crpixy * scale
+            yoff   = -crpixy * yscale
         elif ydir == 'mo': # Arcminute offset positions.
             yscale = yconvert * rafacy * cdelty / 60.0
-            yoff   = -crpixy * scale
+            yoff   = -crpixy * yscale
         elif ydir == 'po': # Pixel offset positions.
             yscale = 1.0
             yoff   = -crpixy
         elif ydir == 'go': # General linear offset coordinates.
             yscale = cdelty
-            yoff   = -crpixy * scale
+            yoff   = -crpixy * yscale
         elif ydir == 'gl': # General linear coordinates.
             yscale = cdelty 
-            yoff   = crvaly - (crpixy * scale)
+            yoff   = crvaly - (crpixy * yscale)
         else: # xdir == 'px' # Absolute pixel positions.
             yscale = 1.0
             yoff   = 0.0
