@@ -2,6 +2,7 @@
 
 import pynwip
 import numpy
+import miriad_tools
 
 a = pynwip.wip()
 a.device()
@@ -47,6 +48,10 @@ a.errorbar(qx, qy, numpy.array([0, 0, 0, 0, 0, 0, .1], dtype=numpy.float32), 5)
 a.errorbar(qx, qy, numpy.array([0, 0, 0, 0, 0, 0, .1], dtype=numpy.float32), 6)
 
 a.panel(2, 2, -4)
+img = miriad_tools.MirImage('test.image')
+
+a.header(img.image, 'px', 'px')
+a.halftone(img.image)
 a.box()
 
 a.panel(1, 1, 1)

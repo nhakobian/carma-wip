@@ -7,6 +7,7 @@
 
 %include "typemaps.i"
 %include "numpy.i"
+%feature("autodoc", "2");
 
 %init %{
 import_array();
@@ -101,7 +102,7 @@ void mod_cpgline(int len1, float* vec1, int len2, float* vec2)
 // void cpgimag(const float *a, int idim, int jdim, int i1, int i2, int j1, \
 //              int j2, float a1, float a2, const float *tr);
 %apply (float* IN_ARRAY2, int DIM1, int DIM2) {(float* a, int idim, int jdim)}
-%apply (float* IN_ARRAY1, int DIM1) {(float* tr, int trdim)}
+%apply (float* IN_ARRAY1, int DIM1) {( const float* tr, int trdim)}
 %rename (cpgimag) mod_cpgimag;
 %exception mod_cpgimag {
   $action
@@ -109,7 +110,7 @@ void mod_cpgline(int len1, float* vec1, int len2, float* vec2)
 }
 %inline %{
 void mod_cpgimag(float* a, int idim, int jdim, int i1, int i2, int j1, \
-                 int j2, float a1, float a2, float* tr, int trdim)
+                 int j2, float a1, float a2,const float* tr, int trdim)
 {
   if (trdim != 6) {
     PyErr_Format(PyExc_ValueError, " trdim array size not equal to 6");
@@ -130,7 +131,7 @@ void mod_cpgimag(float* a, int idim, int jdim, int i1, int i2, int j1, \
 }
 %inline %{
 void mod_cpggray(float* a, int idim, int jdim, int i1, int i2, int j1, \
-                 int j2, float fg, float bg, float* tr, int trdim)
+                 int j2, float fg, float bg, const float* tr, int trdim)
 {
   if (trdim != 6) {
     PyErr_Format(PyExc_ValueError, " trdim array size not equal to 6");
@@ -141,7 +142,7 @@ void mod_cpggray(float* a, int idim, int jdim, int i1, int i2, int j1, \
 }
 %}
 %clear (float* a, int idim, int jdim);
-%clear (float* tr, int trdim);
+%clear (const float* tr, int trdim);
 // CPGGRAY Wrapper End
 // NOTE: End of shared %apply and %clear
 
@@ -159,7 +160,6 @@ void wippanel(int nx, int ny, int k);
 void wipputlabel(const char *line, double justify);
  int wipheader(int blcx, int blcy, int trcx, int trcy, const char *xtype, \
 	       const char *ytype);
-void wipsetr(float tr[]);
 
 /* WIPPOINTS wrapper begin 
    int wippoints(int nstyle, float style[], int nxy, float x[], \
@@ -243,3 +243,47 @@ void mod_wiperrorbar(int locat, int len1, float* vec1, int len2, float* vec2,
 %clear (int len1, float* vec1), (int len2, float* vec2), 
        (int len3, float* vec3);
 // WIPERROEBAR wrapper end
+
+// WIPSETR wrapper begin
+// void wipsetr(float tr[]);
+%apply (int DIM1, float* IN_ARRAY1) { (int len1, float* tr)}
+%rename (wipsetr) mod_wipsetr;
+%exception mod_wipsetr {
+  $action
+  if (PyErr_Occurred()) SWIG_fail;
+}
+%inline %{
+void mod_wipsetr(int len1, float* tr)
+{
+  if (len1 != 6) {
+    PyErr_Format(PyExc_ValueError, "TR length must equal 6");
+    return;
+  }
+  wipsetr(tr);
+  return;
+}
+%}
+%clear (int len1, float* tr);
+// WIPSETR wrapper end
+
+// WIPGETR wrapper begin
+// void wipgetr(float tr[]);
+%apply (int DIM1, float* ARGOUT_ARRAY1) { (int len1, float* tr)}
+%rename (wipgetr) mod_wipgetr;
+%exception mod_wipgetr {
+  $action
+  if (PyErr_Occurred()) SWIG_fail;
+}
+%inline %{
+void mod_wipgetr(int len1, float* tr)
+{
+  if (len1 != 6) {
+    PyErr_Format(PyExc_ValueError, "TR length must equal 6");
+    return;
+  }
+  wipgetr(tr);
+  return;
+}
+%}
+%clear (int len1, float* tr);
+// WIPGETR wrapper end

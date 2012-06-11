@@ -138,7 +138,7 @@ class wip():
                          numpy.array(y, dtype=numpy.float32), 
                          numpy.array(error, dtype=numpy.float32))
 
-    def halftone(self):
+    def halftone(self, image):
         """
         Produces a halftone plot of an image.
         """
@@ -188,11 +188,17 @@ class wip():
         #    cpgimag(*impic, nx, ny, sx1, sx2, sy1, sy2, ymin, ymax, tr);
         # else
         #    cpggray(*impic, nx, ny, sx1, sx2, sy1, sy2, ymax, ymin, tr);
-        pass
+        imin = image.min()
+        imax = image.max()
+        nx = image.shape[2]
+        ny = image.shape[1]
+        #xylimits = cwip.wipgetsub()
+        tr = cwip.wipgetr(6)
+        cwip.cpgimag(image[0,:,:], 1, nx, 1, ny, float(imax), float(imin), tr)
 
-    def header(self, xdir, ydir=None):
+    def header(self, image, xdir, ydir=None):
         """
-        Loads header information of the current image.
+        Loads header information of the image.
         
           xdir : (string) - coordinate system of x axis
           ydir : (string) - coordinate system of y axis, if none is passed
@@ -240,10 +246,16 @@ class wip():
         # Code below is based on src/image/header.c in WIP source and
         # includes both wipheader and wipheadlim.
 
-        blcx = sub[0] # px_xmin
-        trcx = sub[1] # px_xmax
-        blcy = sub[2] # px_ymin
-        trcy = sub[3] # px_ymax
+        # blcx = sub[0] # px_xmin
+        # trcx = sub[1] # px_xmax
+        # blcy = sub[2] # px_ymin
+        # trcy = sub[3] # px_ymax
+
+        # For testing force size values to the following:
+        blcx = 0
+        trcx = image.shape[2]
+        blcy = 0
+        trcy = image.shape[1]
 
         # Expand limits to be one half pixel larger in each direction since
         # pixels have definite sise.
@@ -281,7 +293,7 @@ class wip():
         if ctypex == 'ra':
             rafacx = 15.0
             rafacy = 1.0
-        elif cytpey == 'ra':
+        elif ctypey == 'ra':
             rafacx = 1.0
             rafacy = 15.0
         else:
@@ -375,66 +387,6 @@ class wip():
         tr = numpy.array([xoff, xscale, 0.0, yoff, 0.0, yscale], 
                          dtype=numpy.float32)
         cwip.wipsetr(tr)
-
-    def image(self, image):
-        """
-        Defines initial coordinate axes for loaded image.
-
-        Currently image must be pre-loaded with miriad-python.
-        """
-        pass
-
-        ## xfloat parsing to do with masked images?
-        # xfloat = -99.0;
-        # if (argc == 1) {
-        #     if (wiparguments(&line, 1, arg) != 1) goto MISTAKE;
-        #     narg = NINT(arg[0]);
-        # } else if (argc > 1) {
-        #     if (wiparguments(&line, 2, arg) != 2) goto MISTAKE;
-        #     narg = NINT(arg[0]);
-        #     xfloat = arg[1];
-        # }
-
-        ## Unloads the current image, not appropriate for our uses
-        # wipfreeimage("curimage");
-        
-        ##
-        # if ((curimage = wipimage(par, narg, xfloat)) == (char *)NULL)
-        #    goto MISTAKE;
-        ## 
-        # Previous lines approximately do the following:
-        # 1. Load the image (not needed for our puroposes.
-        # 2. Loads the following header variables:
-        #    crvalx - 
-        #    crpixx -
-        #    cdeltx - 
-        #    crvaly - 
-        #    crpixy - 
-        #    cdelty - 
-        # 3. Sets the subimage to 1, nx, 1, ny (full size of image)
-        
-        # (void)wipsetvar("crvalx", arg[0]);
-        # (void)wipsetvar("crpixx", arg[1]);
-        # (void)wipsetvar("cdeltx", arg[2]);
-        # (void)wipsetvar("crvaly", arg[0]);
-        # (void)wipsetvar("crpixy", arg[1]);
-        # (void)wipsetvar("cdelty", arg[2]);
-        # wipsetsub(1, nx, 1, ny);
-
-
-
-        # wipimsetcur("curimage", curimage);
-        #if (wipsetstring("imagefile", par)) error = TRUE;
-        ## Internally maintains image information, probably unneeded.
-
-        ## Smoothing support not used
-        # if (argc > 2) {                       #/* Smoothing needed? */
-        #     impic = wipimagepic(curimage);
-        #     wipimagenxy(curimage, &nx, &ny);
-        #     if (wiparguments(&line, 1, arg) != 1) goto MISTAKE;
-        #     narg = NINT(arg[0]);
-        #     wipsmooth(impic, nx, ny, narg, xfloat);
-        # }
 
     def limits(self, *args):
         """
