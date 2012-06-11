@@ -104,6 +104,7 @@ void wipclose(void);
 void wiplimits(void);
 void wipmove(float x, float y);
 void wippanel(int nx, int ny, int k);
+void wipputlabel(const char *line, double justify);
 
 /* WIPPOINTS wrapper begin 
    int wippoints(int nstyle, float style[], int nxy, float x[], \

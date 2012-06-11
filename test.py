@@ -27,6 +27,11 @@ a.mtext('B', 2.3, 0.5, 0.5, "x")
 
 a.panel(2, 2, -3)
 a.box()
+a.move(-5, -0.5)
+a.putlabel("Label test", 0)
+a.move(5, 0.5)
+a.putlabel("Move test", 1)
+
 a.panel(2, 2, -4)
 a.box()
 

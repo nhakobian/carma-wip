@@ -181,6 +181,19 @@ class wip():
         cwip.wiplimits() # Grabs limits set with pgswin and also saves them
                          # as wip variables x1, x2, y1, y2.
 
+    def move(self, x, y):
+        """
+        Sets the current world (user) position to (x,y).
+
+          x : (float) - X position
+          y : (float) - Y position
+        """
+        # if (wiparguments(&line, 2, arg) != 2) goto MISTAKE;
+        # xfloat = arg[0];
+        # yfloat = arg[1];
+        # wipmove(xfloat, yfloat);
+        cwip.wipmove(float(x), float(y))
+
     def mtext(self, side, disp, just, coord, string):
         """
         Writes the string STR relative to SIDE.
@@ -216,6 +229,23 @@ class wip():
         # Force cast of array to float32 in order to satisfy C array types.
         cwip.wippoints(style, numpy.array(x, dtype=numpy.float32), 
                        numpy.array(y, dtype=numpy.float32), color)
+
+    def putlabel(self, string, just=0.5):
+        """
+        Writes justified text STR at the current location.
+
+          string : (string) - String value to write on screen.
+          just   : (float)  - Justification between 0,1. 0.5 is centered
+        """
+        # if (argc < 2) 
+        # {
+        #     wipoutput(stderr, "A label (string) is required.\n");
+        #     goto MISTAKE;
+        # }
+        # if (wiparguments(&line, 1, arg) != 1) goto MISTAKE;
+        # arg[0] = ABS(arg[0]);
+        # wipputlabel(line, arg[0]);
+        cwip.wipputlabel(string, just)
 
     def xlabel(self, string):
         """
@@ -343,9 +373,6 @@ class wip():
     minmax      = NotImplemented
     """List the maximum and minimum values of the current image."""
 
-    move        = NotImplemented
-    """Sets the current world (user) position to (x,y)."""
-
     palette     = NotImplemented
     """Sets the color palette to entry K."""
 
@@ -357,9 +384,6 @@ class wip():
 
     poly        = NotImplemented
     """Draws a polygon."""
-
-    putlabel    = NotImplemented
-    """Writes justified text STR at the current location."""
 
     range       = NotImplemented
     """Limits the range over which to fit."""
