@@ -11,6 +11,8 @@ a.paper(750, 1/1.5, units='px')
 x = (numpy.array(range(100)) / 10.0) - 5.0
 y = numpy.sin(x)
 
+#a.winadj(0, 3, 0, 2)
+
 a.panel(-2, 2, -1)
 a.limits(x, y)
 a.points(x, y)
@@ -49,7 +51,7 @@ a.errorbar(qx, qy, numpy.array([0, 0, 0, 0, 0, 0, .1], dtype=numpy.float32), 6)
 
 a.panel(2, 2, -4)
 img = miriad_tools.MirImage('test.image')
-
+a.winadj(0, img.axes[0], 0, img.axes[1])
 a.header(img, 'rd', 'rd')
 a.halftone(img)
 a.box('bcstznh', 'bcstznvd')

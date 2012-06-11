@@ -556,6 +556,14 @@ class wip():
         # PGPLOT convenience function equivalent to wip command:
         #   mtext 'L' 2.2 0.5 0.5 "STRING"
         cwip.cpglab('', string, '')
+
+    def winadj(self, xmin, xmax, ymin, ymax):
+        """
+        Sets limits and viewport to same aspect ratio.
+        """
+        cwip.cpgwnad(float(xmin), float(xmax), float(ymin), float(ymax))
+        cwip.wiplimits()
+        cwip.wipviewport()
         
     #
     # Below begins list of NotImplemented functions.
@@ -707,9 +715,6 @@ class wip():
 
     wedge       = NotImplemented
     """Draws a halftone wedge."""
-
-    winadj      = NotImplemented
-    """Sets limits and viewport to same aspect ratio."""
 
     #####
     ##### Data read routines that currently will not be implemented.

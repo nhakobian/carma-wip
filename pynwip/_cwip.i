@@ -21,6 +21,7 @@ void cpgswin(float x1, float x2, float y1, float y2); // Set plot limits.
 //   Writes labels, similar to mtext.
 void cpglab(const char *xlbl, const char *ylbl, const char *toplbl); 
 void cpgpap(float width, float aspect); // Sets papersize, aspect.
+void cpgwnad(float x1, float x2, float y1, float y2); // Set equal aspect.
 
 // CPGBIN Wrapper Begin
 // void cpgbin(int nbin, const float *x, const float *data, int center);
@@ -155,6 +156,7 @@ void wipgetsub(int *OUTPUT, int *OUTPUT, int *OUTPUT, int *OUTPUT);
  int wipmtext(char *side, float disp, float coord, float just, char *line);
 void wipclose(void);
 void wiplimits(void);
+void wipviewport(void);
 void wipmove(float x, float y);
 void wippanel(int nx, int ny, int k);
 void wipputlabel(const char *line, double justify);
