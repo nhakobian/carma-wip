@@ -234,7 +234,207 @@ class wip():
             raise ValueError("%s is not a valid coordinate system." % ydir)
 
         sub = cwip.wipgetsub()
-        cwip.wipheader(sub[0], sub[2], sub[1], sub[3], xdir, ydir)
+
+        ### Time to port wipheader is now. UGH!
+        # cwip.wipheader(sub[0], sub[2], sub[1], sub[3], xdir, ydir)
+        # Code below is based on src/image/header.c in WIP source and
+        # includes both wipheader and wipheadlim.
+
+        blcx = sub[0] # px_xmin
+        trcx = sub[1] # px_xmax
+        blcy = sub[2] # px_ymin
+        trcy = sub[3] # px_ymax
+
+        # Expand limits to be one half pixel larger in each direction since
+        # pixels have definite sise.
+        xmin = float(blcx - 0.5)
+        xmax = float(trcx + 0.5)
+        ymin = float(blcy - 0.5)
+        ymax = float(trcy + 0.5)
+
+        # Enter into wipheadlim, xtype - xdir, ytype - ydir
+        # Computes transformation matrix which is based on xscale, xoff,
+        # yscale, yoff
+
+        crvalx = 0.0
+        crpixx = 0.0
+        cdeltx = 0.0
+        crvaly = 0.0
+        crpixy = 0.0
+        cdelty = 0.0
+
+        ctypex = 'px'
+        ctypey = 'px'
+
+        # If one of the axis is a declination axis, then set the cos factor
+        # to that axis value.
+        if ctypey == 'dec':
+            cosdec = crvaly
+        elif ctypex == 'dec':
+            cosdec = crvalx
+        else:
+            cosdec = 0
+
+        # Similarly, if one of the axis is an right ascension axis, that axis
+        # must be scaled by 15, (scaling from 24 hrs to 360 degrees).
+
+        if ctypex == 'ra':
+            rafacx = 15.0
+            rafacy = 1.0
+        elif cytpey == 'ra':
+            rafacx = 1.0
+            rafacy = 15.0
+        else:
+            rafacx = 1.0
+            rafacy = 1.0
+
+        ## Gonna currently skip projection check, MUST ADD IN header.c:107
+    
+        rpdeg = numpy.pi / 180.0 # Radians per degree
+
+        # Apparently miriad and fits store coordinate data differently.
+        # It seems that miriad stores absolute positions in RADIANS.
+        # From the code below, it seems that FITS is in decimal degrees
+        # (NOT decimal hours).
+        
+        im_type = 'pixel' # place holder for testing.
+        if im_type == 'miriad':
+            xconvert = (3600.0 / rafacx) / rpdeg
+            yconvert = (3600.0 / rafacy) / rpdeg
+            cosdec = numpy.cos(cosdec)
+        elif im_type == 'fits':
+            xconvert = 3600.0 / rafacx
+            yconvert = 3600.0 / rafacy
+            cosdec = numpy.cos(cosdec * rpdeg)
+        else:
+            xconvert = 1.0
+            yconvert = 1.0
+            cosdec = numpy.cos(cosdec) # which would be cos(0) = 1
+
+        # Potentially the user could want each axis in a different coordinate
+        # system (sigh).
+        # X-direction
+        if   xdir == 'rd': # RA / Dec
+            xscale = xconvert * cdeltx / cosdec
+            xoff   = (xconvert * crvalx) - (crpixx * scale)
+        elif xdir == 'so': # Arcsecond offset positions.
+            xscale = xconvert * rafacx * cdeltx
+            xoff   = -crpixx * scale
+        elif xdir == 'mo': # Arcminute offset positions.
+            xscale = xconvert * rafacx * cdeltx / 60.0
+            xoff   = -crpixx * scale
+        elif xdir == 'po': # Pixel offset positions.
+            xscale = 1.0
+            xoff   = -crpixx
+        elif xdir == 'go': # General linear offset coordinates.
+            xscale = cdeltx
+            xoff   = -crpixx * scale 
+        elif xdir == 'gl': # General linear coordinates.
+            xscale = cdeltx
+            xoff   = crvalx - (crpixx * scale)
+        else: # xdir == 'px' # Absolute pixel positions.
+            xscale = 1.0
+            xoff   = 0.0
+
+        # Repeat for ydir.
+        if   ydir == 'rd': # RA / Dec
+            yscale = yconvert * cdelty
+            yoff   = (yconvert * crvaly) - (crpixy * scale)
+        elif ydir == 'so': # Arcsecond offset positions.
+            yscale = yconvert * rafacy * cdelty
+            yoff   = -crpixy * scale
+        elif ydir == 'mo': # Arcminute offset positions.
+            yscale = yconvert * rafacy * cdelty / 60.0
+            yoff   = -crpixy * scale
+        elif ydir == 'po': # Pixel offset positions.
+            yscale = 1.0
+            yoff   = -crpixy
+        elif ydir == 'go': # General linear offset coordinates.
+            yscale = cdelty
+            yoff   = -crpixy * scale
+        elif ydir == 'gl': # General linear coordinates.
+            yscale = cdelty 
+            yoff   = crvaly - (crpixy * scale)
+        else: # xdir == 'px' # Absolute pixel positions.
+            yscale = 1.0
+            yoff   = 0.0
+
+        # Now scale the coordinates from pixels to chosen scale.
+        xmin = (xscale * xmin) + xoff
+        xmax = (xscale * xmax) + xoff
+        ymin = (yscale * ymin) + yoff
+        ymax = (yscale * ymax) + yoff
+
+        # Set the limits to our newly calculated system
+        # Equivalent to:
+        #   cpgswin(xmin, xmax, ymin, ymax)
+        #   wiplimits()
+        self.limits(xmin, xmax, ymin, ymax)
+        
+        # Set the transformation matrix for PGIMAG, etc.
+        tr = numpy.array([xoff, xscale, 0.0, yoff, 0.0, yscale], 
+                         dtype=numpy.float32)
+        cwip.wipsetr(tr)
+
+    def image(self, image):
+        """
+        Defines initial coordinate axes for loaded image.
+
+        Currently image must be pre-loaded with miriad-python.
+        """
+        pass
+
+        ## xfloat parsing to do with masked images?
+        # xfloat = -99.0;
+        # if (argc == 1) {
+        #     if (wiparguments(&line, 1, arg) != 1) goto MISTAKE;
+        #     narg = NINT(arg[0]);
+        # } else if (argc > 1) {
+        #     if (wiparguments(&line, 2, arg) != 2) goto MISTAKE;
+        #     narg = NINT(arg[0]);
+        #     xfloat = arg[1];
+        # }
+
+        ## Unloads the current image, not appropriate for our uses
+        # wipfreeimage("curimage");
+        
+        ##
+        # if ((curimage = wipimage(par, narg, xfloat)) == (char *)NULL)
+        #    goto MISTAKE;
+        ## 
+        # Previous lines approximately do the following:
+        # 1. Load the image (not needed for our puroposes.
+        # 2. Loads the following header variables:
+        #    crvalx - 
+        #    crpixx -
+        #    cdeltx - 
+        #    crvaly - 
+        #    crpixy - 
+        #    cdelty - 
+        # 3. Sets the subimage to 1, nx, 1, ny (full size of image)
+        
+        # (void)wipsetvar("crvalx", arg[0]);
+        # (void)wipsetvar("crpixx", arg[1]);
+        # (void)wipsetvar("cdeltx", arg[2]);
+        # (void)wipsetvar("crvaly", arg[0]);
+        # (void)wipsetvar("crpixy", arg[1]);
+        # (void)wipsetvar("cdelty", arg[2]);
+        # wipsetsub(1, nx, 1, ny);
+
+
+
+        # wipimsetcur("curimage", curimage);
+        #if (wipsetstring("imagefile", par)) error = TRUE;
+        ## Internally maintains image information, probably unneeded.
+
+        ## Smoothing support not used
+        # if (argc > 2) {                       #/* Smoothing needed? */
+        #     impic = wipimagepic(curimage);
+        #     wipimagenxy(curimage, &nx, &ny);
+        #     if (wiparguments(&line, 1, arg) != 1) goto MISTAKE;
+        #     narg = NINT(arg[0]);
+        #     wipsmooth(impic, nx, ny, narg, xfloat);
+        # }
 
     def limits(self, *args):
         """
@@ -576,8 +776,6 @@ class wip():
     #####
     ##### Image read routines that currently will not be implemented.
     #####
-    # image       = NotImplemented
-    # """Reads in an image from file 'fspec'."""
     # quarter     = NotImplemented
     # """Allows quick selection of a subsection of the current image."""
     # subimage    = NotImplemented

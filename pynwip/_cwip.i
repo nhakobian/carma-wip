@@ -159,6 +159,7 @@ void wippanel(int nx, int ny, int k);
 void wipputlabel(const char *line, double justify);
  int wipheader(int blcx, int blcy, int trcx, int trcy, const char *xtype, \
 	       const char *ytype);
+void wipsetr(float tr[]);
 
 /* WIPPOINTS wrapper begin 
    int wippoints(int nstyle, float style[], int nxy, float x[], \
