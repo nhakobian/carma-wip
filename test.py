@@ -12,6 +12,7 @@ x = (numpy.array(range(100)) / 10.0) - 5.0
 y = numpy.sin(x)
 
 #a.winadj(0, 3, 0, 2)
+#a.viewport(0.2, 0.8, 0.2, 0.8)
 
 a.panel(-2, 2, -1)
 a.limits(x, y)
@@ -58,3 +59,9 @@ a.box('bcstznh', 'bcstznvd')
 
 a.panel(1, 1, 1)
 a.mtext('T', 3, 0.5, 0.5, "Sample multipanel plot.")
+
+a.viewport(0.3, 0.4, 0.15, 0.25)
+a.winadj(0, 1, 0, 1)
+a.box('bc', 'bc')
+a.mtext('B', 1, 0.5, 0.5, "Viewport test")
+

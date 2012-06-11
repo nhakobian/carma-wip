@@ -564,6 +564,22 @@ class wip():
         cwip.cpgwnad(float(xmin), float(xmax), float(ymin), float(ymax))
         cwip.wiplimits()
         cwip.wipviewport()
+
+    def viewport(self, xmin, xmax, ymin, ymax):
+        """
+        Sets the physical location of the plot.
+        """
+        if (xmin < 0) or (xmin > 1):
+            raise ValueError("Viewport values must be between 0 and 1")
+        if (xmax < 0) or (xmax > 1):
+            raise ValueError("Viewport values must be between 0 and 1")
+        if (ymin < 0) or (ymin > 1):
+            raise ValueError("Viewport values must be between 0 and 1")
+        if (ymax < 0) or (ymax > 1):
+            raise ValueError("Viewport values must be between 0 and 1")
+
+        cwip.cpgsvp(float(xmin), float(xmax), float(ymin), float(ymax))
+        cwip.wipviewport()
         
     #
     # Below begins list of NotImplemented functions.
@@ -703,9 +719,6 @@ class wip():
 
     vector      = NotImplemented
     """Draws a vector field as a sequence of arrows."""
-
-    viewport    = NotImplemented
-    """Sets the physical location of the plot."""
 
     vsize       = NotImplemented
     """Sets the physical location of the plot in inches."""

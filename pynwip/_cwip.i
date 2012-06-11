@@ -22,6 +22,7 @@ void cpgswin(float x1, float x2, float y1, float y2); // Set plot limits.
 void cpglab(const char *xlbl, const char *ylbl, const char *toplbl); 
 void cpgpap(float width, float aspect); // Sets papersize, aspect.
 void cpgwnad(float x1, float x2, float y1, float y2); // Set equal aspect.
+void cpgsvp(float x1, float x2, float y1, float y2); // Set viewport.
 
 // CPGBIN Wrapper Begin
 // void cpgbin(int nbin, const float *x, const float *data, int center);
