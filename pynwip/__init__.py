@@ -111,6 +111,34 @@ class wip():
         """
         cwip.cpgpage()
 
+    def errorbar(self, x, y, error, loc):
+        """
+        Draws error bars on (x,y) pairs in the direction 90(K-1).
+
+          x     : (vector) - 
+          y     : (vector) - 
+          error : (vector) - 
+          loc   : (int)    - 1 along the +x direction; 
+                             2 for +y; 
+                             3 for -x; 
+                             4 for -y 
+                             5 +x and -x 
+                             6 +y and -y 
+        """
+        # if (wiparguments(&line, 1, arg) != 1) goto MISTAKE;
+        # location = NINT(arg[0]);
+        # xvec = wipvector("x", &nx, &npts);
+        # yvec = wipvector("y", &nx, &ny);
+        # npts = MIN(npts, ny);
+        # evec = wipvector("err", &nx, &ny);
+        # npts = MIN(npts, ny);
+        # if (npts < 1) npts = 0;
+        # if (wiperrorbar(location, xvec, yvec, evec, npts)) goto MISTAKE;
+        cwip.wiperrorbar(int(loc), numpy.array(x, dtype=numpy.float32), 
+                         numpy.array(y, dtype=numpy.float32), 
+                         numpy.array(error, dtype=numpy.float32))
+
+
     def limits(self, *args):
         """
         Sets the world limits of the plot.
@@ -217,6 +245,19 @@ class wip():
         # wippanel(nx, ny, narg);
         cwip.wippanel(nx, ny, panel)
 
+    def paper(self, width, aspect, units='in', px_scale=100):
+        """
+        Change the size of the view surface.
+        """
+        # if (wiparguments(&line, 2, arg) != 2) goto MISTAKE;
+        # xfloat = arg[0];
+        # yfloat = arg[1];
+        # cpgpap(xfloat, yfloat);
+        if units=='px':
+            # px_scale is how many pixels per inch the device has.
+            width = width / float(px_scale)
+        cwip.cpgpap(float(width), float(aspect))
+
     def points(self, x=None, y=None, style=[2], color=[]):
         """
         Draws points of the current style at each (x,y).
@@ -310,9 +351,6 @@ class wip():
     environment = NotImplemented
     """Sets the user limits and draws a box."""
 
-    errorbar    = NotImplemented
-    """Dears error bars on (x,y) pairs in the direction 90(K-1)."""
-
     etxt        = NotImplemented
     """Erases the text from the view surface without affecting graphics."""
 
@@ -375,9 +413,6 @@ class wip():
 
     palette     = NotImplemented
     """Sets the color palette to entry K."""
-
-    paper       = NotImplemented
-    """Change the size of the view surface."""
 
     plotfit     = NotImplemented
     """Draws a plot of the most recent fit."""

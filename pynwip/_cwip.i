@@ -19,6 +19,7 @@ void cpgpage(void);  // Erase screen.
 void cpgswin(float x1, float x2, float y1, float y2); // Set plot limits.
 //   Writes labels, similar to mtext.
 void cpglab(const char *xlbl, const char *ylbl, const char *toplbl); 
+void cpgpap(float width, float aspect); // Sets papersize, aspect.
 
 // CPGBIN Wrapper Begin
 // void cpgbin(int nbin, const float *x, const float *data, int center);
@@ -160,3 +161,31 @@ void mod_wippoints(int nstyle, float* style, int nx, float* x,
 %}
 %clear (int len1, float* vec1), (int len2, float* vec2);
 // WIPHLINE wrapper end
+
+// WIPERRORBAR wrapper begin
+// int wiperrorbar(int locat, float x[], float y[], float err[], int nxy);
+%apply (int DIM1, float* IN_ARRAY1) { (int len1, float* vec1),
+                                      (int len2, float* vec2),
+                                      (int len3, float* vec3) }
+%rename (wiperrorbar) mod_wiperrorbar;
+%exception mod_wiperrorbar {
+  $action
+  if (PyErr_Occurred()) SWIG_fail;
+}
+%inline %{
+void mod_wiperrorbar(int locat, int len1, float* vec1, int len2, float* vec2,
+                     int len3, float* vec3)
+{
+  if ((len1 != len2) || (len1 != len3))
+  {
+    PyErr_Format(PyExc_ValueError, "Arrays of lengths (%d,%d,%d) given", len1, 
+		 len2, len3);
+    return;
+  }
+  wiperrorbar(locat, vec1, vec2, vec3, len1);
+  return;
+}
+%}
+%clear (int len1, float* vec1), (int len2, float* vec2), 
+       (int len3, float* vec3);
+// WIPERROEBAR wrapper end
