@@ -732,6 +732,37 @@ class wip():
 
         cwip.cpgsvp(float(xmin), float(xmax), float(ymin), float(ymax))
         cwip.wipviewport()
+
+    def wedge(self):
+        """
+        Draws a halftone wedge.
+        """
+        # if ((ptr = wipparse(&line)) == (char *)NULL) goto MISTAKE;
+        # if (wiparguments(&line, 2, arg) != 2) goto MISTAKE;
+        # xfloat = arg[0]; yfloat = arg[1]; xmin = hmin; xmax = hmax;
+        # par = "";
+        # if (argc > 3) {
+        #     if (wiparguments(&line, 2, arg) != 2) goto MISTAKE;
+        #     xmin = arg[0]; xmax = arg[1];
+        #     par = line;
+        # }
+        # if ((Strchr(ptr, 'i') == (char *)NULL) &&
+        #     (Strchr(ptr, 'I') == (char *)NULL) &&
+        #     (Strchr(ptr, 'g') == (char *)NULL) &&
+        #     (Strchr(ptr, 'G') == (char *)NULL)) 
+        # {
+        #     (void)Strcpy(infile, ptr);
+        #     wipgetcir(&cmin, &cmax);
+        #     if ((cmin + 1) < cmax)
+        #        (void)Strcat(infile, "i");
+        #     else
+        #        (void)Strcat(infile, "g");
+        #     ptr = infile;
+        # }
+        # if (wipwedge(ptr, xfloat, yfloat, xmin, xmax, par)) goto MISTAKE;
+        pass
+
+
         
     #
     # Below begins list of NotImplemented functions.
@@ -826,9 +857,6 @@ class wip():
 
     vstand      = NotImplemented
     """Sets the standard (default) viewport."""
-
-    wedge       = NotImplemented
-    """Draws a halftone wedge."""
 
     #####
     ##### Data read routines that currently will not be implemented.
