@@ -38,6 +38,7 @@ class wip():
 
     def __getattr__(self, name):
         namedict = { 
+            'bgci'   : lambda : self._wipgetvar('bgci'),
             'angle'  : lambda : self._wipgetvar('angle'),
             'expand' : lambda : self._wipgetvar('expand'),
             'lstyle' : lambda : self._wipgetvar('lstyle'),
@@ -54,6 +55,7 @@ class wip():
 
     def __setattr__(self, name, value):
         namedict = { 
+            'bgci'   : cwip.wipsetbgci,
             'angle'  : cwip.wipsetangle,
             'expand' : cwip.wipexpand,
             'lstyle' : cwip.wipltype,
@@ -317,7 +319,7 @@ class wip():
         nx = int(image.axes[0])
         ny = int(image.axes[1])
         #xylimits = cwip.wipgetsub()
-        cwip.cpgimag(image.image[0,:,:], 1, nx, 1, ny, imax, imin, self.tr)
+        cwip.cpgimag(image.image[0,:,:], 1, nx, 1, ny, imin, imax, self.tr)
 
     def header(self, image, xdir, ydir=None):
         """
@@ -724,9 +726,6 @@ class wip():
 
     beam        = NotImplemented
     """Draws a beam."""
-
-    bgci        = NotImplemented
-    """Sets the text background color index to N."""
 
     color       = NotImplemented
     """Select color for lines and characters."""

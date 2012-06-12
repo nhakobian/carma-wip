@@ -99,6 +99,11 @@ a.dot()
 a.move(0.5, 0.5)
 a.draw(2, 4)
 
+a.move(3, 4)
+a.bgci=3
+a.putlabel("bgci test", 0.5)
+a.bgci=0
+
 a.panel(1, 1, 1)
 a.mtext('T', 3, 0.5, 0.5, "Sample multipanel plot.")
 
