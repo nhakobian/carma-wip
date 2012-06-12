@@ -39,6 +39,8 @@ class wip():
         namedict = { 
             'angle'  : lambda : self._wipgetvar('angle'),
             'expand' : lambda : self._wipgetvar('expand'),
+            'lstyle' : lambda : self._wipgetvar('lstyle'),
+            'lwidth' : lambda : self._wipgetvar('lwidth'),
             'tr'     : lambda : cwip.wipgetr(6),
             'tick'   : cwip.wipgetick,
             }
@@ -50,9 +52,12 @@ class wip():
 
     def __setattr__(self, name, value):
         namedict = { 
-            'angle'  : cwip.wipsetangle ,
+            'angle'  : cwip.wipsetangle,
             'expand' : cwip.wipexpand,
+            'lstyle' : cwip.wipltype,
+            'lwidth' : cwip.wiplw,
             'tr'     : lambda x : cwip.wipsetr(x) ,
+            #'tick'  : todo,
             }
 
         if name not in namedict.keys():
@@ -748,12 +753,6 @@ class wip():
 
     lookup      = NotImplemented
     """Loads a RGB color lookup table."""
-
-    lstyle      = NotImplemented
-    """Sets the current line style to N."""
-
-    lwidth      = NotImplemented
-    """Sets the current line width attribute to N."""
 
     minmax      = NotImplemented
     """List the maximum and minimum values of the current image."""

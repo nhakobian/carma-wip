@@ -81,15 +81,22 @@ a.move(0.5, 4)
 a.arrow(1, 1, 90, 0)
 a.move(1, 4)
 a.expand=1.25
+a.lstyle=2
 a.arrow(1.5, 1, 45, 0)
+a.lstyle=1
+print a.lstyle
+print a.lwidth
 a.expand=1
+
 
 a.panel(1, 1, 1)
 a.mtext('T', 3, 0.5, 0.5, "Sample multipanel plot.")
 
 a.viewport(0.32, 0.42, 0.125, 0.2)
 a.winadj(0, 1, 0, 1)
+a.lwidth=5
 a.box('bc', 'bc')
+a.lwidth=1
 a.mtext('B', 1, 0.5, 0.5, "Viewport test")
 
 print a.tr
