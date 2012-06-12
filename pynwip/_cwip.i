@@ -171,6 +171,8 @@ void wiparrow(float xp, float yp, float angle, float vent);
 void wipexpand(double exp);
 void wipltype(int style);
 void wiplw(int width);
+/* void wipgetcxy(float *cx, float *cy); */
+void wipgetcxy(float *OUTPUT, float *OUTPUT); 
 
 /* WIPPOINTS wrapper begin 
    int wippoints(int nstyle, float style[], int nxy, float x[], \

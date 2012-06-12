@@ -58,6 +58,7 @@ a.expand=a.expand/2.
 qx = numpy.array([-0.75, -0.5, -0.25, 0, 0.25, 0.5, 0.75], dtype=numpy.float32)
 qy = numpy.array([-0.75, -0.5, -0.25, 0, 0.25, 0.5, 0.75], dtype=numpy.float32)
 a.points(qx, qy, style=[16])
+a.expand=2
 a.errorbar(qx, qy, numpy.array([.1, 0, 0, 0, 0, 0, 0], dtype=numpy.float32), 1)
 a.errorbar(qx, qy, numpy.array([0, .1, 0, 0, 0, 0, 0], dtype=numpy.float32), 2)
 a.errorbar(qx, qy, numpy.array([0, 0, .1, 0, 0, 0, 0], dtype=numpy.float32), 3)
@@ -66,6 +67,7 @@ a.errorbar(qx, qy, numpy.array([0, 0, 0, 0, .1, 0, 0], dtype=numpy.float32), 5)
 a.errorbar(qx, qy, numpy.array([0, 0, 0, 0, 0, .1, 0], dtype=numpy.float32), 6)
 a.errorbar(qx, qy, numpy.array([0, 0, 0, 0, 0, 0, .1], dtype=numpy.float32), 5)
 a.errorbar(qx, qy, numpy.array([0, 0, 0, 0, 0, 0, .1], dtype=numpy.float32), 6)
+a.expand=1
 
 a.panel(2, 3, -4)
 img = miriad_tools.MirImage('test.image')
@@ -88,6 +90,11 @@ print a.lstyle
 print a.lwidth
 a.expand=1
 
+a.move(2,2)
+a.dot()
+a.symbol(14)
+a.move(2.2,2)
+a.dot()
 
 a.panel(1, 1, 1)
 a.mtext('T', 3, 0.5, 0.5, "Sample multipanel plot.")

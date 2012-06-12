@@ -8,6 +8,7 @@ class wip():
         Wip Interface initialization routine. Currently calls built-in wip
         initialization.
         """
+        self.__dict__['pstyle'] = 1
         cwip.wipinit()
 
     def __del__(self):
@@ -41,6 +42,7 @@ class wip():
             'expand' : lambda : self._wipgetvar('expand'),
             'lstyle' : lambda : self._wipgetvar('lstyle'),
             'lwidth' : lambda : self._wipgetvar('lwidth'),
+            'pstyle' : lambda : self.__dict__['pstyle'],
             'tr'     : lambda : cwip.wipgetr(6),
             'tick'   : cwip.wipgetick,
             }
@@ -56,6 +58,7 @@ class wip():
             'expand' : cwip.wipexpand,
             'lstyle' : cwip.wipltype,
             'lwidth' : cwip.wiplw,
+            'pstyle' : lambda x : self.__dict__.__setitem__('pstyle', x),
             'tr'     : lambda x : cwip.wipsetr(x) ,
             #'tick'  : todo,
             }
@@ -64,7 +67,6 @@ class wip():
             raise AttributeError
 
         namedict[name](value)
-
 
     # Below begins reinterpreted wip functions.
 
@@ -203,6 +205,23 @@ class wip():
           device : PGPLOT device string.
         """
         cwip.wipdevice(device)
+
+    def dot(self):
+        """
+        Makes a point of the current style at the current location.
+        """
+        # if (argc > 0) {
+        #     if (wiparguments(&line, 2, arg) != 2) goto MISTAKE;
+        #     xfloat = arg[0];
+        #     yfloat = arg[1];
+        # } else {
+        #     wipgetcxy(&xfloat, &yfloat);
+        # }
+        # arg[0] = wipgetvec("pstyle[1]", &error);
+        # ny = (error == TRUE) ? 0 : NINT(arg[0]); error = FALSE;
+        # cpgpt(1, &xfloat, &yfloat, ny);
+        (cx, cy) = cwip.wipgetcxy()
+        cwip.cpgpt([cx], [cy], self.pstyle)
 
     def erase(self):
         """
@@ -557,7 +576,7 @@ class wip():
 
     def move(self, x, y):
         """
- for a passed variable        Sets the current world (user) position to (x,y).
+        Sets the current world (user) position to (x,y).
 
           x : (float) - X position
           y : (float) - Y position
@@ -634,6 +653,12 @@ class wip():
         # wipputlabel(line, arg[0]);
         cwip.wipputlabel(string, just)
 
+    def symbol(self, value):
+        """
+        Sets the current point symbol to N.
+        """
+        self.pstyle = value
+
     def xlabel(self, string):
         """
         Writes the label STR centered under the X axis.
@@ -703,9 +728,6 @@ class wip():
     contour     = NotImplemented
     """Makes a contour plot of an array read with IMAGE."""
 
-    dot         = NotImplemented
-    """Makes a point of the current style at the current location."""
-
     draw        = NotImplemented
     """Draws a line to (X,Y) from the current coordinate position."""
 
@@ -717,9 +739,6 @@ class wip():
 
     fill        = NotImplemented
     """Sets the fill area style to N."""
-
-    fit         = NotImplemented
-    """Fits a curve to the (x,y) data pairs."""
 
     font        = NotImplemented
     """Sets the font type to type N."""
@@ -766,9 +785,6 @@ class wip():
     poly        = NotImplemented
     """Draws a polygon."""
 
-    range       = NotImplemented
-    """Limits the range over which to fit."""
-
     rect        = NotImplemented
     """Draw a rectangle, using fill-area attributes."""
 
@@ -786,9 +802,6 @@ class wip():
 
     submargin   = NotImplemented
     """Sets the gap between individual panels."""
-
-    symbol      = NotImplemented
-    """Sets the current point symbol to N."""
 
     ticksize    = NotImplemented
     """Sets tick intervals for the BOX command."""
@@ -821,6 +834,14 @@ class wip():
     # """Reads X data from column N of the current file."""
     # ycolumn     = NotImplemented
     # """Reads Y data from column N of the current file."""
+
+    #####
+    ##### Image fit routines that currently will not be implemented.
+    #####
+    # fit         = NotImplemented
+    # """Fits a curve to the (x,y) data pairs."""
+    # range       = NotImplemented
+    # """Limits the range over which to fit."""
 
     #####
     ##### Image read routines that currently will not be implemented.
