@@ -41,6 +41,7 @@ class wip():
             'bgci'   : lambda : self._wipgetvar('bgci'),
             'angle'  : lambda : self._wipgetvar('angle'),
             'expand' : lambda : self._wipgetvar('expand'),
+            'font'   : lambda : self._wipgetvar('font'),
             'lstyle' : lambda : self._wipgetvar('lstyle'),
             'lwidth' : lambda : self._wipgetvar('lwidth'),
             'pstyle' : lambda : self.__dict__['pstyle'],
@@ -58,6 +59,7 @@ class wip():
             'bgci'   : cwip.wipsetbgci,
             'angle'  : cwip.wipsetangle,
             'expand' : cwip.wipexpand,
+            'font'   : cwip.wipfont,
             'lstyle' : cwip.wipltype,
             'lwidth' : cwip.wiplw,
             'pstyle' : lambda x : self.__dict__.__setitem__('pstyle', x),
@@ -741,9 +743,6 @@ class wip():
 
     fill        = NotImplemented
     """Sets the fill area style to N."""
-
-    font        = NotImplemented
-    """Sets the font type to type N."""
 
     globe       = NotImplemented
     """Draws a 'globe' with nlong/nlat long/lat lines."""

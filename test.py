@@ -104,6 +104,20 @@ a.bgci=3
 a.putlabel("bgci test", 0.5)
 a.bgci=0
 
+a.move(4, 4.5)
+a.font=1
+a.putlabel("font1", 0)
+a.move(4, 4)
+a.font=2
+a.putlabel("font2", 0)
+a.move(4, 3.5)
+a.font=3
+a.putlabel("font3", 0)
+a.move(4, 3)
+a.font=4
+a.putlabel("font4", 0)
+a.font=1
+
 a.panel(1, 1, 1)
 a.mtext('T', 3, 0.5, 0.5, "Sample multipanel plot.")
 

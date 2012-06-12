@@ -175,6 +175,7 @@ void wiplw(int width);
 void wipgetcxy(float *OUTPUT, float *OUTPUT); 
 void wipdraw(float xfloat, float yfloat);
 void wipsetbgci(int bgci);
+void wipfont(int font);
 
 /* WIPPOINTS wrapper begin 
    int wippoints(int nstyle, float style[], int nxy, float x[], \
