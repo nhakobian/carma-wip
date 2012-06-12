@@ -173,6 +173,7 @@ void wipltype(int style);
 void wiplw(int width);
 /* void wipgetcxy(float *cx, float *cy); */
 void wipgetcxy(float *OUTPUT, float *OUTPUT); 
+void wipdraw(float xfloat, float yfloat);
 
 /* WIPPOINTS wrapper begin 
    int wippoints(int nstyle, float style[], int nxy, float x[], \

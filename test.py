@@ -96,6 +96,9 @@ a.symbol(14)
 a.move(2.2,2)
 a.dot()
 
+a.move(0.5, 0.5)
+a.draw(2, 4)
+
 a.panel(1, 1, 1)
 a.mtext('T', 3, 0.5, 0.5, "Sample multipanel plot.")
 

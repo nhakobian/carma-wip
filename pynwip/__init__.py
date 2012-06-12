@@ -223,6 +223,12 @@ class wip():
         (cx, cy) = cwip.wipgetcxy()
         cwip.cpgpt([cx], [cy], self.pstyle)
 
+    def draw(self, endx, endy):
+        """
+        Draws a line to (X,Y) from the current coordinate position.
+        """
+        cwip.wipdraw(float(endx), float(endy))
+
     def erase(self):
         """
         Erases the graphics screen.
@@ -727,9 +733,6 @@ class wip():
 
     contour     = NotImplemented
     """Makes a contour plot of an array read with IMAGE."""
-
-    draw        = NotImplemented
-    """Draws a line to (X,Y) from the current coordinate position."""
 
     environment = NotImplemented
     """Sets the user limits and draws a box."""
