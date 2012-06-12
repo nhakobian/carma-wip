@@ -266,6 +266,19 @@ class wip():
                          numpy.array(y, dtype=numpy.float32), 
                          numpy.array(error, dtype=numpy.float32))
 
+    def globe(self, longi=5, lat=3):
+        """
+        Draws a 'globe' with nlong/nlat long/lat lines.
+        """
+        # nx = 5; ny = 3;
+        # if (argc > 0) {
+        #     if (wiparguments(&line, 2, arg) != 2) goto MISTAKE;
+        #     nx = NINT(arg[0]);
+        #     ny = NINT(arg[1]);
+        # }
+        # wipaitoffgrid(nx, ny);
+        cwip.wipaitoffgrid(longi, lat);
+
     def halftone(self, image):
         """
         Produces a halftone plot of an image.
@@ -514,6 +527,13 @@ class wip():
                          dtype=numpy.float32)
         self.tr = tr
 
+    def label(self, string):
+        """
+        Writes the string STR at the current cursor position.
+        This is an alias to self.putlabel(string, 0.0)
+        """
+        self.putlabel(string, 0.0)
+
     def limits(self, *args):
         """
         Sets the world limits of the plot.
@@ -744,9 +764,6 @@ class wip():
     fill        = NotImplemented
     """Sets the fill area style to N."""
 
-    globe       = NotImplemented
-    """Draws a 'globe' with nlong/nlat long/lat lines."""
-
     hi2d        = NotImplemented
     """Draws a histogram of the data read by IMAGE."""
 
@@ -762,9 +779,6 @@ class wip():
     itf         = NotImplemented
     """Sets the current image transfer function to N."""
 
-    label       = NotImplemented
-    """Writes the string STR at the current cursor position."""
-
     levels      = NotImplemented
     """Sets the contour levels for a contour plot."""
 
@@ -774,14 +788,8 @@ class wip():
     lookup      = NotImplemented
     """Loads a RGB color lookup table."""
 
-    minmax      = NotImplemented
-    """List the maximum and minimum values of the current image."""
-
     palette     = NotImplemented
     """Sets the color palette to entry K."""
-
-    plotfit     = NotImplemented
-    """Draws a plot of the most recent fit."""
 
     poly        = NotImplemented
     """Draws a polygon."""
@@ -843,6 +851,8 @@ class wip():
     # """Fits a curve to the (x,y) data pairs."""
     # range       = NotImplemented
     # """Limits the range over which to fit."""
+    # plotfit     = NotImplemented
+    # """Draws a plot of the most recent fit."""
 
     #####
     ##### Image read routines that currently will not be implemented.
@@ -851,6 +861,8 @@ class wip():
     # """Allows quick selection of a subsection of the current image."""
     # subimage    = NotImplemented
     # """Sets the index range of a subimage."""
+    # minmax      = NotImplemented
+    # """List the maximum and minimum values of the current image."""
 
     #####
     ##### Interactive commands that will not be implemented.
