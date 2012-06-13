@@ -725,6 +725,17 @@ class wip():
         # wipputlabel(line, arg[0]);
         cwip.wipputlabel(string, just)
 
+    def rect(self, xmin, xmax, ymin, ymax):
+        """
+        Draw a rectangle, using fill-area attributes.
+        """
+        # if (wiparguments(&line, 4, arg) != 4) goto MISTAKE;
+        # xmin = arg[0]; xmax = arg[1];
+        # ymin = arg[2]; ymax = arg[3];
+        # cpgrect(xmin, xmax, ymin, ymax);
+        cwip.cpgrect(xmin, xmax, ymin, ymax)
+
+
     def reset(self):
         """
         Full reset of the graphics state of the current plotting device.
@@ -910,9 +921,6 @@ class wip():
     hls         = NotImplemented
     """Sets the color representation using the HLS system."""
 
-    id          = NotImplemented
-    """Puts an identification label at the bottom of a plot."""
-
     levels      = NotImplemented
     """Sets the contour levels for a contour plot."""
 
@@ -921,9 +929,6 @@ class wip():
 
     poly        = NotImplemented
     """Draws a polygon."""
-
-    rect        = NotImplemented
-    """Draw a rectangle, using fill-area attributes."""
 
     rgb         = NotImplemented
     """Sets the color represenation using the RGB system."""
@@ -945,6 +950,8 @@ class wip():
     #####
     # scale       = NotImplemented
     # """Sets the viewport size scale."""
+    # id          = NotImplemented
+    # """Puts an identification label at the bottom of a plot."""
 
     #####
     ##### Data read routines that currently will not be implemented.

@@ -138,6 +138,12 @@ a.putlabel("font4", 0)
 a.font=1
 a.expand=1
 
+a.fill(3)
+a.rect(2.5, 4.5, 0.5, 1.5)
+a.fill(2)
+a.rect(2.5, 4.5, 0.5, 1.5)
+a.fill(1)
+
 a.panel(3, 3, -6)
 a.globe()
 
