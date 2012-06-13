@@ -563,6 +563,70 @@ class wip():
                          dtype=numpy.float32)
         self.tr = tr
 
+    def hi2d(self, image, bias, slant=0, center=1, xmin=None, xmax=None,
+             ymin=None, ymax=None, autolevels=True):
+        """
+        Draws a histogram of the data read by IMAGE.
+        """
+        # curimage = wipimcur("curimage");
+        # if (wipimagexists(curimage) == 0) {
+        #     wipoutput(stderr, "You must specify an image first!\n");
+        #     goto MISTAKE;
+        # }
+        # wipimagenxy(curimage, &nx, &ny);
+        # wipgetsub(&sx1, &sx2, &sy1, &sy2);
+        # location = 0; /* no initial slant to successive y-elements. */
+        # narg = 1; /* center bins on x value. */
+        # if (argc == 1) {
+        #     if (wiparguments(&line, 1, arg) != 1) goto MISTAKE;
+        # } else if (argc == 2) {
+        #     if (wiparguments(&line, 2, arg) != 2) goto MISTAKE;
+        #     location = NINT(arg[1]);
+        # } else {
+        #     if (wiparguments(&line, 3, arg) != 3) goto MISTAKE;
+        #     location = NINT(arg[1]);
+        #     narg = NINT(arg[2]);
+        # }
+        # ymax = arg[0];  /* Required bias value. */
+        # nxsub = sx2 - sx1 + 1;
+        # xvec = vector(nxsub);
+        # yvec = vector(nxsub);
+        # if ((xvec == (float *)NULL) || (yvec == (float *)NULL)) {
+        #     if (xvec) freevector(xvec);
+        #     if (yvec) freevector(yvec);
+        #     wipoutput(stderr, "Trouble allocating work arrays.\n");
+        #     goto MISTAKE;
+        # }
+        # for (j = 0; j < nxsub; j++) xvec[j] = sx1 + j;
+        # impic = wipimagepic(curimage);
+        # cpghi2d(*impic, nx, ny, sx1, sx2, sy1, sy2,
+        #          xvec, location, ymax, narg, yvec);
+        # freevector(xvec);
+        # freevector(yvec);
+        if xmin == None:
+            xmin = 1
+        if ymin == None:
+            ymin = 1
+        if xmax == None:
+            xmax = int(image.axes[0])
+        if ymax == None:
+            ymax = int(image.axes[1])
+        xmin = int(xmin)
+        xmax = int(xmax)
+        ymin = int(ymin)
+        ymax = int(ymax)
+        xvec = numpy.arange(xmin-1, xmax, dtype=numpy.float32)
+        yvec = numpy.zeros(xvec.size, dtype=numpy.float32)
+
+        if (autolevels == True):
+            nlevels = ymax-ymin+1
+            int_max = nlevels * bias
+            self.limits(xmin, xmax, -bias, int_max)
+
+        cwip.cpghi2d(image.image[0, :, :], xmin, xmax, ymin, ymax,
+                     xvec, slant, bias, center, yvec) 
+
+
     def histogram(self, array, xmin=None, xmax=None, n=5):
         """
         Draws a histogram of the data read by XCOLUMN.
@@ -944,9 +1008,6 @@ class wip():
 
     environment = NotImplemented
     """Sets the user limits and draws a box."""
-
-    hi2d        = NotImplemented
-    """Draws a histogram of the data read by IMAGE."""
 
     hls         = NotImplemented
     """Sets the color representation using the HLS system."""

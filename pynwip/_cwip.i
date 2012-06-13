@@ -26,6 +26,74 @@ void cpgsvp(float x1, float x2, float y1, float y2); // Set viewport.
 void cpgshs(float angle, float sepn, float phase); // set hatch style
 void cpgrect(float x1, float x2, float y1, float y2); // draw rectangle.
 
+/* CPGHI2D Wrapper Begin
+// void cpghi2d(const float *data, int nxv, int nyv, int ix1, int ix2, \
+//              int iy1, int iy2, const float *x, int ioff, float bias, \
+//              Logical center, float *ylims);
+   Arguments:
+   DATA   (input)  : the data array to be plotted.
+   NXV    (input)  : the first dimension of DATA.
+   NYV    (input)  : the second dimension of DATA.
+   IX1    (input)
+   IX2    (input)
+   IY1    (input)
+   IY2    (input)  : PGHI2D plots a subset of the input array DATA.
+                     This subset is delimited in the first (x)
+		     dimension by IX1 and IX2 and the 2nd (y) by IY1
+		     and IY2, inclusively. Note: IY2 < IY1 is
+		     permitted, resulting in a plot with the
+		     cross-sections plotted in reverse Y order.
+		     However, IX2 must be => IX1.
+   X      (input)  : the abscissae of the bins to be plotted. That is,
+                     X(1) should be the X value for DATA(IX1,IY1), and
+		     X should have (IX2-IX1+1) elements.  The program
+		     has to assume that the X value for DATA(x,y) is
+		     the same for all y.
+   IOFF   (input)  : an offset in array elements applied to successive
+                     cross-sections to produce a slanted effect.  A
+		     plot with IOFF > 0 slants to the right, one with
+		     IOFF < 0 slants left.
+   BIAS   (input)  : a bias value applied to each successive cross-
+                     section in order to raise it above the previous
+		     cross-section.  This is in the same units as the
+		     data.
+   CENTER (input)  : if .true., the X values denote the center of the
+                     bins; if .false. the X values denote the lower
+		     edges (in X) of the bins.
+   YLIMS  (input)  : workspace.  Should be an array of at least
+                     (IX2-IX1+1) elements.
+*/
+%apply (float* IN_ARRAY2, int DIM1, int DIM2) {(float *data, int nx, int ny)}
+%apply (int DIM1, float* IN_ARRAY1) {(int xsize, float *x),
+                                     (int ysize, float *ylims)}
+%rename (cpghi2d) mod_cpghi2d;
+%exception mod_cpghi2d {
+  $action
+  if (PyErr_Occurred()) SWIG_fail;
+}
+%inline %{
+void mod_cpghi2d(float *data, int nx, int ny, int ix1, int ix2, int iy1, \
+		 int iy2, int xsize, float *x, int ioff, float bias, \
+		 int center, int ysize,	float *ylims)
+{
+  if (xsize != (ix2-ix1+1)) {
+    PyErr_Format(PyExc_ValueError, " xvector must have %d components.", \
+		   (ix2-ix1+1));
+    return;
+  }
+  if (ysize != (ix2-ix1+1)) {
+    PyErr_Format(PyExc_ValueError, " yvector must have %d components.", \
+		   (ix2-ix1+1));
+      return;
+  }
+  cpghi2d(data, nx, ny, ix1, ix2, iy1, iy2, x, ioff, bias, center, ylims);
+  return;
+}
+%}
+%clear (float *data, int nx, int ny);
+%clear (int xsize, float *x), (int ysize, float *ylims);
+// CPGHI2D Wrapper End
+
 // CPGHIST Wrapper Begin
 // void cpghist(int n, const float *data, float datmin, float datmax, \
 //              int nbin, int pgflag);
