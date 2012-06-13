@@ -152,6 +152,7 @@ void mod_cpggray(float* a, int idim, int jdim, int i1, int i2, int j1, \
  int wipdevice(const char *devicename);
 /*   wipgetick(float *xtick , int *nxsub , float *ytick , int *nysub); */
 void wipgetick(float *OUTPUT, int *OUTPUT, float *OUTPUT, int *OUTPUT);
+void wipsetick(float xtick , int nxsub , float ytick , int nysub);
 /*   wipgetsub(int *subx1, int *subx2, int *suby1, int *suby2); */
 void wipgetsub(int *OUTPUT, int *OUTPUT, int *OUTPUT, int *OUTPUT);
  int wipmtext(char *side, float disp, float coord, float just, char *line);

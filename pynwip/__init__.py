@@ -68,7 +68,7 @@ class wip():
             'lwidth'  : cwip.wiplw,
             'pstyle'  : lambda x : self.__dict__.__setitem__('pstyle', x),
             'tr'      : lambda x : cwip.wipsetr(x) , # command 'transfer'
-           #'tick'    : todo,
+           #'tick'    : ticksize command to set right now.
            #'xsubmar' : self.submargin, remove fn, and replace with var
            #'ysubmar' : self.submargin
             }
@@ -695,6 +695,43 @@ class wip():
         # wipputlabel(line, arg[0]);
         cwip.wipputlabel(string, just)
 
+    def reset(self):
+        """
+        Full reset of the graphics state of the current plotting device.
+        """
+        # float tr[6];
+        #
+        # tr[0] = 0.0; tr[1] = 1.0; tr[2] = 0.0;
+        # tr[3] = 0.0; tr[4] = 0.0; tr[5] = 1.0;
+        #
+        # wipcolor(1);
+        # wipexpand(1.0);
+        # wipfill(1);
+        # wipfont(1);
+        # wipltype(1);
+        # wiplw(1);
+        # wipsetbgci(-1);
+        #
+        # wipsetangle(0.0);
+        # wipsetr(tr);
+        # wipsetick(0.0, 0, 0.0, 0);
+        # wipsetitf(0);
+        #
+        # wippalette(0, 0);
+        self.color(1) # not yet implemented
+        self.expand = 1
+        self.fill = 1 # not yet implemented
+        self.font = 1
+        self.lstyle = 1
+        self.lwidth = 1
+        self.bgci = -1
+        self.angle = 0.0
+        self.tr = numpy.array([0.0, 1.0, 0.0, 0.0, 0.0, 1.0], 
+                              dtype=numpy.float32)
+        self.ticksize(0.0, 0, 0.0, 0)
+        self.itf = 0
+        self.palette(0, 0)
+
     def submargin(self, xsub, ysub):
         """
         Sets the gap between individual panels.
@@ -708,6 +745,12 @@ class wip():
         Sets the current point symbol to N.
         """
         self.pstyle = value
+
+    def ticksize(self, xtick, nxsub, ytick, nysub):
+        """
+        Sets tick intervals for the BOX command.
+        """
+        cwip.wipsetick(xtick, nxsub, ytick, nysub)
 
     def xlabel(self, string):
         """
@@ -831,9 +874,6 @@ class wip():
     environment = NotImplemented
     """Sets the user limits and draws a box."""
 
-    etxt        = NotImplemented
-    """Erases the text from the view surface without affecting graphics."""
-
     fill        = NotImplemented
     """Sets the fill area style to N."""
 
@@ -852,9 +892,6 @@ class wip():
     levels      = NotImplemented
     """Sets the contour levels for a contour plot."""
 
-    logarithm   = NotImplemented
-    """Takes the scaled logarithm of vectors and images."""
-
     lookup      = NotImplemented
     """Loads a RGB color lookup table."""
 
@@ -864,17 +901,11 @@ class wip():
     rect        = NotImplemented
     """Draw a rectangle, using fill-area attributes."""
 
-    reset       = NotImplemented
-    """Full reset of the graphics state of the current plotting device."""
-
     rgb         = NotImplemented
     """Sets the color represenation using the RGB system."""
 
     slevel      = NotImplemented
     """Sets the type and value used to scale contour levels."""
-
-    ticksize    = NotImplemented
-    """Sets tick intervals for the BOX command."""
 
     vector      = NotImplemented
     """Draws a vector field as a sequence of arrows."""
@@ -924,6 +955,8 @@ class wip():
     # """Sets the index range of a subimage."""
     # minmax      = NotImplemented
     # """List the maximum and minimum values of the current image."""
+    # logarithm   = NotImplemented
+    # """Takes the scaled logarithm of vectors and images."""
 
     #####
     ##### Interactive commands that will not be implemented.
@@ -942,6 +975,8 @@ class wip():
     # """Displays the result of EXPRESSION on the screen."""
     # end         = NotImplemented
     # """Terminates define mode, insert mode, or exits from the program."""
+    # etxt        = NotImplemented
+    # """Erases the text from the view surface without affecting graphics."""
     # free        = NotImplemented
     # """Releases items created with the NEW command."""
     # hardcopy    = NotImplemented
