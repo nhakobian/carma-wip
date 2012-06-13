@@ -26,6 +26,16 @@ void cpgsvp(float x1, float x2, float y1, float y2); // Set viewport.
 void cpgshs(float angle, float sepn, float phase); // set hatch style
 void cpgrect(float x1, float x2, float y1, float y2); // draw rectangle.
 
+// CPGHIST Wrapper Begin
+// void cpghist(int n, const float *data, float datmin, float datmax, \
+//              int nbin, int pgflag);
+//
+%apply (int DIM1, float* IN_ARRAY1) { (int n, float* data) }
+void cpghist(int n, const float *data, float datmin, float datmax, \
+             int nbin, int pgflag);
+%clear (int n, float* data);
+// CPGHIST Wrapper End
+
 // CPGBIN Wrapper Begin
 // void cpgbin(int nbin, const float *x, const float *data, int center);
 //

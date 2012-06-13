@@ -563,6 +563,40 @@ class wip():
                          dtype=numpy.float32)
         self.tr = tr
 
+    def histogram(self, array, xmin=None, xmax=None, n=5):
+        """
+        Draws a histogram of the data read by XCOLUMN.
+          Note: This function should probably be replaced by a numpy analysis
+          routine so levels can be autoset, and for general clenliness.
+        
+          array : array to histogram
+          MIN
+          MAX 
+          N
+        """
+        # xvec = wipvector("x", &nx, &npts);
+        # if (npts < 1) goto MISTAKE;
+        # wiprange(npts, xvec, &xmin, &xmax);
+        # narg = 5; /* Number of bins. */
+        # if (argc == 2) {
+        #     if (wiparguments(&line, 2, arg) != 2) goto MISTAKE;
+        #     xmin = arg[0]; xmax = arg[1];
+        # } else if (argc > 2) {
+        #     if (wiparguments(&line, 3, arg) != 3) goto MISTAKE;
+        #     xmin = arg[0]; xmax = arg[1];
+        #     narg = NINT(arg[2]);
+        # }
+        # ny = 1;   /* PGFLAG = 1 ==> no pgenv called. */
+        # cpghist(npts, xvec, xmin, xmax, narg, ny);
+        # wipgetcxy(&xfloat, &yfloat);
+        # wipmove(xvec[npts-1], yfloat);
+        if xmin == None:
+            xmin = numpy.min(array)
+        if xmax == None:
+            xmax = numpy.max(array)
+        
+        cwip.cpghist(array, float(xmin), float(xmax), n, 1)
+
     def label(self, string):
         """
         Writes the string STR at the current cursor position.
@@ -734,7 +768,6 @@ class wip():
         # ymin = arg[2]; ymax = arg[3];
         # cpgrect(xmin, xmax, ymin, ymax);
         cwip.cpgrect(xmin, xmax, ymin, ymax)
-
 
     def reset(self):
         """
@@ -914,9 +947,6 @@ class wip():
 
     hi2d        = NotImplemented
     """Draws a histogram of the data read by IMAGE."""
-
-    histogram   = NotImplemented
-    """Draws a histogram of the data read by XCOLUMN."""
 
     hls         = NotImplemented
     """Sets the color representation using the HLS system."""

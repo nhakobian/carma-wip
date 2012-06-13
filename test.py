@@ -147,6 +147,11 @@ a.fill(1)
 a.panel(3, 3, -6)
 a.globe()
 
+a.panel(3, 3, -7)
+a.limits(img.image.min(), img.image.max()/4., 0, img.image.size/4.)
+a.histogram(img.image.flatten(), n=100)
+a.box()
+
 a.panel(1, 1, 1)
 a.mtext('T', 3, 0.5, 0.5, "Sample multipanel plot.")
 
