@@ -42,11 +42,14 @@ class wip():
             'angle'  : lambda : self._wipgetvar('angle'),
             'expand' : lambda : self._wipgetvar('expand'),
             'font'   : lambda : self._wipgetvar('font'),
+            'itf'    : lambda : self._wipgetvar('itf'),
             'lstyle' : lambda : self._wipgetvar('lstyle'),
             'lwidth' : lambda : self._wipgetvar('lwidth'),
             'pstyle' : lambda : self.__dict__['pstyle'],
             'tr'     : lambda : cwip.wipgetr(6),
             'tick'   : cwip.wipgetick,
+            'xsubmar': lambda : self._wipgetvar('xsubmar'), # default 2.0 
+            'ysubmar': lambda : self._wipgetvar('ysubmar'), # default 2.0
             }
         
         if name not in namedict.keys():
@@ -56,15 +59,18 @@ class wip():
 
     def __setattr__(self, name, value):
         namedict = { 
-            'bgci'   : cwip.wipsetbgci,
-            'angle'  : cwip.wipsetangle,
-            'expand' : cwip.wipexpand,
-            'font'   : cwip.wipfont,
-            'lstyle' : cwip.wipltype,
-            'lwidth' : cwip.wiplw,
-            'pstyle' : lambda x : self.__dict__.__setitem__('pstyle', x),
-            'tr'     : lambda x : cwip.wipsetr(x) ,
-            #'tick'  : todo,
+            'bgci'    : cwip.wipsetbgci,
+            'angle'   : cwip.wipsetangle,
+            'expand'  : cwip.wipexpand,
+            'font'    : cwip.wipfont,
+            'itf'     : cwip.wipsetitf,
+            'lstyle'  : cwip.wipltype,
+            'lwidth'  : cwip.wiplw,
+            'pstyle'  : lambda x : self.__dict__.__setitem__('pstyle', x),
+            'tr'      : lambda x : cwip.wipsetr(x) , # command 'transfer'
+           #'tick'    : todo,
+           #'xsubmar' : self.submargin, remove fn, and replace with var
+           #'ysubmar' : self.submargin
             }
 
         if name not in namedict.keys():
@@ -631,6 +637,12 @@ class wip():
         """
         cwip.wipmtext(side, disp, just, coord, string)
 
+    def palette(self, num, levels=0):
+        """
+        Sets the color palette to entry K.
+        """
+        cwip.wippalette(num, levels)
+
     def panel(self, nx, ny, panel):
         """
         Sets the plot lovation to a subpanel.
@@ -682,6 +694,14 @@ class wip():
         # arg[0] = ABS(arg[0]);
         # wipputlabel(line, arg[0]);
         cwip.wipputlabel(string, just)
+
+    def submargin(self, xsub, ysub):
+        """
+        Sets the gap between individual panels.
+        
+        Defaults, xsub, ysub = 2.0
+        """
+        cwip.wipsetsubmar(xsub, ysub)
 
     def symbol(self, value):
         """
@@ -829,9 +849,6 @@ class wip():
     id          = NotImplemented
     """Puts an identification label at the bottom of a plot."""
 
-    itf         = NotImplemented
-    """Sets the current image transfer function to N."""
-
     levels      = NotImplemented
     """Sets the contour levels for a contour plot."""
 
@@ -840,9 +857,6 @@ class wip():
 
     lookup      = NotImplemented
     """Loads a RGB color lookup table."""
-
-    palette     = NotImplemented
-    """Sets the color palette to entry K."""
 
     poly        = NotImplemented
     """Draws a polygon."""
@@ -856,20 +870,11 @@ class wip():
     rgb         = NotImplemented
     """Sets the color represenation using the RGB system."""
 
-    scale       = NotImplemented
-    """Sets the viewport size scale."""
-
     slevel      = NotImplemented
     """Sets the type and value used to scale contour levels."""
 
-    submargin   = NotImplemented
-    """Sets the gap between individual panels."""
-
     ticksize    = NotImplemented
     """Sets tick intervals for the BOX command."""
-
-    transfer    = NotImplemented
-    """Specifies the image coordinate transformation."""
 
     vector      = NotImplemented
     """Draws a vector field as a sequence of arrows."""
@@ -879,6 +884,12 @@ class wip():
 
     vstand      = NotImplemented
     """Sets the standard (default) viewport."""
+
+    #####
+    ##### Functions whose purpose isn't clear.
+    #####
+    # scale       = NotImplemented
+    # """Sets the viewport size scale."""
 
     #####
     ##### Data read routines that currently will not be implemented.

@@ -30,6 +30,8 @@ a.box(yvars='bcst')
 a.mtext('T', 1.5, 0.5, 0.5, "Sample sin(x) plot.")
 a.mtext('B', 2.3, 0.5, 0.5, "x")
 
+#a.submargin(1, 1)
+
 a.panel(3, 3, -3)
 a.limits(-1.1, 1.1, -1.1, 1.1)
 a.box()
@@ -70,9 +72,12 @@ a.errorbar(qx, qy, numpy.array([0, 0, 0, 0, 0, 0, .1], dtype=numpy.float32), 6)
 a.expand=1
 
 a.panel(3, 3, -4)
+#a.itf=2
+a.palette(2)
 img = miriad_tools.MirImage('test.image')
 a.winadj(0, img.axes[0], 0, img.axes[1])
 a.header(img, 'rd', 'rd')
+#a.itf=1
 a.halftone(img)
 a.box('bcstznh', 'bcstznvd')
 a.wedge('r', 1., 3., img.image.min(), img.image.max())

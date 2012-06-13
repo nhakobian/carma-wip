@@ -179,7 +179,9 @@ void wipfont(int font);
 void wipaitoffgrid(float nx, float xy);
  int wipwedge(char *side, float disp, float thick, float bg, float fg, \
 	      char *label);
-
+void wipsetitf(int type);
+void wipsetsubmar(float subx, float suby);
+void wippalette(int which, int levels);
 
 /* WIPPOINTS wrapper begin 
    int wippoints(int nstyle, float style[], int nxy, float x[], \
