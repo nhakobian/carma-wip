@@ -23,6 +23,7 @@ void cpglab(const char *xlbl, const char *ylbl, const char *toplbl);
 void cpgpap(float width, float aspect); // Sets papersize, aspect.
 void cpgwnad(float x1, float x2, float y1, float y2); // Set equal aspect.
 void cpgsvp(float x1, float x2, float y1, float y2); // Set viewport.
+void cpgshs(float angle, float sepn, float phase); // set hatch style
 
 // CPGBIN Wrapper Begin
 // void cpgbin(int nbin, const float *x, const float *data, int center);
@@ -183,6 +184,8 @@ void wipaitoffgrid(float nx, float xy);
 void wipsetitf(int type);
 void wipsetsubmar(float subx, float suby);
 void wippalette(int which, int levels);
+void wipcolor(int color);
+void wipfill(int fill);
 
 /* WIPPOINTS wrapper begin 
    int wippoints(int nstyle, float style[], int nxy, float x[], \

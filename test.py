@@ -34,7 +34,9 @@ a.mtext('B', 2.3, 0.5, 0.5, "x")
 
 a.panel(3, 3, -3)
 a.limits(-1.1, 1.1, -1.1, 1.1)
+a.ticksize(1,1,1,1)
 a.box()
+a.ticksize(0,0,0,0)
 a.move(-1, -0.4)
 a.angle = 45
 a.putlabel("Angle test", 0)
@@ -56,6 +58,11 @@ a.expand=a.expand*2
 a.move(0.5, -0.75)
 a.putlabel("Big sized text", 0)
 a.expand=a.expand/2.
+
+a.move(0, -0.6)
+a.fill(3, spacing=0.5)
+a.arc(0.3, 0.3)
+a.fill(1)
 
 qx = numpy.array([-0.75, -0.5, -0.25, 0, 0.25, 0.5, 0.75], dtype=numpy.float32)
 qy = numpy.array([-0.75, -0.5, -0.25, 0, 0.25, 0.5, 0.75], dtype=numpy.float32)
@@ -117,10 +124,14 @@ a.font=1
 a.putlabel("font1", 0)
 a.move(4, 4)
 a.font=2
+a.color=4
 a.putlabel("font2", 0)
+a.color=1
 a.move(4, 3.5)
 a.font=3
+a.color=5
 a.putlabel("font3", 0)
+a.color=1
 a.move(4, 3)
 a.font=4
 a.putlabel("font4", 0)

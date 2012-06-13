@@ -40,7 +40,9 @@ class wip():
         namedict = { 
             'bgci'   : lambda : self._wipgetvar('bgci'),
             'angle'  : lambda : self._wipgetvar('angle'),
+            'color'  : lambda : self._wipgetvar('color'),
             'expand' : lambda : self._wipgetvar('expand'),
+            'fill'   : lambda : self._wipgetvar('fill'),
             'font'   : lambda : self._wipgetvar('font'),
             'itf'    : lambda : self._wipgetvar('itf'),
             'lstyle' : lambda : self._wipgetvar('lstyle'),
@@ -61,7 +63,9 @@ class wip():
         namedict = { 
             'bgci'    : cwip.wipsetbgci,
             'angle'   : cwip.wipsetangle,
+            'color'   : cwip.wipcolor,
             'expand'  : cwip.wipexpand,
+           #'fill'    : see fill function
             'font'    : cwip.wipfont,
             'itf'     : cwip.wipsetitf,
             'lstyle'  : cwip.wipltype,
@@ -271,6 +275,32 @@ class wip():
         cwip.wiperrorbar(int(loc), numpy.array(x, dtype=numpy.float32), 
                          numpy.array(y, dtype=numpy.float32), 
                          numpy.array(error, dtype=numpy.float32))
+        
+    def fill(self, style, hatch=45.0, spacing=1.0, phase=0.0):
+        """
+        Sets the fill area style to N.
+        """
+        # argc = (argc < 1) ? 1 : ((argc > 4) ? 4 : argc);
+        # if (wiparguments(&line, argc, arg) != argc) goto MISTAKE;
+        # xfloat = 45.0;                     /* Default hatch angle. */
+        # yfloat = 1.0;               /* Default hatch line spacing. */
+        # xmin = 0.0;                 /* Default is no phase offset. */
+        # switch (argc) {               /* Parse optional arguments. */
+        #   case 4:    /* falls through */
+        #     xmin = arg[3];         /* User specifies phase offset. */
+        #   case 3:    /* falls through */
+        #     yfloat = arg[2];            /* User specifies spacing. */
+        #   case 2:
+        #     xfloat = arg[1];        /* User specifies hatch angle. */
+        #     break;
+        #   default:                         /* No options supplied. */
+        #     break;
+        # }
+        # narg = NINT(arg[0]);
+        # if (argc > 1) cpgshs(xfloat, yfloat, xmin);
+        # wipfill(narg);
+        cwip.cpgshs(hatch, spacing, phase)
+        cwip.wipfill(style)
 
     def globe(self, longi=5, lat=3):
         """
@@ -718,9 +748,9 @@ class wip():
         # wipsetitf(0);
         #
         # wippalette(0, 0);
-        self.color(1) # not yet implemented
+        self.color = 1
         self.expand = 1
-        self.fill = 1 # not yet implemented
+        self.fill(1)
         self.font = 1
         self.lstyle = 1
         self.lwidth = 1
@@ -865,17 +895,11 @@ class wip():
     beam        = NotImplemented
     """Draws a beam."""
 
-    color       = NotImplemented
-    """Select color for lines and characters."""
-
     contour     = NotImplemented
     """Makes a contour plot of an array read with IMAGE."""
 
     environment = NotImplemented
     """Sets the user limits and draws a box."""
-
-    fill        = NotImplemented
-    """Sets the fill area style to N."""
 
     hi2d        = NotImplemented
     """Draws a histogram of the data read by IMAGE."""
