@@ -384,14 +384,27 @@ class wip():
         #    cpgimag(*impic, nx, ny, sx1, sx2, sy1, sy2, ymin, ymax, tr);
         # else
         #    cpggray(*impic, nx, ny, sx1, sx2, sy1, sy2, ymax, ymin, tr);
-        imin = float(image.image.min())
-        imax = float(image.image.max())
-        nx = int(image.axes[0])
-        ny = int(image.axes[1])
-        #xylimits = cwip.wipgetsub()
-        cwip.cpgimag(image.image[0,:,:], 1, nx, 1, ny, imin, imax, self.tr)
 
-    def header(self, image, xdir, ydir=None, ret=False):
+        if ('mirimg' in image.__dict__.keys()):
+            # this is a miriad image
+
+            imin = float(image.image.min())
+            imax = float(image.image.max())
+            nx = int(image.axes[0])
+            ny = int(image.axes[1])
+            cwip.cpgimag(image.image[0,:,:], 1, nx, 1, ny, imin, imax, self.tr)
+        else:
+            #consider this a raw image
+            imin = float(image.min())
+            imax = float(image.max())
+            nx = int(image.shape[0])
+            ny = int(image.shape[1])
+            cwip.cpgimag(image, 1, nx, 1, ny, imin, imax, self.tr)
+
+        #xylimits = cwip.wipgetsub()
+
+
+    def header(self, image, xdir, ydir=None, ret=False, scale=1.0):
         """
         Loads header information of the image.
         
@@ -435,19 +448,6 @@ class wip():
         # blcy = sub[2] # px_ymin
         # trcy = sub[3] # px_ymax
 
-        # For testing force size values to the following:
-        blcx = 1
-        trcx = image.axes[0]
-        blcy = 1
-        trcy = image.axes[1]
-
-        # Expand limits to be one half pixel larger in each direction since
-        # pixels have definite sise.
-        xmin = float(blcx - 0.5)
-        xmax = float(trcx + 0.5)
-        ymin = float(blcy - 0.5)
-        ymax = float(trcy + 0.5)
-
         # Enter into wipheadlim, xtype - xdir, ytype - ydir
         # Computes transformation matrix which is based on xscale, xoff,
         # yscale, yoff
@@ -462,6 +462,11 @@ class wip():
             cdelty = image.cdelt[1]
             ctypex = image.ctypes_n[0].lower()
             ctypey = image.ctypes_n[1].lower()
+            # For testing force size values to the following:
+            blcx = 1
+            trcx = image.axes[0]
+            blcy = 1
+            trcy = image.axes[1]
         else:
             im_type = 'pixel'
             crvalx = 0.0
@@ -472,6 +477,17 @@ class wip():
             cdelty = 0.0
             ctypex = 'px'
             ctypey = 'px'
+            blcx = 1
+            trcx = image.shape[0]
+            blcy = 1
+            trcy = image.shape[1]
+
+        # Expand limits to be one half pixel larger in each direction since
+        # pixels have definite sise.
+        xmin = float(blcx - 0.5)
+        xmax = float(trcx + 0.5)
+        ymin = float(blcy - 0.5)
+        ymax = float(trcy + 0.5)
 
         # If one of the axis is a declination axis, then set the cos factor
         # to that axis value.
@@ -480,7 +496,7 @@ class wip():
         elif ctypex == 'dec':
             cosdec = crvalx
         else:
-            cosdec = 0
+            cosdec = 0.0
 
         # Similarly, if one of the axis is an right ascension axis, that axis
         # must be scaled by 15, (scaling from 24 hrs to 360 degrees).
@@ -539,7 +555,7 @@ class wip():
             xscale = cdeltx
             xoff   = crvalx - (crpixx * xscale)
         else: # xdir == 'px' # Absolute pixel positions.
-            xscale = 1.0
+            xscale = 1.0 * scale
             xoff   = 0.0
 
         # Repeat for ydir.
@@ -562,7 +578,7 @@ class wip():
             yscale = cdelty 
             yoff   = crvaly - (crpixy * yscale)
         else: # xdir == 'px' # Absolute pixel positions.
-            yscale = 1.0
+            yscale = 1.0 * scale
             yoff   = 0.0
 
         # Now scale the coordinates from pixels to chosen scale.
