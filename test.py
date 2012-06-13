@@ -75,6 +75,8 @@ a.winadj(0, img.axes[0], 0, img.axes[1])
 a.header(img, 'rd', 'rd')
 a.halftone(img)
 a.box('bcstznh', 'bcstznvd')
+a.wedge('r', 1., 3., img.image.min(), img.image.max())
+a.wedge('bp', 2., 3., img.image.min(), img.image.max(), boxarg='0')
 
 a.panel(3, 3, -5)
 a.limits(0, 5, 0, 5)

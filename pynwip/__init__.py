@@ -733,10 +733,35 @@ class wip():
         cwip.cpgsvp(float(xmin), float(xmax), float(ymin), float(ymax))
         cwip.wipviewport()
 
-    def wedge(self):
+    def wedge(self, side, disp, thick, min, max, boxarg='bcst'):
         """
         Draws a halftone wedge.
+
+          SIDE      : `B', `L', `T', or `R' to specify Bottom, Left, Top, or 
+                      Right side of the viewport. 'P' Uses pgplot wedge fn.
+          DISP      : Displacement from the frame edge (in character height 
+                      units). If DISP is negative, then the wedge is drawn 
+                      inside the viewport. 
+          THICK     : Thickness of the wedge (in character height units).
+          MIN / MAX : Specify the intensity range of the wedge. By default,
+                      MIN and MAX are the values used by the most recent call
+                      to the HALFTONE command. Providing the values of MIN and
+                      MAX will cause WEDGE to display a different range of 
+                      intensities when labeling the wedge box. 
+          BOXARG    : Control the box around the wedge is drawn (or omit it).
+                      By default, a simple box is drawn sets BOXARG to BCSTN/M
+                      (depending on the orientation); to eliminate the box, 
+                      set BOXARG to 0 (for more information on permitted box
+                      arguments, see the BOX command). The arguments from the
+                      most recent call to the TICKSIZE command are used to 
+                      draw a box around the wedge and numerically label it.
         """
+        if (side.lower() == 'r') or (side.lower() == 't'):
+            boxarg += 'm'
+        elif (side.lower() == 'l') or (side.lower() == 'b'):
+            boxarg += 'n'
+
+        cwip.wipwedge(side, disp, thick, float(min), float(max), boxarg)
         # if ((ptr = wipparse(&line)) == (char *)NULL) goto MISTAKE;
         # if (wiparguments(&line, 2, arg) != 2) goto MISTAKE;
         # xfloat = arg[0]; yfloat = arg[1]; xmin = hmin; xmax = hmax;
@@ -760,9 +785,6 @@ class wip():
         #     ptr = infile;
         # }
         # if (wipwedge(ptr, xfloat, yfloat, xmin, xmax, par)) goto MISTAKE;
-        pass
-
-
         
     #
     # Below begins list of NotImplemented functions.
