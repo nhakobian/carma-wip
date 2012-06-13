@@ -137,6 +137,25 @@ class wip():
         # wiparrow(xmax, ymax, xfloat, yfloat);
         cwip.wiparrow(x, y, angle, vent)
 
+    def beam(self, majx, majy, pa, offx=0, offy=0, scale=-1, fillcolor=15, \
+                 bgrect=0):
+        """
+        Draws a beam.
+
+        MAJ
+        MIN
+        PA
+        [OFFX]
+        [OFFY] 
+        [SCALE] 
+        [FILLCOLOR] 
+        [BGRECT]
+        """
+        # if (wipbeam(xmax, ymax, ymin, xfloat, yfloat, narg, xmin, ny))
+        # goto MISTAKE;
+        cwip.wipbeam(majx, majy, pa, offx, offy, fillcolor, scale, bgrect)
+
+
     def bin(self, x, y, k=1, gap=None):
         """
         Draws a histogram of (x,y) pairs. 
@@ -372,7 +391,7 @@ class wip():
         #xylimits = cwip.wipgetsub()
         cwip.cpgimag(image.image[0,:,:], 1, nx, 1, ny, imin, imax, self.tr)
 
-    def header(self, image, xdir, ydir=None):
+    def header(self, image, xdir, ydir=None, ret=False):
         """
         Loads header information of the image.
         
@@ -562,6 +581,11 @@ class wip():
         tr = numpy.array([xoff, xscale, 0.0, yoff, 0.0, yscale], 
                          dtype=numpy.float32)
         self.tr = tr
+
+        if ret == True:
+            return(xmin, xmax, ymin, ymax)
+        else:
+            return
 
     def hi2d(self, image, bias, slant=0, center=1, xmin=None, xmax=None,
              ymin=None, ymax=None, autolevels=True):
@@ -1014,9 +1038,6 @@ class wip():
 
     bar         = NotImplemented
     """Draws bar graphs on (x,y) pairs in direction 90(K-1)."""
-
-    beam        = NotImplemented
-    """Draws a beam."""
 
     contour     = NotImplemented
     """Makes a contour plot of an array read with IMAGE."""

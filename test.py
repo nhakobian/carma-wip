@@ -83,9 +83,12 @@ a.panel(3, 3, -4)
 a.palette(2)
 img = miriad_tools.MirImage('test.image')
 a.winadj(0, img.axes[0], 0, img.axes[1])
-a.header(img, 'rd', 'rd')
+(xmin, xmax, ymin, ymax) = a.header(img, 'rd', 'rd', ret=True)
 #a.itf=1
 a.halftone(img)
+print xmax, ymin
+a.move((xmax+xmin)/2., (ymin+ymax)/2.)
+a.beam(10, 20, 45, 2.5, -2.5, bgrect=-1)
 a.box('bcstznh', 'bcstznvd')
 a.wedge('r', 1., 3., img.image.min(), img.image.max())
 a.wedge('bp', 2., 3., img.image.min(), img.image.max(), boxarg='0')

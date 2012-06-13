@@ -289,6 +289,8 @@ void wipsetsubmar(float subx, float suby);
 void wippalette(int which, int levels);
 void wipcolor(int color);
 void wipfill(int fill);
+ int wipbeam(float major, float minor, float posangle, float offx, float offy,\
+	     int fillcolor, float scale, int bgrect);
 
 /* WIPPOINTS wrapper begin 
    int wippoints(int nstyle, float style[], int nxy, float x[], \
