@@ -417,9 +417,9 @@ class wip():
         # trcy = sub[3] # px_ymax
 
         # For testing force size values to the following:
-        blcx = 0
+        blcx = 1
         trcx = image.axes[0]
-        blcy = 0
+        blcy = 1
         trcy = image.axes[1]
 
         # Expand limits to be one half pixel larger in each direction since
@@ -806,6 +806,21 @@ class wip():
         cwip.wippoints(style, numpy.array(x, dtype=numpy.float32), 
                        numpy.array(y, dtype=numpy.float32), color)
 
+
+    def poly(self, x, y):
+        """
+        Draws a polygon.
+        """
+        # xvec = wipvector("x", &nx, &npts);
+        # yvec = wipvector("y", &nx, &ny);
+        # npts = MIN(npts, ny);
+        # if (npts < 1) goto MISTAKE;
+        # cpgpoly(npts, xvec, yvec);
+        # wipmove(xvec[0], yvec[0]);
+        cwip.cpgpoly(x, y)
+        self.move(x[0], y[0])
+
+
     def putlabel(self, string, just=0.5):
         """
         Writes justified text STR at the current location.
@@ -1017,9 +1032,6 @@ class wip():
 
     lookup      = NotImplemented
     """Loads a RGB color lookup table."""
-
-    poly        = NotImplemented
-    """Draws a polygon."""
 
     rgb         = NotImplemented
     """Sets the color represenation using the RGB system."""

@@ -160,6 +160,16 @@ a.box()
 a.panel(1, 1, 1)
 a.mtext('T', 3, 0.5, 0.5, "Sample multipanel plot.")
 
+a.panel(3, 3, -9)
+a.limits(0, 12, 0, 10)
+a.box()
+px = [1.5 , 2   , 1, 2.25, 3, 3.75, 5, 4,     4.5,   3 , 1.5]
+py = [1   , 2.25, 3, 3,    4,    3, 3, 2.25,    1, 1.75, 1]
+a.fill(2)
+a.poly(px, py)
+a.fill(4)
+a.poly(px, py)
+
 a.viewport(0.32, 0.42, 0.125, 0.2)
 a.winadj(0, 1, 0, 1)
 a.lwidth=5

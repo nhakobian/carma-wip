@@ -26,6 +26,30 @@ void cpgsvp(float x1, float x2, float y1, float y2); // Set viewport.
 void cpgshs(float angle, float sepn, float phase); // set hatch style
 void cpgrect(float x1, float x2, float y1, float y2); // draw rectangle.
 
+// CPGPOLY Wrapper Begin
+// void cpgpoly(int n, const float *xpts, const float *ypts);
+%apply (int DIM1, float* IN_ARRAY1) { (int len1, float* vec1),
+                                      (int len2, float* vec2)}
+%rename (cpgpoly) mod_cpgpoly;
+%exception mod_cpgpoly {
+  $action
+    if (PyErr_Occurred()) SWIG_fail;
+}
+%inline %{
+void mod_cpgpoly(int len1, float* vec1, int len2, float* vec2)
+{
+  if (len1 != len2) {
+    PyErr_Format(PyExc_ValueError, "Arrays of lengths (%d,%d) given", len1,
+		 len2);
+    return;
+  }
+  cpgpoly(len1, vec1, vec2);
+  return;
+}
+%}
+%clear (int len1, float* vec1), (int len2, float* vec2);
+// CPGPOLY Wrapper End
+
 /* CPGHI2D Wrapper Begin
 // void cpghi2d(const float *data, int nxv, int nyv, int ix1, int ix2, \
 //              int iy1, int iy2, const float *x, int ioff, float bias, \
