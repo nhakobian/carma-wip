@@ -68,7 +68,7 @@ char *wipradecfmt(float position)
     if (!tensofseconds) nsig--;
     if (INT(seconds) == 0) nsig--;
     if (nsig < 0) nsig = 0;
-    ptr = wipleading(wipfpfmt(seconds, nsig));
+    ptr = (wipfpfmt(seconds, nsig));
 
     if (tensofseconds) {
       SPrintf(string, "%d %02d %s", radec, minutes, ptr);

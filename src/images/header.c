@@ -146,7 +146,7 @@ static int wipheadlim(const void *image, const char *xtype, const char *ytype,
     }
 
     (void)Strcpy(style, xtype);
-    if ((ptr = wipleading(style)) == (char *)NULL) ptr = "";
+    if ((ptr = (style)) == (char *)NULL) ptr = "";
     wiplower(ptr);
 
     if ((crvalx == 0.0) && (crpixx == 0.0) && (cdeltx == 0.0)) {
@@ -179,7 +179,7 @@ static int wipheadlim(const void *image, const char *xtype, const char *ytype,
     *xscale = scale;
 
     (void)Strcpy(style, ytype);
-    if ((ptr = wipleading(style)) == (char *)NULL) ptr = "";
+    if ((ptr = (style)) == (char *)NULL) ptr = "";
     wiplower(ptr);
 
     if ((crvaly == 0.0) && (crpixy == 0.0) && (cdelty == 0.0)) {

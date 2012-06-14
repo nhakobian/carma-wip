@@ -118,7 +118,7 @@ int wipsetstring(const char *input, const char *value)
       return(1);
     }
 
-    if ((ptr = wipleading(value)) == (char *)NULL) {
+    if ((ptr = (value)) == (char *)NULL) {
       (void)Strcpy(vb->value, "");    /* Set value to an empty string. */
     } else {
       (void)Strncpy(vb->value, ptr, STRINGSIZE);           /* Copy it. */

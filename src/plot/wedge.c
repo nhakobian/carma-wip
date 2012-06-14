@@ -143,7 +143,7 @@ static int wipPwedge(char *cside, float disp, float thick, float bg, float fg, c
     wipgetick(&xtick, &nxtick, &ytick, &nytick);
 
     (void)Strcpy(otherLabel, "BC");        /* Set up a default border. */
-    if ((wlabel = wipleading(label)) != (char *)NULL) {
+    if ((wlabel = (label)) != (char *)NULL) {
       if (Strchr(wlabel, '0') != (char *)NULL)    /* No box requested. */
         otherLabel[0] = Null;
     } else {      /* No box label given; provide a reasonable default. */

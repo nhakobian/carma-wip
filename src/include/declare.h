@@ -13,10 +13,6 @@
 #ifndef WIP_DECLARE
 #define WIP_DECLARE
 
-/* Code in wip/branch */
-
-extern int wipinit(void);
-
 /* Code in wip/images */
 extern  void   wipextrema(float **image, int nx, int ny, float *min, \
                           float *max);
@@ -45,54 +41,6 @@ extern   int   wipheader(int blcx, int blcy, int trcx, int trcy, \
 extern   int   wipsmooth(float **array, int nx, int ny, int order, \
 			 float blank);
 
-/* Code in wip/interact */
-extern COMMAND *create_command(void);
-extern    void  add_command(COMMAND *cmd);
-extern    void  delete_command(COMMAND *cmd);
-extern    void  wipdecode(const char *string, char *outstr, size_t maxout);
-extern     int  wiphelp(char *rest);
-extern COMMAND *wipifxecute(char **rest);
-extern    void  wipsaveline(COMMAND *macro, const char *line);
-extern COMMAND *wipstartins(char *rest);
-extern    void  wipinsert(COMMAND *command, const char *line);
-extern     int  wipdelete(char *rest);
-extern COMMAND *wipstartmac(const char *macname);
-extern COMMAND *find_command(COMMAND *start, const char *cmdname, int exact);
-extern COMMAND *wipinterpret(char **cmdline);
-extern     int  wiplist(int line1, int line2, const char *rest);
-extern COMMAND *wiploopxecute(char **cmdline, int *ncount);
-extern COMMAND *create_macro(const char *macname);
-extern    void  add_to_macro(COMMAND *mac, const char *cmdline);
-extern    void  insert_macro(COMMAND *mac, const char *cmdline, int before);
-extern    void  delete_macro(COMMAND *mac, int first, int last);
-extern     int  wipmaxecute(COMMAND *mac, int cnt, const char *rest);
-extern    char *wipparse(char **line);
-extern     int  wipcountwords(const char *line);
-extern    void  wiplower(char *line);
-extern    void  wipupper(char *line);
-extern    char *wipleading(const char *line);
-extern     int  wiplenc(char *line);
-extern    char *wipnewstring(const char *string);
-extern     int  wiparguments(char **rest, int numarg, double arg[]);
-extern     int  wipreadinput(const char *rest);
-extern     int  wipwritemac(const char *file, const char *macs);
-extern     int  wipplayback(const char *rest);
-extern     int  wipreadmac(const char *rest);
-extern     int  wipmacroinput(const char *file);
-
-/* Code in wip/fit */
-extern    void  wipplotfit(float x1, float x2, float step, float x[], int nx);
-extern    void  wipfitrange(float x1, float x2, float y1, float y2);
-extern     int  wipfit(const char *rest, int nxy, float x[], float y[], \
-		       int ns, float sig[]);
-extern     int  wipgaussfit(char *rest, float x[], float y[], int nxy, \
-			    float sig[], int nsig, int ngauss, float terms[]);
-extern     int  lsqfit(float x[], float y[], int ndata, float sig[], int mwt, \
-		       float *a, float *b, float *siga, float *sigb, \
-		       float *chi2, float *q);
-extern     int  medfit(float x[], float y[], int ndata, float *a, float *b, \
-		       float *abdev);
-
 /* Code in wip/plot */
 extern    void   wipaitoff( int nxy, float x[], float y[]);
 extern    void   wipaitoffgrid( int nlong, int nlats);
@@ -107,10 +55,6 @@ extern    void   wiplogarithm(float array[], int nxy, float scale);
 extern    void   wiprange(int nx, float x[], float *xmin, float *xmax);
 extern     int   wiperrorbar(int locat, float x[], float y[], float err[], \
 			     int nxy);
-extern    void   wipcursor(float *cx, float *cy, LOGICAL keep);
-extern    void   wipfixcurs(const char *cmd, char *rest, LOGICAL keep);
-extern     int   wipdevice(const char *devicename);
-extern    void   wipclose(void);
 extern    void   wipheq(int nx, int ny, float **image, int x1, int x2, int y1,\
 			int y2, float blank, float min, float max, int nbins);
 extern     int   wiphline(int npts, float x[], float y[], float gap, \
@@ -137,13 +81,8 @@ extern    void   wipdraw(float x, float y);
 extern    void   wipgetcxy(float *cx, float *cy);
 extern    void   wippalette(int which, int levels);
 extern    void   wippanel(int nx, int ny, int k);
-extern     int   wipphard(const char *device, const char *rest);
 extern     int   wippoints(int nstyle, float style[], int nxy, float x[], \
 			   float y[], int nc, float c[]);
-extern    void   wipputlabel(const char *line, double justify);
-extern    char  *fixputlabel(const char *cmdname, char *rest, LOGICAL save);
-extern     int   wipmtext(char *side, float disp, float coord, float just, \
-			  char *line);
 extern     int   wipquarter(int quadrant);
 extern    void   wipreset(void);
 extern     int   wipscale(float scalex, float scaley, int k);
@@ -195,15 +134,12 @@ extern    float  wipgaussdev(long int *seed);
 extern     void  wiplines(int first, int last);
 extern     void  wipgetlines(int *first, int *last);
 extern      int  wipopenfile(const char *file);
-extern      int  wipreadcol(float array[], int maxsize, int ncol);
 extern     char *wipreadstr(int first, int second);
 extern      int  wipspool(const char *spoolfile);
 extern      int  wipcommand(const char *command);
 
 /* Code in wip/variables */
 extern    int  wipisnumber(const char *inword, double *retval);
-extern   void  wipecho(const char *input);
-extern    int  wipsetuser(const char *input);
 extern   char *wipgettoken(char *out, const char *in, char **next);
 extern    int  wiptokenexists(const char *inword);
 extern double  wipevaluate(const char *inword, LOGICAL *error);

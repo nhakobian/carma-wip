@@ -9,14 +9,15 @@ class wip():
         initialization.
         """
         self.__dict__['pstyle'] = 1
-        cwip.wipinit()
+        self.device()
+        self.reset()
 
     def __del__(self):
         """
         Wip Interface destruction routine. The called function is an alias to
         cpgend(), possibly update in the future to this?
         """
-        cwip.wipclose()
+        cwip.cpgend()
     
     # Attributes (wip variables)
     def _wipgetvar(self, varname):
@@ -223,7 +224,26 @@ class wip():
 
           device : PGPLOT device string.
         """
-        cwip.wipdevice(device)
+        # cpgldev prints out a list of available devices (sigh).
+
+        # Reset the panel.
+        self.panel(1, 1, 1)
+
+        if cwip.cpgopen(device) <= 0:
+            raise IOError("Cannot open PGPLOT device.")
+
+        # Set a variable storing the opened device name?
+        cwip.cpgask(0)
+        self.reset()
+        # Locally store limits, viewport, needed still?
+        cwip.wiplimits()
+        cwip.wipviewport()
+        # Set up local color table?
+        (cx, cy) = cwip.cpgqcol()
+        cx = 16
+        if (cy < cx):
+            cy = 0
+        cwip.wipsetcir(cx, cy)
 
     def dot(self):
         """
@@ -629,7 +649,9 @@ class wip():
                               1 is right.
           string : (string) - Text to insert
         """
-        cwip.wipmtext(side, disp, just, coord, string)
+        if (side.lower() not in ['l', 'r', 't', 'b']):
+            raise ValueError("mtext side must be: l, r, t, b.")
+        cwip.cpgmtxt(side, disp, coord, just, string);
 
     def palette(self, num, levels=0):
         """
@@ -679,7 +701,24 @@ class wip():
           string : (string) - String value to write on screen.
           just   : (float)  - Justification between 0,1. 0.5 is centered
         """
+        (x, y) = cwip.wipgetcxy()
+        
+        # get angle
+        angle = self.angle
+        cwip.cpgptxt(x, y, angle, just, string)
+
+        # Move the current position to the end point of the label
+        (nx, ny) = cwip.cpglen(4, string)
+        rpdeg = numpy.pi/180.
+        angle = angle * rpdeg
+        nx = nx * (1 - just)
+        ny = ny * (1 - just)
+        
+        x2 = x + (nx * numpy.cos(angle))
+        y2 = y + (ny * numpy.sin(angle))
+
         cwip.wipputlabel(string, just)
+        self.move(x2, y2)
 
     def rect(self, xmin, xmax, ymin, ymax):
         """

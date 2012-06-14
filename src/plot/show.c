@@ -42,7 +42,7 @@ void wipshow(const char *rest)
     LOGICAL error;
 
     ptr = Strcpy(format, rest);  /* Make a local copy of the input string. */
-    if ((fmt = wipleading(ptr)) != (char *)NULL) {
+    if ((fmt = (ptr)) != (char *)NULL) {
       doall = 0;
       wiplower(ptr);
     }

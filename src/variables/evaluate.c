@@ -23,7 +23,6 @@ static double  wipdoop(const char *op, double arg1, double arg2, \
 static    int  wipisfunction(const char *inword);
 static double  wipdofunc(const char *inwrd, double arg, LOGICAL *error);
           int  wipisnumber(const char *inword, double *retval);
-         void  wipecho(const char *input);
           int  wipsetuser(const char *input);
          char *wipgettoken(char *output, const char *input, char **next);
           int  wiptokenexists(const char *inword);
@@ -44,7 +43,7 @@ static int wipisop(const char *inword)
 {
     char *ptr;
 
-    if ((ptr = wipleading(inword)) == (char *)NULL)
+    if ((ptr = (inword)) == (char *)NULL)
       return(0);
 
     if ((Strcmp("+",   ptr) == 0) || (Strcmp("-",   ptr) == 0) ||
@@ -70,7 +69,7 @@ static double wipdoop(const char *inword, double arg1, double arg2, LOGICAL *err
     double arg;
 
     *error = TRUE;
-    if ((ptr = wipleading(inword)) == (char *)NULL)
+    if ((ptr = (inword)) == (char *)NULL)
       return(0);
 
     if (Strcmp(ptr, "+") == 0) {
@@ -143,7 +142,7 @@ static int wipisfunction(const char *inword)
     char word[BUFSIZ];
 
     (void)Strcpy(word, inword); /* Input string is already in lower case. */
-    if ((ptr = wipleading(word)) == (char *)NULL) return(0);
+    if ((ptr = (word)) == (char *)NULL) return(0);
 
     /* End the string at the first open brace. */
 
@@ -263,7 +262,7 @@ int wipisnumber(const char *inword, double *retval)
     int dummy, expon;
     double arg;
 
-    if ((ptr = wipleading(inword)) == (char *)NULL)
+    if ((ptr = (inword)) == (char *)NULL)
       return(0);                                /* Nothing to process. */
 
     SPrintf(temp, "%s~~1", ptr);           /* Fudge to make test work. */
@@ -281,191 +280,6 @@ int wipisnumber(const char *inword, double *retval)
     return(1);
 }
 
-/*
- *  This function allows the user to print messages to the standard
- *  output including the evaluation of expressions and the value of
- *  string variables.  The syntax is that the input string should
- *  contain any literal text enclosed in double quotes (") and
- *  multiple expressions to be evaluated enclosed in braces (see
- *  definition of BRACE in wip.h).  Single string variables, user
- *  variables, or vectors may appear by themselves; all other items
- *  produce an error message.
- */
-void wipecho(const char *input)
-{
-    char *ptr, *op, *token, *next, *tmpnext;
-    char sval[50];                        /* This size should be ample. */
-    char tstring[STRINGSIZE];              /* Storage for token string. */
-    char word[BUFSIZ];       /* Storage for local copy of input string. */
-    double arg1, arg2, result;
-    LOGICAL error;
-
-    ptr = Strcpy(word, input);           /* Make a local copy of input. */
-
-    while ((token = wipgettoken(tstring, ptr, &next)) != (char *)NULL) {
-      if (*token == '"') {                                    /* Quote. */
-        token[Strlen(token) - 1] = Null;       /* Remove closing quote. */
-        token++;                            /* Skip over initial quote. */
-        wipoutput(stdout, "%s", token);            /* Print the string. */
-      } else if (wipisstring(token)) {         /* User string variable. */
-        wipoutput(stdout, "%s", wipgetstring(token));     /* Print var. */
-      } else {            /* Either a simple variable or an expression. */
-        result = wipevaluate(token, &error);           /* Get variable. */
-        if (error == TRUE) {                           /* Check syntax. */
-          wipoutput(stderr, "Error evaluating expression: %s\n", token);
-        } else {         /* Now test if an operation follows first arg. */
-          token = wipgettoken(tstring, next, &tmpnext);
-          if (token != (char *)NULL) {
-            while (wipisop(token)) {               /* Binary operation. */
-              arg1 = result;        /* Move result into first argument. */
-              op = Strcpy(sval, token);        /* Save operation token. */
-              next = tmpnext;               /* Advance pointer past op. */
-              token = wipgettoken(tstring, next, &tmpnext);
-              if (token == (char *)NULL) {
-                wipoutput(stderr, "Improper operator format: [%s].\n", ptr);
-                next = tmpnext;          /* Advance pointer past error. */
-                break;                                /* Abort op loop. */
-              }
-              next = tmpnext;         /* Advance pointer past argument. */
-              arg2 = wipevaluate(token, &error);   /* Get 2nd argument. */
-              if (error == TRUE) {                     /* Check syntax. */
-                wipoutput(stderr, "Error evaluating expression: %s\n", token);
-                break;                                /* Abort op loop. */
-              }
-              result = wipdoop(op, arg1, arg2, &error);/* Do binary op. */
-              if (error == TRUE) {                  /* Check op syntax. */
-                wipoutput(stderr, "Error evaluating operation: [%s]\n", ptr);
-                break;                                /* Abort op loop. */
-              }
-              token = wipgettoken(tstring, next, &tmpnext);
-              if (token == (char *)NULL)
-                break;
-            }
-          }
-          wipoutput(stdout, " %g", result);
-        }
-      }
-      ptr = next;    /* Move ptr to character following the last token. */
-    }                                 /* End of scan string while loop. */
-    wipoutput(stdout, "\n");
-    return;
-}
-
-/*
- *  Syntax calls for two "arguments": PAR EXPRESSION.  The EXPRESSION
- *  may be a multi-word expression explained below.
- *
- *  PAR is the string/variable/vector being set and EXPRESSION is
- *  either a replacement string or a simple syntax statement to be
- *  evaluated.
- *
- *  To set a string variable, the variable should be enclosed in
- *  double quotes (").  For string variables, EXPRESSION is not
- *  evaluated, but is stored as the value for the variable.
- *
- *  The remainder of this discussion describes how variable and vector
- *  variables are set.
- *
- *  When evaluating the EXPRESSION, precedence is ALWAYS left to right
- *  with the inner most set of parenthesis evaluated first.  Hence,
- *  the expression (5 * 3 + 2) IS NOT the same as (2 + 3 * 5) but
- *  ((5 * 3) + 2) IS the same as (2 + (3 * 5)).  Currently, a maximum
- *  of 20 nested levels of parenthesis is permitted.
- *
- *  At the most basic level, EXPRESSION may just be an item that is
- *  either a number, a predefined user variable or vector element.
- *  More complex EXPRESSION's may be generated using the operators
- *  and functions listed below.
- *
- *  If an item within the EXPRESSION begins with '-', it is treated
- *  as a unary minus sign.
- *
- *  Currently, the binary operations that are defined are:
- *     +          add |  /         divide | max               maximum
- *     -     subtract |  %  modulo divide | min               minimum
- *     *     multiply |  \ integer divide |  **        exponentiation
- *    ==     equal to |  >   greater than |  >= greater than or equal
- *    != not equal to |  <      less than |  <=    less than or equal
- *    ||   logical OR | &&    logical AND |   ^           logical XOR
- *  Note that min and max are used as (a min b) and (a max b).
- *  Also, note that logical operations return 1 if true; 0 if false.
- *
- *  Current pre-defined functions (ie. f(x)) are:
- *   sqrt(x)          square root |    abs(x)        absolute value 
- *    int(x)   integer truncation |   nint(x)           nearest int
- *     ln(x)    natural logarithm |    log(x)           log base 10
- *    exp(x) base-e antilogarithm |     10(x) base-10 antilogarithm
- *    sin(x)      sine in radians |   sind(x)       sine in degrees
- *   asin(x)   arcsine in radians |  asind(x)    arcsine in degrees
- *   ... etc. for the four functions of cos and tan;
- *   Note that log(x) or log10(x) may be used for the log base 10.
- *
- *  Returns 0 if successful; 1 on error.
- */
-int wipsetuser(const char *rest)
-{
-    void *curimage;                  /* Pointer to current image item. */
-    char *ptr, *token, *next;
-    char tokenstring[STRINGSIZE];        /* Storage for current token. */
-    char word[BUFSIZ];                  /* Local copy of input string. */
-    int varindex;
-    float pmin, pmax;
-    double arg, arg1;
-    LOGICAL error;
-
-    ptr = Strcpy(word, rest);        /* Point "ptr" to the local copy. */
-    if ((token = wipgettoken(tokenstring, ptr, &next)) == (char *)NULL) {
-      wipoutput(stderr, "Incorrect set format: [%s].\n", rest);
-      return(1);                                      /* Nothing here. */
-    }
-
-    if (*token == '"') {                           /* String variable. */
-      token[Strlen(token) - 1] = Null;        /* Remove closing quote. */
-      token++;                             /* Skip over initial quote. */
-      if (wipsetstring(token, next)) goto MISTAKE;
-    } else if (wipisstring(token)) {               /* String variable. */
-      if (wipsetstring(token, next)) goto MISTAKE;
-    } else {
-      wiplower(token);       /* Force the variable name to lower case. */
-      arg = wipevaluate(next, &error);         /* Evaluate EXPRESSION. */
-      if (error == TRUE) goto MISTAKE;
-
-      if (wipisvar(token)) {
-        if (wipsetvar(token, arg)) goto MISTAKE;
-      } else if (wipisvec(token)) {
-        if (wipsetvec(token, arg)) goto MISTAKE;
-      } else if (*token == ESC) {
-        token++;
-        if (wiparguments(&token, 1, &arg1) != 1) goto MISTAKE;
-        varindex = NINT(arg1);
-        if ((varindex >= 0) && (varindex < MAXVAR))
-          USERVAR[varindex] = arg;
-	else
-	  goto MISTAKE;
-      } else if (wipimagexists(curimage = wipimcur("curimage"))) {
-        if (Strcmp(token, "immin") == 0) {
-          wipimageminmax(curimage, &pmin, &pmax, 0);
-          pmin = arg;
-          if (wipimsetminmax(curimage, pmin, pmax)) goto MISTAKE;
-        } else if (Strcmp(token, "immax") == 0) {
-          wipimageminmax(curimage, &pmin, &pmax, 0);
-          pmax = arg;
-          if (wipimsetminmax(curimage, pmin, pmax)) goto MISTAKE;
-        } else {
-          goto MISTAKE;
-        }
-      } else {
-        goto MISTAKE;
-      }
-    }
-
-/* good value found */
-    return(0);
-
-MISTAKE:
-    wipoutput(stderr, "Error setting variable: %s\n", token);
-    return(1);
-}
 
 char *wipgettoken(char *output, const char *input, char **next)
 {
@@ -484,7 +298,7 @@ char *wipgettoken(char *output, const char *input, char **next)
     char *ptr, *par, *current, *ptrbegin;
     char *openbrace, *closebrace;
 
-    if ((ptr = wipleading(input)) == (char *)NULL)       /* Nothing here. */
+    if ((ptr = (input)) == (char *)NULL)       /* Nothing here. */
       return((char *)NULL);
     current = par = output;                   /* Initialize the pointers. */
 
@@ -793,29 +607,3 @@ char *wipbracextract(const char *inword, char **left)
     if (*ptr == '#') return((char *)NULL); /* Comment character. */
     return(ptr);
 }
-
-#ifdef TEST
-/*
- * The remainder of the file provides code to test the callable
- * routines in this file.  Compile the code with -DTEST and link
- * it with libwip.a (necessary for the parsing routines).
- */
-#define VERSION_ID "1.0"
-
-main(int argc, char *argv[])
-{
-    char *par;
-    char intext[BUFSIZ];
-
-    (void)printf("%s Version %s\n\n", argv[0], VERSION_ID);
-    (void)printf("Test of echo and sub-routines.\n");
-
-    while ((void)printf("Enter a string to echo: "),
-           ((par = gets(intext)) != (char *)NULL)) {
-      (void)printf("Calling echo with command: [%s].\n", par);
-      wipecho(par);
-    }
-
-    (void)printf("TEST: Finished.\n");
-}
-#endif /* TEST */

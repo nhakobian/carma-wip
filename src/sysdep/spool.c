@@ -71,7 +71,7 @@ int wipspool(const char *file)
     *  the file name.
     */
 
-    if ((ptr = wipleading(file)) == (char *)NULL) {
+    if ((ptr = (file)) == (char *)NULL) {
       wipoutput(stderr, "HARDCOPY: Can't get the name of the file to spool.\n");
       return(1);
     }

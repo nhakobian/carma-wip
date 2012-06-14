@@ -105,7 +105,7 @@ int wipopenfile(const char *name)
 
       while ((inflag = wipinput(stdin, "Data Input> ", line, STRINGSIZE))
                      != (int)EOF) {
-        if ((inflag == (int)Null) || ((ptr = wipleading(line)) == (char *)NULL))
+        if ((inflag == (int)Null) || ((ptr = (line)) == (char *)NULL))
           continue;
         (void)Strncpy(enddata, ptr, 7);
         enddata[7] = Null;
@@ -130,85 +130,6 @@ int wipopenfile(const char *name)
 
     wiplines(1, 0);
     return 0;
-}
-
-/* Returns the number of elements read or EOF if an error occured. */
-int wipreadcol(float array[], int maxsize, int nc)
-{
-    char *ptr;
-    char line[BUFSIZ];
-    char copy[BUFSIZ];
-    int i, j, k, nxy;
-    double vars;
-
-    nxy = 0;
-    if (nc < 0) {                /* Special load case; no file needed. */
-      j = 1;
-      i = ABS(nc) + 1;
-      if (i > maxsize) {
-        wipoutput(stderr,
-          "Error: Number of requested points too large [%d > %d] for\n",
-          i, maxsize);
-        wipoutput(stderr,
-          "\tinternal storage.  Setting number of points to maximum.\n");
-        wipoutput(stderr,"Or try setting:    set maxarray %d\n",i);
-        wipoutput(stderr,"in your ~/.wipinit file\n");
-        i = maxsize;
-      }
-      while (j < i) array[nxy++] = j++;
-      return(nxy);
-    }
-
-    if (datafp == (FILE *)NULL) {
-      wipoutput(stderr, "Error: No data file has been opened yet!\n");
-      return(EOF);
-    }
-
-    if (LINE1 > 1) { /* Skip lines up to LINE1. */
-      for (j = 1; j < LINE1; j++) {
-        if (wipinput(datafp, (char *)NULL, line, BUFSIZ) == (int)EOF)
-          goto END_OF_FILE;
-      }
-    }
-
-    if (LINE2 < LINE1) {
-      i = maxsize;
-    } else {
-      i = LINE2 - LINE1 + 1;
-      if (i > maxsize) {
-        wipoutput(stderr,
-          "Error: Number of requested points too large [%d > %d] for\n",
-          i, maxsize);
-        wipoutput(stderr,
-          "\tinternal storage.  Setting number of points to maximum.\n");
-        i = maxsize;
-      }
-    }
-    for (j = 0; j < i; j++) {
-      if ((k = wipinput(datafp, (char *)NULL, line, BUFSIZ)) == (int)EOF)
-        goto END_OF_FILE;
-      if (k == (int)Null) continue;               /* Skip blank lines. */
-      if (nc == 0) {
-        wipoutput(stdout, "%s\n", line);
-      } else { /* (nc > 0) */
-        if ((ptr = wipleading(line)) == (char *)NULL)
-          continue;                                /* Skip comments. */
-        (void)Strcpy(copy, line);
-        for (k = 1; ((k < nc) && (wipparse(&ptr) != (char *)NULL)); k++)
-          /* NULL */ ;
-        if ((k < nc) || (wiparguments(&ptr, 1, &vars) != 1)) {
-          wipoutput(stderr, "Error reading data on line number %d\n",
-            (j + LINE1));
-          wipoutput(stdout, "%s\n", copy);
-          Rewind(datafp);
-          return(EOF);
-        }
-        array[nxy++] = vars;
-      }
-    }
-END_OF_FILE:
-    Rewind(datafp);
-    return(nxy);
 }
 
 /*

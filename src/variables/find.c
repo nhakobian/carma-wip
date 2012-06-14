@@ -36,7 +36,7 @@ int wipnewitem(const char *string)
     LOGICAL error;
 
     (void)Strcpy(temp, string);         /* Make a local copy of string. */
-    if ((ptr = wipleading(temp)) == (char *)NULL) {    /* Nothing here. */
+    if ((ptr = (temp)) == (char *)NULL) {    /* Nothing here. */
       wipoutput(stderr, "A new variable name is required.\n");
       return(1);
     }
@@ -105,7 +105,7 @@ int wipfreeitem(const char *string)
     char temp[BUFSIZ];
 
     (void)Strcpy(temp, string);         /* Make a local copy of string. */
-    if ((ptr = wipleading(temp)) == (char *)NULL) {    /* Nothing here. */
+    if ((ptr = (temp)) == (char *)NULL) {    /* Nothing here. */
       wipoutput(stderr, "wipfreeitem: An item name is required.\n");
       return(1);
     }
@@ -153,7 +153,7 @@ int wipisuserfunc(const char *name)
     char word[BUFSIZ];
 
     (void)Strcpy(word, name);
-    if ((ptr = wipleading(word)) == (char *)NULL) return(0);
+    if ((ptr = (word)) == (char *)NULL) return(0);
 
     /* End the string at the first open brace. */
 

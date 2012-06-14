@@ -14,6 +14,13 @@ import_array();
 %}
 
 /* cpgplot defs */
+void cpgask(int flag);
+void cpgend(void);
+ int cpgopen(const char *device); // open a device
+// void cpgqcol(int *ci1, int *ci2);
+void cpgqcol(int *OUTPUT, int *OUTPUT);
+
+
 void cpgtbox(const char *xopt, float xtick, int nxsub, \
 	     const char *yopt, float ytick, int nysub);  // Draw box
 void cpgpage(void);  // Erase screen.
@@ -28,6 +35,12 @@ void cpgrect(float x1, float x2, float y1, float y2); // draw rectangle.
 void cpgscr(int ci, float cr, float cg, float cb); // set color index
 void cpgshls(int ci, float ch, float cl, float cs); // set hls color index.
 void cpgvstd(void); // sets standard viewport
+void cpgmtxt(const char *side, float disp, float coord, float fjust, \
+	     const char *text); // mtext command
+// ptext command
+void cpgptxt(float x, float y, float angle, float fjust, const char *text);
+// void cpglen(int units, const char *string, float *xl, float *yl);
+void cpglen(int units, const char *string, float *OUTPUT, float *OUTPUT);
 
 // CPGCON(B, F, L, S, T) Wrappers Begin
 // These functions have very similar prototypes, but this could still get a 
@@ -400,20 +413,18 @@ void mod_cpggray(float* a, int idim, int jdim, int i1, int i2, int j1, \
 // CPGGRAY Wrapper End
 // NOTE: End of shared %apply and %clear
 
- int wipinit(void);
- int wipdevice(const char *devicename);
+void wipsetcir(int nx, int ny);
+
 /*   wipgetick(float *xtick , int *nxsub , float *ytick , int *nysub); */
 void wipgetick(float *OUTPUT, int *OUTPUT, float *OUTPUT, int *OUTPUT);
 void wipsetick(float xtick , int nxsub , float ytick , int nysub);
 /*   wipgetsub(int *subx1, int *subx2, int *suby1, int *suby2); */
 void wipgetsub(int *OUTPUT, int *OUTPUT, int *OUTPUT, int *OUTPUT);
- int wipmtext(char *side, float disp, float coord, float just, char *line);
 void wipclose(void);
 void wiplimits(void);
 void wipviewport(void);
 void wipmove(float x, float y);
 void wippanel(int nx, int ny, int k);
-void wipputlabel(const char *line, double justify);
  int wipheader(int blcx, int blcy, int trcx, int trcy, const char *xtype, \
 	       const char *ytype);
 void wipsetangle(double ang);

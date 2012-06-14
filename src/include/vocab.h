@@ -24,8 +24,7 @@ typedef struct commands {
 } COMMAND;
 
 extern COMMAND *HEAD;
-extern COMMAND *BUFFER;
-extern COMMAND *ENDIF;
+/*extern COMMAND *ENDIF;*/
 
 #else
 

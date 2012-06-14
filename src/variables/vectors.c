@@ -106,7 +106,7 @@ static VECTOR *find_vector(const char *inname, int *indx)
 
     ptr = Strncpy(word, inname, STRINGSIZE);      /* Make a local copy. */
     word[STRINGSIZE-1] = Null;           /* Make sure it is terminated. */
-    if ((par = wipleading(ptr)) == (char *)NULL)       /* Nothing here. */
+    if ((par = (ptr)) == (char *)NULL)       /* Nothing here. */
       return((VECTOR *)NULL);
     wiplower(par);                               /* Make it lower case! */
 
@@ -125,8 +125,8 @@ static VECTOR *find_vector(const char *inname, int *indx)
     if (vb == (VECTOR *)NULL)                             /* Not found. */
       return((VECTOR *)NULL);
 
-    if (wiparguments(&ptr, 1, &arg) != 1)       /* Get the array index. */
-      return((VECTOR *)NULL);
+    /*if (wiparguments(&ptr, 1, &arg) != 1)       /* Get the array index. */
+    /*  return((VECTOR *)NULL); */
     arrayindex = 0.5 + arg;
     arrayindex--;              /* Change from 1 index based to 0 based. */
     if ((arrayindex < 0) || (arrayindex >= vb->size))
@@ -249,7 +249,7 @@ int wipisvecfunc(const char *inword)
     char word[BUFSIZ];
 
     (void)Strcpy(word, inword);     /* Input is already in lower case. */
-    if ((ptr = wipleading(word)) == (char *)NULL) return(0);
+    if ((ptr = (word)) == (char *)NULL) return(0);
 
     /* End the string at the first open brace. */
 

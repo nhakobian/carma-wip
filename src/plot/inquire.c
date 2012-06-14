@@ -24,7 +24,7 @@ char *wipinquire(const char *item)
       int length;
 
       (void)Strcpy(output, item);
-      if ((s = wipleading(output)) == (char *)NULL) {
+      if ((s = (output)) == (char *)NULL) {
         wipoutput(stderr, "Inquire: No inquire item provided.\n");
         return((char *)NULL);
       }
