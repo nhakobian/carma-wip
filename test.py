@@ -85,7 +85,13 @@ a.expand=1
 
 a.panel(3, 3, -4)
 #a.itf=2
-a.palette(2)
+#a.palette(2)
+r = [0.9, 0.6, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 1.0]
+g = [0.9, 0.6, 0.2, 0.4, 0.6, 0.2, 0.4, 0.6, 0.2, 0.6, 1.0]
+b = [0.9, 0.6, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 1.0]
+l = [0.0, 0.1, 0.11, 0.15, 0.18, 0.22, 0.35, 0.45, 0.55, 0.90, 1.0]
+a.lookup(r, g, b, l)
+
 img = miriad_tools.MirImage('test.image')
 a.winadj(0, img.axes[0], 0, img.axes[1])
 (xmin, xmax, ymin, ymax) = a.header(img, 'rd', 'rd', ret=True)

@@ -816,6 +816,26 @@ class wip():
         cwip.wiplimits() # Grabs limits set with pgswin and also saves them
                          # as wip variables x1, x2, y1, y2.
 
+    def lookup(self, r, g, b, l, n=1):
+        """
+        Loads a RGB color lookup table.
+        """
+        # xvec = wipvector("x", &nx, &npts);
+        # yvec = wipvector("y", &nx, &ny);
+        # npts = MIN(npts, ny);
+        # evec = wipvector("err", &nx, &ny);
+        # npts = MIN(npts, ny);
+        # pvec = wipvector("pstyle", &nx, &narg);
+        # npts = MIN(npts, narg);
+        # if (npts < 1) goto MISTAKE;
+        # xfloat = 1.0;
+        # if (argc > 0) {
+        #     if (wiparguments(&line, 1, arg) != 1) goto MISTAKE;
+        #     if (arg[0] < 0) xfloat = -1.0;
+        # }
+        # cpgctab(pvec, xvec, yvec, evec, npts, xfloat, 0.5);
+        cwip.cpgctab(l, r, g, b, n, 0.5)
+
     def move(self, x, y):
         """
         Sets the current world (user) position to (x,y).
@@ -1126,14 +1146,8 @@ class wip():
     levels      = NotImplemented
     """Sets the contour levels for a contour plot."""
 
-    lookup      = NotImplemented
-    """Loads a RGB color lookup table."""
-
     slevel      = NotImplemented
     """Sets the type and value used to scale contour levels."""
-
-    vsize       = NotImplemented
-    """Sets the physical location of the plot in inches."""
 
     vstand      = NotImplemented
     """Sets the standard (default) viewport."""
@@ -1148,7 +1162,8 @@ class wip():
     # Below will be implemented with the libwcs stuff.
     # aitoff      = NotImplemented
     # """Converts L-b coordinate values to equivalent x-y positions. """
-
+    # vsize       = NotImplemented
+    # """Sets the physical location of the plot in inches."""
 
     #####
     ##### Data read routines that currently will not be implemented.

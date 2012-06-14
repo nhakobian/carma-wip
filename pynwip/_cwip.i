@@ -28,6 +28,42 @@ void cpgrect(float x1, float x2, float y1, float y2); // draw rectangle.
 void cpgscr(int ci, float cr, float cg, float cb); // set color index
 void cpgshls(int ci, float ch, float cl, float cs); // set hls color index.
 
+// CPGCTAB Wrapper Begin
+// void cpgctab(const float *l, const float *r, const float *g, \
+//              const float *b, int nc, float contra, float bright);
+%apply (int DIM1, float* IN_ARRAY1) { (int nl, float* l),
+                                      (int nr, float* r),
+                                      (int ng, float* g),
+                                      (int nb, float* b)}
+%rename (cpgctab) mod_cpgctab;
+%exception mod_cpgctab {
+  $action
+    if (PyErr_Occurred()) SWIG_fail;
+}
+%inline %{
+void mod_cpgctab(int nl, float* l, int nr, float* r, int ng, float* g, \
+		 int nb, float* b, float contra, float bright)
+{
+  if (nl != nr) {
+    PyErr_Format(PyExc_ValueError, "Arrays of lengths (%d,%d) given", nl, nr);
+    return;
+  }
+  if (nl != ng) {
+    PyErr_Format(PyExc_ValueError, "Arrays of lengths (%d,%d) given", nl, ng);
+    return;
+  }
+  if (nl != nb) {
+    PyErr_Format(PyExc_ValueError, "Arrays of lengths (%d,%d) given", nl, nb);
+    return;
+  }
+  cpgctab(l, r, g, b, nl, contra, bright);
+  return;
+}
+%}
+%clear (int nl, float* l), (int nr, float* r), (int ng, float* g),
+       (int nb, float* b);
+// CPGCTAB Wrapper End
+
 // CPGPOLY Wrapper Begin
 // void cpgpoly(int n, const float *xpts, const float *ypts);
 %apply (int DIM1, float* IN_ARRAY1) { (int len1, float* vec1),
@@ -332,7 +368,6 @@ void mod_wipvfield(int nx, float* x, int ny, float* y, int nr, float* r, \
 %clear (int nx, float* x), (int ny, float* y), (int nr, float* r),
        (int nphi, float* phi);
 // WIPVFIELD wrapper end
-
 
 // WIPBAR wrapper begin
 // int wipbar(int nxy, float x[], float y[], int nc, float col[], int loc, \
