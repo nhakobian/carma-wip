@@ -6,6 +6,9 @@ import miriad_tools
 
 a = pynwip.wip()
 a.device()
+#a.rgb(0, 1, 1, 1)
+#a.rgb(1, 0, 0, 0)
+
 a.paper(750, 0.9, units='px')
 
 x = (numpy.array(range(100)) / 10.0) - 5.0
@@ -46,7 +49,9 @@ a.putlabel("Label test", 0)
 a.move(1, 0.5)
 a.putlabel("Move test", 1)
 a.move(-0.75, 0.5)
+a.hls(1, 0.75, 0.5, 0.5)
 a.arc(0.1, 0.3)
+a.rgb(1, 1, 1, 1)
 a.move(-0.55, 0.5)
 a.arc(0.3, 0.1, 45)
 a.move(-0.35, 0.5)
@@ -164,14 +169,22 @@ a.panel(1, 1, 1)
 a.mtext('T', 3, 0.5, 0.5, "Sample multipanel plot.")
 
 a.panel(3, 3, -9)
-a.limits(0, 12, 0, 10)
-a.box()
+a.limits(-6, 6, -5, 5)
 px = [1.5 , 2   , 1, 2.25, 3, 3.75, 5, 4,     4.5,   3 , 1.5]
 py = [1   , 2.25, 3, 3,    4,    3, 3, 2.25,    1, 1.75, 1]
 a.fill(2)
+a.rgb(1, 1, 0.25, 0.25)
 a.poly(px, py)
 a.fill(4)
 a.poly(px, py)
+a.rgb(1, 1, 1, 1)
+x = [-5, -4, -3, -2, -1]
+y = [3, 4, 1, 2, 4]
+a.fill(1)
+a.bar(x, y, [2, 3, 4, 5, 6], 2, 0, 0.7)
+a.fill(0)
+a.bar(x, y, [], 2, 0, 0.7)
+a.box('an', 'an')
 
 a.viewport(0.32, 0.42, 0.125, 0.2)
 a.winadj(0, 1, 0, 1)

@@ -25,6 +25,8 @@ void cpgwnad(float x1, float x2, float y1, float y2); // Set equal aspect.
 void cpgsvp(float x1, float x2, float y1, float y2); // Set viewport.
 void cpgshs(float angle, float sepn, float phase); // set hatch style
 void cpgrect(float x1, float x2, float y1, float y2); // draw rectangle.
+void cpgscr(int ci, float cr, float cg, float cb); // set color index
+void cpgshls(int ci, float ch, float cl, float cs); // set hls color index.
 
 // CPGPOLY Wrapper Begin
 // void cpgpoly(int n, const float *xpts, const float *ypts);
@@ -291,6 +293,34 @@ void wipcolor(int color);
 void wipfill(int fill);
  int wipbeam(float major, float minor, float posangle, float offx, float offy,\
 	     int fillcolor, float scale, int bgrect);
+
+// WIPBAR wrapper begin
+// int wipbar(int nxy, float x[], float y[], int nc, float col[], int loc, \
+//            int dolimit, float barlimit, float barwidth);  
+%apply (int DIM1, float* IN_ARRAY1) { (int nx, float* xvec),
+                                      (int ny, float* yvec),
+                                      (int nc, float* color)}
+%rename (wipbar) mod_wipbar;
+%exception mod_wipbar {
+  $action
+  if (PyErr_Occurred()) SWIG_fail;
+}
+%inline %{
+void mod_wipbar(int nx, float* xvec, int ny, float* yvec, int nc, \
+		float* color, int locations, int dolimit, float barlimit, \
+		float barwidth)
+{
+  if (nx != ny) {
+    PyErr_Format(PyExc_ValueError, "Lengths of nx and ny dont agree (%d,%d)",
+		 nx, ny);
+    return;
+  }
+  wipbar(nx, xvec, yvec, nc, color, locations, dolimit, barlimit, barwidth);
+  return;
+}
+%}
+%clear (int nx, float* xvec), (int ny, float* yvec), (int nc, float* color);
+// WIPBAR wrapper end
 
 /* WIPPOINTS wrapper begin 
    int wippoints(int nstyle, float style[], int nxy, float x[], \

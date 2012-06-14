@@ -137,6 +137,38 @@ class wip():
         # wiparrow(xmax, ymax, xfloat, yfloat);
         cwip.wiparrow(x, y, angle, vent)
 
+    def bar(self, x, y, color, location, threshold=None, gap=0):
+        """
+        Draws bar graphs on (x,y) pairs in direction 90(K-1).
+        """
+        # narg = 1;                         /* Use the xfloat value. */
+        # xfloat = yfloat = 0;
+        # if (argc == 1) {
+        #     if (wiparguments(&line, 1, arg) != 1) goto MISTAKE;
+        #     narg = 0;                 /* Don't use the xfloat value. */
+        # } else if (argc == 2) {
+        #     if (wiparguments(&line, 2, arg) != 2) goto MISTAKE;
+        #     xfloat = arg[1];
+        # } else {
+        #     if (wiparguments(&line, 3, arg) != 3) goto MISTAKE;
+        #     xfloat = arg[1]; yfloat = arg[2];
+        # }
+        # location = NINT(arg[0]);
+        # xvec = wipvector("x", &nx, &npts);
+        # yvec = wipvector("y", &nx, &ny);
+        # npts = MIN(npts, ny);
+        # if (npts < 1) goto MISTAKE;
+        # evec = wipvector("err", &nx, &ny);
+        # if wipbar(npts, xvec, yvec, ny, evec, location, narg, xfloat, yfloat)
+        #   goto MISTAKE;
+        if threshold == None:
+            narg = 0
+            threshold = 0
+        else:
+            narg = 1
+        cwip.wipbar(x, y, color, location, narg, threshold, gap)
+
+
     def beam(self, majx, majy, pa, offx=0, offy=0, scale=-1, fillcolor=15, \
                  bgrect=0):
         """
@@ -701,6 +733,12 @@ class wip():
         
         cwip.cpghist(array, float(xmin), float(xmax), n, 1)
 
+    def hls(self, k, h, l, s):
+        """
+        Sets the color representation using the HLS system.
+        """
+        cwip.cpgshls(k, h, l, s)
+
     def label(self, string):
         """
         Writes the string STR at the current cursor position.
@@ -925,6 +963,12 @@ class wip():
         self.itf = 0
         self.palette(0, 0)
 
+    def rgb(self, k, r, g, b):
+        """
+        Sets the color represenation using the RGB system.
+        """
+        cwip.cpgscr(k, r, g, b)
+
     def submargin(self, xsub, ysub):
         """
         Sets the gap between individual panels.
@@ -1046,14 +1090,8 @@ class wip():
     # Below begins list of NotImplemented functions.
     #
 
-    aitoff      = NotImplemented
-    """Converts L-b coordinate values to equivalent x-y positions. """
-
     autolevs    = NotImplemented
     """Sets up the contour levels automatically."""
-
-    bar         = NotImplemented
-    """Draws bar graphs on (x,y) pairs in direction 90(K-1)."""
 
     contour     = NotImplemented
     """Makes a contour plot of an array read with IMAGE."""
@@ -1061,17 +1099,11 @@ class wip():
     environment = NotImplemented
     """Sets the user limits and draws a box."""
 
-    hls         = NotImplemented
-    """Sets the color representation using the HLS system."""
-
     levels      = NotImplemented
     """Sets the contour levels for a contour plot."""
 
     lookup      = NotImplemented
     """Loads a RGB color lookup table."""
-
-    rgb         = NotImplemented
-    """Sets the color represenation using the RGB system."""
 
     slevel      = NotImplemented
     """Sets the type and value used to scale contour levels."""
@@ -1092,6 +1124,10 @@ class wip():
     # """Sets the viewport size scale."""
     # id          = NotImplemented
     # """Puts an identification label at the bottom of a plot."""
+    # Below will be implemented with the libwcs stuff.
+    # aitoff      = NotImplemented
+    # """Converts L-b coordinate values to equivalent x-y positions. """
+
 
     #####
     ##### Data read routines that currently will not be implemented.
