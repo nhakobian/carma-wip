@@ -17,7 +17,7 @@ y = numpy.sin(x)
 #a.winadj(0, 3, 0, 3)
 #a.viewport(0.2, 0.8, 0.2, 0.8)
 
-a.panel(-3, 3, -1)
+a.panel(3, 3, -1)
 a.limits(x, y)
 a.points(x, y)
 a.connect(x, y)
@@ -25,17 +25,11 @@ a.box()
 a.mtext('T', 1.5, 0.5, 0.5, "Sample sin(x) plot.")
 a.mtext('L', 2.0, 0.5, 0.5, "sin(x)")
 a.mtext('B', 2.3, 0.5, 0.5, "x")
-
-a.panel(-3, 3, -2)
-a.limits(x, y)
-a.bin(x[::2], y[::2])
-a.box(yvars='bcst')
-a.mtext('T', 1.5, 0.5, 0.5, "Sample sin(x) plot.")
-a.mtext('B', 2.3, 0.5, 0.5, "x")
+a.bin(x[::2], y[::2]/2.)
 
 #a.submargin(1, 1)
 
-a.panel(3, 3, -3)
+a.panel(3, 3, -2)
 a.limits(-1.1, 1.1, -1.1, 1.1)
 a.ticksize(1,1,1,1)
 a.box()
@@ -57,11 +51,11 @@ a.arc(0.3, 0.1, 45)
 a.move(-0.35, 0.5)
 a.arc(0.2, 0.2, start=90, extent=180)
 
-a.move(0.5, -0.5)
-a.putlabel("Reg sized text", 0)
+a.move(1, -0.5)
+a.putlabel("Reg sized text", 1)
 a.expand=a.expand*2
-a.move(0.5, -0.75)
-a.putlabel("Big sized text", 0)
+a.move(1, -0.95)
+a.putlabel("Big sized text", 1)
 a.expand=a.expand/2.
 
 a.move(0, -0.6)
@@ -83,7 +77,7 @@ a.errorbar(qx, qy, numpy.array([0, 0, 0, 0, 0, 0, .1], dtype=numpy.float32), 5)
 a.errorbar(qx, qy, numpy.array([0, 0, 0, 0, 0, 0, .1], dtype=numpy.float32), 6)
 a.expand=1
 
-a.panel(3, 3, -4)
+a.panel(3, 3, -3)
 #a.itf=2
 #a.palette(2)
 r = [0.9, 0.6, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 1.0]
@@ -104,7 +98,7 @@ a.box('bcstznh', 'bcstznvd')
 a.wedge('r', 1., 3., img.image.min(), img.image.max())
 a.wedge('bp', 2., 3., img.image.min(), img.image.max(), boxarg='0')
 
-a.panel(3, 3, -5)
+a.panel(3, 3, -4)
 a.limits(0, 5, 0, 5)
 a.box()
 a.move(0.5, 4)
@@ -158,15 +152,15 @@ a.fill(2)
 a.rect(2.5, 4.5, 0.5, 1.5)
 a.fill(1)
 
-a.panel(3, 3, -6)
+a.panel(3, 3, -5)
 a.globe()
 
-a.panel(3, 3, -7)
+a.panel(3, 3, -6)
 a.limits(img.image.min(), img.image.max()/4., 0, img.image.size/4.)
 a.histogram(img.image.flatten(), n=100)
 a.box()
 
-a.panel(3, 3, -8)
+a.panel(3, 3, -7)
 #a.limits(80, 160, -.1, 1.1)
 a.hi2d(img, .1, ymin=125, ymax=140)
 a.box()
@@ -174,7 +168,7 @@ a.box()
 a.panel(1, 1, 1)
 a.mtext('T', 3, 0.5, 0.5, "Sample multipanel plot.")
 
-a.panel(3, 3, -9)
+a.panel(3, 3, -8)
 a.limits(-6, 6, -5, 5)
 px = [1.5 , 2   , 1, 2.25, 3, 3.75, 5, 4,     4.5,   3 , 1.5]
 py = [1   , 2.25, 3, 3,    4,    3, 3, 2.25,    1, 1.75, 1]
@@ -202,7 +196,7 @@ p = [ 0, 15, 30, 45, 60, 5, 20, 35, 50, 65, 10, 25, 40, 55, 70, 15, 30, 45, 60,
       75, 20, 35, 50, 65, 80]
 a.vector(x, y, r, p, 0, 0)
 
-a.viewport(0.32, 0.42, 0.125, 0.2)
+a.viewport(0.8, 0.9, 0.5, 0.6)
 a.winadj(0, 1, 0, 1)
 a.lwidth=5
 a.box('bc', 'bc')
