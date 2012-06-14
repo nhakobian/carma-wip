@@ -989,6 +989,30 @@ class wip():
         """
         cwip.wipsetick(xtick, nxsub, ytick, nysub)
 
+    def vector(self, x, y, length, direction, angle=45.0, vent=0.3):
+        """
+        Draws a vector field as a sequence of arrows.
+        """
+        # xfloat = 45.0; yfloat = 0.3;
+        # if (argc == 1) {
+        #     if (wiparguments(&line, 1, arg) != 1) goto MISTAKE;
+        #     xfloat = arg[0];
+        # } else if (argc > 1) {
+        #     if (wiparguments(&line, 2, arg) != 2) goto MISTAKE;
+        #     xfloat = arg[0];
+        #     yfloat = arg[1];
+        # }
+        # xvec = wipvector("x", &nx, &npts);
+        # yvec = wipvector("y", &nx, &ny);
+        # npts = MIN(npts, ny);
+        # pvec = wipvector("pstyle", &nx, &ny);
+        # npts = MIN(npts, ny);
+        # evec = wipvector("err", &nx, &ny);
+        # npts = MIN(npts, ny);
+        # if (npts < 1) goto MISTAKE;
+        # wipvfield(xvec, yvec, pvec, evec, npts, xfloat, yfloat);
+        cwip.wipvfield(x, y, length, direction, angle, vent)
+        
     def xlabel(self, string):
         """
         Writes the label STR centered under the X axis.
@@ -1107,9 +1131,6 @@ class wip():
 
     slevel      = NotImplemented
     """Sets the type and value used to scale contour levels."""
-
-    vector      = NotImplemented
-    """Draws a vector field as a sequence of arrows."""
 
     vsize       = NotImplemented
     """Sets the physical location of the plot in inches."""

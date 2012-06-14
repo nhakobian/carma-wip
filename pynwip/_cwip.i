@@ -294,6 +294,46 @@ void wipfill(int fill);
  int wipbeam(float major, float minor, float posangle, float offx, float offy,\
 	     int fillcolor, float scale, int bgrect);
 
+// WIPVFIELD wrapper begin
+// void wipvfield(float x[], float y[], float r[], float phi[], int npts, \
+//                float angle, float vent)
+%apply (int DIM1, float* IN_ARRAY1) { (int nx, float* x),
+                                      (int ny, float* y),
+                                      (int nr, float* r),
+                                      (int nphi, float* phi)}
+%rename (wipvfield) mod_wipvfield;
+%exception mod_wipvfield {
+  $action
+  if (PyErr_Occurred()) SWIG_fail;
+}
+%inline %{
+void mod_wipvfield(int nx, float* x, int ny, float* y, int nr, float* r, \
+		   int nphi, float* phi, float angle, float vent)
+{
+  if (nx != ny) {
+    PyErr_Format(PyExc_ValueError, "Lengths of nx and ny dont agree (%d,%d)",
+		 nx, ny);
+    return;
+  }
+  if (nx != nr) {
+    PyErr_Format(PyExc_ValueError, "Lengths of nx and nr dont agree (%d,%d)",
+		 nx, nr);
+    return;
+  }
+  if (nx != nphi) {
+    PyErr_Format(PyExc_ValueError, "Lengths of nx and nphi dont agree (%d,%d)",
+		 nx, nphi);
+    return;
+  }
+  wipvfield(x, y, r, phi, nx, angle, vent);
+  return;
+}
+%}
+%clear (int nx, float* x), (int ny, float* y), (int nr, float* r),
+       (int nphi, float* phi);
+// WIPVFIELD wrapper end
+
+
 // WIPBAR wrapper begin
 // int wipbar(int nxy, float x[], float y[], int nc, float col[], int loc, \
 //            int dolimit, float barlimit, float barwidth);  
