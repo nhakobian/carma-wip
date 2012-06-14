@@ -29,6 +29,115 @@ void cpgscr(int ci, float cr, float cg, float cb); // set color index
 void cpgshls(int ci, float ch, float cl, float cs); // set hls color index.
 void cpgvstd(void); // sets standard viewport
 
+// CPGCON(B, F, L, S, T) Wrappers Begin
+// These functions have very similar prototypes, but this could still get a 
+// bit messy.
+//
+// void cpgconb(const float *a, int idim, int jdim, \ #  IN_ARRAY2  DIM1  DIM2
+//              int i1, int i2, int j1, int j2, \ 
+//              const float *c, int nc, \             #  IN_ARRAY1  DIM1
+//              const float *tr, \                    #  IN_ARRAY1  DIM1
+//              float blank);
+// void cpgconf(const float *a, int idim, int jdim, \ #  IN_ARRAY2  DIM1  DIM2
+//              int i1, int i2,	int j1, int j2, float c1, float c2, \
+//              const float *tr);                     #  IN_ARRAY1  DIM1
+// void cpgconl(const float *a, int idim, int jdim, \ #  IN_ARRAY2  DIM1  DIM2
+//              int i1, int i2, int j1, int j2, float c, \
+//              const float *tr, \                    #  IN_ARRAY1  DIM1
+//              const char *label, int intval, int minint);
+// void cpgcons(const float *a, int idim, int jdim, \ #  IN_ARRAY2  DIM1  DIM2
+//              int i1, int i2, int j1, int j2, \
+//              const float *c, int nc, \             #  IN_ARRAY1  DIM1
+//              const float *tr);                     #  IN_ARRAY1  DIM1
+// void cpgcont(const float *a, int idim, int jdim, \ #  IN_ARRAY2  DIM1  DIM2
+//              int i1, int i2, int j1, int j2, \
+//              const float *c, int nc, \             #  IN_ARRAY1  DIM1
+//              const float *tr);                     #  IN_ARRAY1  DIM1
+%apply (float* IN_ARRAY2, int DIM1, int DIM2) {(float* a, int idim, int jdim)}
+%apply (float* IN_ARRAY1, int DIM1) {(float* c, int nc),
+                                     (float* tr, int ntr)}
+%rename (cpgconb) mod_cpgconb;
+%rename (cpgconf) mod_cpgconf;
+%rename (cpgconl) mod_cpgconl;
+%rename (cpgcons) mod_cpgcons;
+%rename (cpgcont) mod_cpgcont;
+%exception mod_cpgconb {
+  $action
+    if (PyErr_Occurred()) SWIG_fail;
+}
+%exception mod_cpgconf {
+  $action
+    if (PyErr_Occurred()) SWIG_fail;
+}
+%exception mod_cpgconl {
+  $action
+    if (PyErr_Occurred()) SWIG_fail;
+}
+%exception mod_cpgcons {
+  $action
+    if (PyErr_Occurred()) SWIG_fail;
+}
+%exception mod_cpgcont {
+  $action
+    if (PyErr_Occurred()) SWIG_fail;
+}
+%inline %{
+void mod_cpgconb(float *a, int idim, int jdim, int i1, int i2, int j1, int j2,\
+		 float *c, int nc, float *tr, int ntr, float blank)
+{
+  if (ntr != 6) {
+    PyErr_Format(PyExc_ValueError, " trdim array size not equal to 6");
+    return;
+  }
+  cpgconb(a, idim, jdim, i1, i2, j1, j2, c, nc, tr, blank);
+  return;
+}
+void mod_cpgconf(float *a, int idim, int jdim, int i1, int i2, int j1, int j2,\
+                 float c1, float c2, float *tr, int ntr)
+{
+  if (ntr != 6) {
+    PyErr_Format(PyExc_ValueError, " trdim array size not equal to 6");
+    return;
+  }
+  cpgconf(a, idim, jdim, i1, i2, j1, j2, c1, c2, tr);
+  return;
+}
+void mod_cpgconl(float *a, int idim, int jdim, int i1, int i2, int j1, int j2,\
+                 float c, float *tr, int ntr, char *label, int intval, \
+		 int minint)
+{
+  if (ntr != 6) {
+    PyErr_Format(PyExc_ValueError, " trdim array size not equal to 6");
+    return;
+  }
+  cpgconl(a, idim, jdim, i1, i2, j1, j2, c, tr, label, intval, minint);
+  return;
+}
+void mod_cpgcons(float *a, int idim, int jdim, int i1, int i2, int j1, int j2,\
+		 float *c, int nc, float *tr, int ntr)
+{
+  if (ntr != 6) {
+    PyErr_Format(PyExc_ValueError, " trdim array size not equal to 6");
+    return;
+  }
+  cpgcons(a, idim, jdim, i1, i2, j1, j2, c, nc, tr);
+  return;
+}
+void mod_cpgcont(float *a, int idim, int jdim, int i1, int i2, int j1, int j2,\
+		 float *c, int nc, float *tr, int ntr)
+{
+  if (ntr != 6) {
+    PyErr_Format(PyExc_ValueError, " trdim array size not equal to 6");
+    return;
+  }
+  cpgcont(a, idim, jdim, i1, i2, j1, j2, c, nc, tr);
+  return;
+}
+%}
+%clear (float* a, int idim, int jdim);
+%clear (float* c, int nc), (float* tr, int ntr);
+// CPGCON(B, F, L, S, T) Wrappers End
+
 // CPGCTAB Wrapper Begin
 // void cpgctab(const float *l, const float *r, const float *g, \
 //              const float *b, int nc, float contra, float bright);

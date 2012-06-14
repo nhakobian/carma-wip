@@ -6,8 +6,8 @@ import miriad_tools
 
 a = pynwip.wip()
 a.device()
-#a.rgb(0, 1, 1, 1)
-#a.rgb(1, 0, 0, 0)
+a.rgb(0, 1, 1, 1)
+a.rgb(1, 0, 0, 0)
 
 a.paper(750, 0.9, units='px')
 
@@ -47,7 +47,8 @@ a.putlabel("Move test", 1)
 a.move(-0.75, 0.5)
 a.hls(1, 0.75, 0.5, 0.5)
 a.arc(0.1, 0.3)
-a.rgb(1, 1, 1, 1)
+a.rgb(0, 1, 1, 1)
+a.rgb(1, 0, 0, 0)
 a.move(-0.55, 0.5)
 a.arc(0.3, 0.1, 45)
 a.move(-0.35, 0.5)
@@ -86,16 +87,18 @@ r = [0.9, 0.6, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 1.0]
 g = [0.9, 0.6, 0.2, 0.4, 0.6, 0.2, 0.4, 0.6, 0.2, 0.6, 1.0]
 b = [0.9, 0.6, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 1.0]
 l = [0.0, 0.1, 0.11, 0.15, 0.18, 0.22, 0.35, 0.45, 0.55, 0.90, 1.0]
-a.lookup(r, g, b, l)
+#a.lookup(r, g, b, l)
 
 img = miriad_tools.MirImage('test.image')
 a.winadj(0, img.axes[0], 0, img.axes[1])
 (xmin, xmax, ymin, ymax) = a.header(img, 'rd', 'rd', ret=True)
 #a.itf=1
 a.halftone(img)
-print xmax, ymin
+#print xmax, ymin
 a.move((xmax+xmin)/2., (ymin+ymax)/2.)
+#a.palette(1)
 a.beam(10, 20, 45, 2.5, -2.5, bgrect=-1)
+#a.color=1
 a.box('bcstznh', 'bcstznvd')
 a.wedge('r', 1., 3., img.image.min(), img.image.max())
 a.wedge('bp', 2., 3., img.image.min(), img.image.max(), boxarg='0')
@@ -110,8 +113,8 @@ a.expand=1.25
 a.lstyle=2
 a.arrow(1.5, 1, 45, 0)
 a.lstyle=1
-print a.lstyle
-print a.lwidth
+#print a.lstyle
+#print a.lwidth
 a.expand=1
 
 a.move(2,2)
@@ -175,16 +178,16 @@ a.limits(-6, 6, -5, 5)
 px = [1.5 , 2   , 1, 2.25, 3, 3.75, 5, 4,     4.5,   3 , 1.5]
 py = [1   , 2.25, 3, 3,    4,    3, 3, 2.25,    1, 1.75, 1]
 a.fill(2)
-a.rgb(1, 1, 0.25, 0.25)
+a.rgb(0, 1, 0.25, 0.25)
 a.poly(px, py)
 a.fill(4)
 a.poly(px, py)
-a.rgb(1, 1, 1, 1)
+a.rgb(0, 1, 1, 1)
 x = [-5, -4, -3, -2, -1]
 y = [3, 4, 1, 2, 4]
 a.fill(1)
 a.bar(x, y, [2, 3, 4, 5, 6], 2, 0, 0.7)
-a.fill(0)
+a.fill(2)
 a.bar(x, y, [], 2, 0, 0.7)
 a.box('an', 'an')
 
@@ -198,6 +201,18 @@ p = [ 0, 15, 30, 45, 60, 5, 20, 35, 50, 65, 10, 25, 40, 55, 70, 15, 30, 45, 60,
       75, 20, 35, 50, 65, 80]
 a.vector(x, y, r, p, 0, 0)
 
+
+a.panel(3, 3, -9)
+a.palette(1)
+#a.erase()
+#a.panel(1, 1, 1)
+a.fill(1)
+a.winadj(0, img.axes[0], 0, img.axes[1])
+a.limits(0, img.axes[0], 0, img.axes[1])
+a.contour(img, shade=True)
+a.box()
+
+
 a.viewport(0.8, 0.9, 0.5, 0.6)
 a.winadj(0, 1, 0, 1)
 a.lwidth=5
@@ -205,4 +220,4 @@ a.box('bc', 'bc')
 a.lwidth=1
 a.mtext('B', 1, 0.5, 0.5, "Viewport test")
 
-print a.tr
+#print a.tr

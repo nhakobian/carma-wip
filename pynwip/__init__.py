@@ -261,6 +261,109 @@ class wip():
                      numpy.array(y, dtype=numpy.float32))
         cwip.wipmove(x[-1], y[-1])
     
+
+    def contour(self, image, shade=False, label=False):
+        """
+        Makes a contour plot of an array read with IMAGE.
+
+        Possible subfeatures to be expanded on:
+          autolevs - 
+            Sets up the contour levels automatically.
+          levels - 
+            Sets the contour levels for a contour plot.
+          slevel - 
+            Sets the type and value used to scale contour levels.
+        """
+        # This C function was somewhat of a mess, below is an abridged version.
+        # curimage = wipimcur("curimage");
+        # wipimageminmax(curimage, &ymin, &ymax, 0);
+        # par = wipvariable("levtype")
+        # arg[0] = wipgetvar("slevel", &error);
+        # xfloat = (error == TRUE) ? 0.0 : arg[0];
+        # clevels = wipvector("levels", &nx, &npts);
+        # nx is number of levels
+
+        # if ((nx < 1) || (npts > MAXCONTLEVEL)) goto MISTAKE;
+        # for (nx = 0; nx < npts; nx++) contlev[nx] = clevels[nx];
+        # npts = wipscalevels(par, xfloat, ymin, ymax, contlev, npts);
+
+        # arg[0] = wipgetvar("nsig", &error);
+        # narg = (error == TRUE) ? 2 : NINT(arg[0]); error = FALSE;
+
+        # par is the contour type.
+        # par = "s";                  /* Set up the default options. */
+        # wipimagenxy(curimage, &nx, &ny);
+        # wipgetsub(&sx1, &sx2, &sy1, &sy2);
+
+        # wipgetr(tr);
+
+        # if par has '-' then draw neg contours like pos contours
+
+        # impic = wipimagepic(curimage);
+        
+        # below is contour type
+        # case 'b':
+        #   xfloat = 0.0;
+        #   if (argc > 1) {
+        #     if (wiparguments(&line, 1, arg) != 1) goto MISTAKE;
+        #     xfloat = arg[0];
+        #   }
+        #   cpgconb(*impic, nx, ny, sx1, sx2, sy1, sy2, contlev, npts, tr, \
+        #           xfloat);
+        # case 'l':
+        #   nxsub = 16; nysub = 8; /* maybe 20, 10? */
+        #   if (argc == 2) {
+        #     nxsub = NINT(arg[0]);
+        #   } else if (argc > 2) {
+        #     nxsub = NINT(arg[0]);
+        #     nysub = NINT(arg[1]);
+        #   }
+        #   cpgbbuf();
+        #   cpgcont(*impic, nx, ny, sx1, sx2, sy1, sy2, contlev, npts, tr);
+        #   for (j = 0; j < npts; j++) {
+        #     ptr = wipfpfmt(contlev[j], narg);
+        #     cpgconl(*impic, nx, ny, sx1, sx2, sy1, sy2, contlev[j], tr, ptr,\
+        #             nxsub, nysub);
+        #   }
+        #   cpgebuf();
+        # case 's':
+        #   cpgcons(*impic, nx, ny, sx1, sx2, sy1, sy2, contlev, npts, tr);
+        #   break;
+        # case 't':
+        #   cpgcont(*impic, nx, ny, sx1, sx2, sy1, sy2, contlev, npts, tr);
+        #   break;
+        # default:
+        #   wipoutput(stderr, "Incorrect type of contour selected.\n");
+        #   goto MISTAKE;
+        nx = image.axes[0]
+        ny = image.axes[1]
+        sx1 = 1
+        sx2 = int(nx)
+        sy1 = 1
+        sy2 = int(ny)
+        imax = image.image.max()
+        contlev = numpy.array([0.03, 0.075, 0.15, 0.30, 0.60], 
+                              dtype=numpy.float32) * imax
+        tr = [0, 1, 0, 0, 0, 1]
+
+        if (shade == True):
+            oldcolor = self.color
+            maxcontlev = numpy.append(contlev, imax+1)
+            for i in xrange(contlev.size):
+                self.color = int(25 + i*10)
+                cwip.cpgconf(image.image[0,:,:], sx1, sx2, sy1, sy2, 
+                             float(maxcontlev[i]), float(maxcontlev[i+1]), tr)
+            self.color = int(oldcolor)
+
+        cwip.cpgcont(image.image[0,:,:], sx1, sx2, sy1, sy2, contlev, tr)
+
+        if (label == True):
+            self.expand=0.5
+            for i in xrange(contlev.size):
+                cwip.cpgconl(image.image[0,:,:], sx1, sx2, sy1, sy2, 
+                             float(contlev[i]), tr, "%4.2f" % contlev[i], 
+                             999, 15)
+
     def device(self, device='/xs'):
         """
         Initializes output to a graphics device.
@@ -1133,18 +1236,6 @@ class wip():
     #
     # Below begins list of NotImplemented functions.
     #
-
-    autolevs    = NotImplemented
-    """Sets up the contour levels automatically."""
-
-    contour     = NotImplemented
-    """Makes a contour plot of an array read with IMAGE."""
-
-    levels      = NotImplemented
-    """Sets the contour levels for a contour plot."""
-
-    slevel      = NotImplemented
-    """Sets the type and value used to scale contour levels."""
 
     #####
     ##### Functions whose purpose isn't clear.
