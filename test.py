@@ -11,6 +11,8 @@ a.device()
 
 a.paper(750, 0.9, units='px')
 
+a.vstand()
+
 x = (numpy.array(range(100)) / 10.0) - 5.0
 y = numpy.sin(x)
 
@@ -19,7 +21,7 @@ y = numpy.sin(x)
 
 a.panel(3, 3, -1)
 a.limits(x, y)
-a.points(x, y)
+a.points(x[::3], y[::3], style=[12])
 a.connect(x, y)
 a.box()
 a.mtext('T', 1.5, 0.5, 0.5, "Sample sin(x) plot.")

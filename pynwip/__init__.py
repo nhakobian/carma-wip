@@ -168,7 +168,6 @@ class wip():
             narg = 1
         cwip.wipbar(x, y, color, location, narg, threshold, gap)
 
-
     def beam(self, majx, majy, pa, offx=0, offy=0, scale=-1, fillcolor=15, \
                  bgrect=0):
         """
@@ -186,7 +185,6 @@ class wip():
         # if (wipbeam(xmax, ymax, ymin, xfloat, yfloat, narg, xmin, ny))
         # goto MISTAKE;
         cwip.wipbeam(majx, majy, pa, offx, offy, fillcolor, scale, bgrect)
-
 
     def bin(self, x, y, k=1, gap=None):
         """
@@ -432,9 +430,7 @@ class wip():
             nx = int(image.shape[0])
             ny = int(image.shape[1])
             cwip.cpgimag(image, 1, nx, 1, ny, imin, imax, self.tr)
-
         #xylimits = cwip.wipgetsub()
-
 
     def header(self, image, xdir, ydir=None, ret=False, scale=1.0):
         """
@@ -698,7 +694,6 @@ class wip():
         cwip.cpghi2d(image.image[0, :, :], xmin, xmax, ymin, ymax,
                      xvec, slant, bias, center, yvec) 
 
-
     def histogram(self, array, xmin=None, xmax=None, n=5):
         """
         Draws a histogram of the data read by XCOLUMN.
@@ -904,7 +899,6 @@ class wip():
         cwip.wippoints(style, numpy.array(x, dtype=numpy.float32), 
                        numpy.array(y, dtype=numpy.float32), color)
 
-
     def poly(self, x, y):
         """
         Draws a polygon.
@@ -917,7 +911,6 @@ class wip():
         # wipmove(xvec[0], yvec[0]);
         cwip.cpgpoly(x, y)
         self.move(x[0], y[0])
-
 
     def putlabel(self, string, just=0.5):
         """
@@ -1077,6 +1070,13 @@ class wip():
         cwip.cpgsvp(float(xmin), float(xmax), float(ymin), float(ymax))
         cwip.wipviewport()
 
+    def vstand(self):
+        """
+        Sets the standard (default) viewport.
+        """
+        cwip.cpgvstd()
+        cwip.wipviewport()
+
     def wedge(self, side, disp, thick, min, max, boxarg='bcst'):
         """
         Draws a halftone wedge.
@@ -1140,17 +1140,11 @@ class wip():
     contour     = NotImplemented
     """Makes a contour plot of an array read with IMAGE."""
 
-    environment = NotImplemented
-    """Sets the user limits and draws a box."""
-
     levels      = NotImplemented
     """Sets the contour levels for a contour plot."""
 
     slevel      = NotImplemented
     """Sets the type and value used to scale contour levels."""
-
-    vstand      = NotImplemented
-    """Sets the standard (default) viewport."""
 
     #####
     ##### Functions whose purpose isn't clear.
@@ -1164,6 +1158,9 @@ class wip():
     # """Converts L-b coordinate values to equivalent x-y positions. """
     # vsize       = NotImplemented
     # """Sets the physical location of the plot in inches."""
+    # Environemnt is equivalent to calling limits, box, and winadj
+    # environment = NotImplemented
+    # """Sets the user limits and draws a box."""
 
     #####
     ##### Data read routines that currently will not be implemented.

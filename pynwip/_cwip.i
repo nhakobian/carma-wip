@@ -27,6 +27,7 @@ void cpgshs(float angle, float sepn, float phase); // set hatch style
 void cpgrect(float x1, float x2, float y1, float y2); // draw rectangle.
 void cpgscr(int ci, float cr, float cg, float cb); // set color index
 void cpgshls(int ci, float ch, float cl, float cs); // set hls color index.
+void cpgvstd(void); // sets standard viewport
 
 // CPGCTAB Wrapper Begin
 // void cpgctab(const float *l, const float *r, const float *g, \
