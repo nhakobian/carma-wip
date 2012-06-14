@@ -18,10 +18,6 @@ class wip():
         """
         cwip.wipclose()
     
-    def NotImplemented(self):
-        """Signifies that a function is not implemented. """
-        raise NotImplementedError
-
     # Attributes (wip variables)
     def _wipgetvar(self, varname):
         """
@@ -98,21 +94,6 @@ class wip():
           start  : (float) - default 0.0, the angle offset before arc starts
                              being drawn.
         """
-        # xfloat = 360.0; yfloat = 0.0;
-        # if (argc == 2) {
-        #     if (wiparguments(&line, 2, arg) != 2) goto MISTAKE;
-        # } else if (argc == 3) {
-        #     if (wiparguments(&line, 3, arg) != 3) goto MISTAKE;
-        #     xfloat = arg[2];
-        # } else {
-        #     if (wiparguments(&line, 4, arg) != 4) goto MISTAKE;
-        #     xfloat = arg[2]; yfloat = arg[3];
-        # }
-        # xmax = arg[0]; ymax = arg[1];
-        # ymin = wipgetvar("angle", &error);
-        # if (error == TRUE) goto MISTAKE;
-        # if (wiparc(xmax, ymax, xfloat, ymin, yfloat)) goto MISTAKE;
-
         # The object self does not exist at function definition time,
         # so we must test and define for it here.
         if pa == None:
@@ -123,44 +104,12 @@ class wip():
         """
         Draws an arrow.
         """
-        # xfloat = 45.0; yfloat = 0.3;
-        # if (argc == 2) {
-        #     if (wiparguments(&line, 2, arg) != 2) goto MISTAKE;
-        # } else if (argc == 3) {
-        #     if (wiparguments(&line, 3, arg) != 3) goto MISTAKE;
-        #     xfloat = arg[2];
-        # } else {
-        #     if (wiparguments(&line, 4, arg) != 4) goto MISTAKE;
-        #     xfloat = arg[2]; yfloat = arg[3];
-        # }
-        # xmax = arg[0]; ymax = arg[1];
-        # wiparrow(xmax, ymax, xfloat, yfloat);
         cwip.wiparrow(x, y, angle, vent)
 
     def bar(self, x, y, color, location, threshold=None, gap=0):
         """
         Draws bar graphs on (x,y) pairs in direction 90(K-1).
         """
-        # narg = 1;                         /* Use the xfloat value. */
-        # xfloat = yfloat = 0;
-        # if (argc == 1) {
-        #     if (wiparguments(&line, 1, arg) != 1) goto MISTAKE;
-        #     narg = 0;                 /* Don't use the xfloat value. */
-        # } else if (argc == 2) {
-        #     if (wiparguments(&line, 2, arg) != 2) goto MISTAKE;
-        #     xfloat = arg[1];
-        # } else {
-        #     if (wiparguments(&line, 3, arg) != 3) goto MISTAKE;
-        #     xfloat = arg[1]; yfloat = arg[2];
-        # }
-        # location = NINT(arg[0]);
-        # xvec = wipvector("x", &nx, &npts);
-        # yvec = wipvector("y", &nx, &ny);
-        # npts = MIN(npts, ny);
-        # if (npts < 1) goto MISTAKE;
-        # evec = wipvector("err", &nx, &ny);
-        # if wipbar(npts, xvec, yvec, ny, evec, location, narg, xfloat, yfloat)
-        #   goto MISTAKE;
         if threshold == None:
             narg = 0
             threshold = 0
@@ -182,8 +131,6 @@ class wip():
         [FILLCOLOR] 
         [BGRECT]
         """
-        # if (wipbeam(xmax, ymax, ymin, xfloat, yfloat, narg, xmin, ny))
-        # goto MISTAKE;
         cwip.wipbeam(majx, majy, pa, offx, offy, fillcolor, scale, bgrect)
 
     def bin(self, x, y, k=1, gap=None):
@@ -198,31 +145,6 @@ class wip():
                           0 if data is aligned to left side of bin
           gap : (float) - Gap in data needed to draw separate graphs
         """
-        # narg = 1;                       /* Center bins on the X value. */
-        # if (argc == 1) 
-        # {
-        #     if (wiparguments(&line, 1, arg) != 1) goto MISTAKE;
-        #     narg = NINT(arg[0]);        /* User specifies centering. */
-        # }
-        # else if (argc > 1) 
-        # {
-        #     if (wiparguments(&line, 2, arg) != 2) goto MISTAKE;
-        #     narg = NINT(arg[0]);        /* User specifies centering. */
-        #     xfloat = arg[1];            /* Gap value. */
-        # }
-        # xvec = wipvector("x", &nx, &npts);
-        # yvec = wipvector("y", &nx, &ny);
-        # npts = MIN(npts, ny);
-        # if (npts <= 0) goto MISTAKE;
-        # if (argc > 1) 
-        # {    /* Use hline routine. */
-        #     if (wiphline(npts, xvec, yvec, xfloat, narg)) goto MISTAKE;
-        # } 
-        # else 
-        # {   /* Use cpgbin. */
-        #     cpgbin(npts, xvec, yvec, narg);
-        # }
-        # wipmove(xvec[npts-1], yvec[npts-1]);
         x = numpy.array(x, dtype=numpy.float32)
         y = numpy.array(y, dtype=numpy.float32)
         if gap == None:
@@ -249,14 +171,6 @@ class wip():
           x : (array) - Array of X values.
           y : (array) - Array of Y values.
         """
-        # xvec = wipvector("x", &nx, &npts);
-        # yvec = wipvector("y", &nx, &ny);
-        # npts = MIN(npts, ny);
-        # if (npts > 0) 
-        # {
-        #     cpgline(npts, xvec, yvec);
-        #     wipmove(xvec[npts-1], yvec[npts-1]);
-        # }
         cwip.cpgline(numpy.array(x, dtype=numpy.float32), 
                      numpy.array(y, dtype=numpy.float32))
         cwip.wipmove(x[-1], y[-1])
@@ -274,67 +188,6 @@ class wip():
           slevel - 
             Sets the type and value used to scale contour levels.
         """
-        # This C function was somewhat of a mess, below is an abridged version.
-        # curimage = wipimcur("curimage");
-        # wipimageminmax(curimage, &ymin, &ymax, 0);
-        # par = wipvariable("levtype")
-        # arg[0] = wipgetvar("slevel", &error);
-        # xfloat = (error == TRUE) ? 0.0 : arg[0];
-        # clevels = wipvector("levels", &nx, &npts);
-        # nx is number of levels
-
-        # if ((nx < 1) || (npts > MAXCONTLEVEL)) goto MISTAKE;
-        # for (nx = 0; nx < npts; nx++) contlev[nx] = clevels[nx];
-        # npts = wipscalevels(par, xfloat, ymin, ymax, contlev, npts);
-
-        # arg[0] = wipgetvar("nsig", &error);
-        # narg = (error == TRUE) ? 2 : NINT(arg[0]); error = FALSE;
-
-        # par is the contour type.
-        # par = "s";                  /* Set up the default options. */
-        # wipimagenxy(curimage, &nx, &ny);
-        # wipgetsub(&sx1, &sx2, &sy1, &sy2);
-
-        # wipgetr(tr);
-
-        # if par has '-' then draw neg contours like pos contours
-
-        # impic = wipimagepic(curimage);
-        
-        # below is contour type
-        # case 'b':
-        #   xfloat = 0.0;
-        #   if (argc > 1) {
-        #     if (wiparguments(&line, 1, arg) != 1) goto MISTAKE;
-        #     xfloat = arg[0];
-        #   }
-        #   cpgconb(*impic, nx, ny, sx1, sx2, sy1, sy2, contlev, npts, tr, \
-        #           xfloat);
-        # case 'l':
-        #   nxsub = 16; nysub = 8; /* maybe 20, 10? */
-        #   if (argc == 2) {
-        #     nxsub = NINT(arg[0]);
-        #   } else if (argc > 2) {
-        #     nxsub = NINT(arg[0]);
-        #     nysub = NINT(arg[1]);
-        #   }
-        #   cpgbbuf();
-        #   cpgcont(*impic, nx, ny, sx1, sx2, sy1, sy2, contlev, npts, tr);
-        #   for (j = 0; j < npts; j++) {
-        #     ptr = wipfpfmt(contlev[j], narg);
-        #     cpgconl(*impic, nx, ny, sx1, sx2, sy1, sy2, contlev[j], tr, ptr,\
-        #             nxsub, nysub);
-        #   }
-        #   cpgebuf();
-        # case 's':
-        #   cpgcons(*impic, nx, ny, sx1, sx2, sy1, sy2, contlev, npts, tr);
-        #   break;
-        # case 't':
-        #   cpgcont(*impic, nx, ny, sx1, sx2, sy1, sy2, contlev, npts, tr);
-        #   break;
-        # default:
-        #   wipoutput(stderr, "Incorrect type of contour selected.\n");
-        #   goto MISTAKE;
         nx = image.axes[0]
         ny = image.axes[1]
         sx1 = 1
@@ -376,16 +229,6 @@ class wip():
         """
         Makes a point of the current style at the current location.
         """
-        # if (argc > 0) {
-        #     if (wiparguments(&line, 2, arg) != 2) goto MISTAKE;
-        #     xfloat = arg[0];
-        #     yfloat = arg[1];
-        # } else {
-        #     wipgetcxy(&xfloat, &yfloat);
-        # }
-        # arg[0] = wipgetvec("pstyle[1]", &error);
-        # ny = (error == TRUE) ? 0 : NINT(arg[0]); error = FALSE;
-        # cpgpt(1, &xfloat, &yfloat, ny);
         (cx, cy) = cwip.wipgetcxy()
         cwip.cpgpt([cx], [cy], self.pstyle)
 
@@ -415,15 +258,6 @@ class wip():
                              5 +x and -x 
                              6 +y and -y 
         """
-        # if (wiparguments(&line, 1, arg) != 1) goto MISTAKE;
-        # location = NINT(arg[0]);
-        # xvec = wipvector("x", &nx, &npts);
-        # yvec = wipvector("y", &nx, &ny);
-        # npts = MIN(npts, ny);
-        # evec = wipvector("err", &nx, &ny);
-        # npts = MIN(npts, ny);
-        # if (npts < 1) npts = 0;
-        # if (wiperrorbar(location, xvec, yvec, evec, npts)) goto MISTAKE;
         cwip.wiperrorbar(int(loc), numpy.array(x, dtype=numpy.float32), 
                          numpy.array(y, dtype=numpy.float32), 
                          numpy.array(error, dtype=numpy.float32))
@@ -432,25 +266,6 @@ class wip():
         """
         Sets the fill area style to N.
         """
-        # argc = (argc < 1) ? 1 : ((argc > 4) ? 4 : argc);
-        # if (wiparguments(&line, argc, arg) != argc) goto MISTAKE;
-        # xfloat = 45.0;                     /* Default hatch angle. */
-        # yfloat = 1.0;               /* Default hatch line spacing. */
-        # xmin = 0.0;                 /* Default is no phase offset. */
-        # switch (argc) {               /* Parse optional arguments. */
-        #   case 4:    /* falls through */
-        #     xmin = arg[3];         /* User specifies phase offset. */
-        #   case 3:    /* falls through */
-        #     yfloat = arg[2];            /* User specifies spacing. */
-        #   case 2:
-        #     xfloat = arg[1];        /* User specifies hatch angle. */
-        #     break;
-        #   default:                         /* No options supplied. */
-        #     break;
-        # }
-        # narg = NINT(arg[0]);
-        # if (argc > 1) cpgshs(xfloat, yfloat, xmin);
-        # wipfill(narg);
         cwip.cpgshs(hatch, spacing, phase)
         cwip.wipfill(style)
 
@@ -458,66 +273,12 @@ class wip():
         """
         Draws a 'globe' with nlong/nlat long/lat lines.
         """
-        # nx = 5; ny = 3;
-        # if (argc > 0) {
-        #     if (wiparguments(&line, 2, arg) != 2) goto MISTAKE;
-        #     nx = NINT(arg[0]);
-        #     ny = NINT(arg[1]);
-        # }
-        # wipaitoffgrid(nx, ny);
         cwip.wipaitoffgrid(longi, lat);
 
     def halftone(self, image):
         """
         Produces a halftone plot of an image.
         """
-        # curimage = wipimcur("curimage");
-        # if (wipimagexists(curimage) == 0) 
-        # {
-        #     wipoutput(stderr, "You must specify an image first!\n");
-        #     goto MISTAKE;
-        # }
-        # wipimagenxy(curimage, &nx, &ny);
-        # /* bg     fg */
-        # wipimageminmax(curimage, &ymin, &ymax, 0);
-        # wipgetsub(&sx1, &sx2, &sy1, &sy2);
-        # wipgetr(tr);
-        # impic = wipimagepic(curimage);
-        # wipgetcir(&cmin, &cmax);
-        # narg = -1;
-        # xfloat = -99.0;
-        # if (argc == 2) 
-        # {
-        #     if (wiparguments(&line, 2, arg) != 2) goto MISTAKE;
-        #     ymin = arg[0];
-        #     ymax = arg[1];
-        # } 
-        # else if (argc == 3) 
-        # {
-        #     if (wiparguments(&line, 3, arg) != 3) goto MISTAKE;
-        #     ymin = arg[0];
-        #     ymax = arg[1];
-        #     narg = NINT(arg[2]);
-        # }
-        # else if (argc > 3) 
-        # {
-        #     if (wiparguments(&line, 4, arg) != 4) goto MISTAKE;
-        #     ymin = arg[0];
-        #     ymax = arg[1];
-        #     narg = NINT(arg[2]);
-        #     xfloat = arg[3];
-        # }
-        # if (narg <= 0) narg = cmax - cmin + 1;
-        # hmin = ymin;
-        # hmax = ymax;
-        # if (argc > 2)                /* Only do this if requested. */
-        #     wipheq(nx, ny, impic, sx1, sx2, sy1, sy2, xfloat, ymin, ymax, \
-        #            narg);
-        # if ((cmin + 1) < cmax)
-        #    cpgimag(*impic, nx, ny, sx1, sx2, sy1, sy2, ymin, ymax, tr);
-        # else
-        #    cpggray(*impic, nx, ny, sx1, sx2, sy1, sy2, ymax, ymin, tr);
-
         if ('mirimg' in image.__dict__.keys()):
             # this is a miriad image
 
@@ -739,41 +500,6 @@ class wip():
         """
         Draws a histogram of the data read by IMAGE.
         """
-        # curimage = wipimcur("curimage");
-        # if (wipimagexists(curimage) == 0) {
-        #     wipoutput(stderr, "You must specify an image first!\n");
-        #     goto MISTAKE;
-        # }
-        # wipimagenxy(curimage, &nx, &ny);
-        # wipgetsub(&sx1, &sx2, &sy1, &sy2);
-        # location = 0; /* no initial slant to successive y-elements. */
-        # narg = 1; /* center bins on x value. */
-        # if (argc == 1) {
-        #     if (wiparguments(&line, 1, arg) != 1) goto MISTAKE;
-        # } else if (argc == 2) {
-        #     if (wiparguments(&line, 2, arg) != 2) goto MISTAKE;
-        #     location = NINT(arg[1]);
-        # } else {
-        #     if (wiparguments(&line, 3, arg) != 3) goto MISTAKE;
-        #     location = NINT(arg[1]);
-        #     narg = NINT(arg[2]);
-        # }
-        # ymax = arg[0];  /* Required bias value. */
-        # nxsub = sx2 - sx1 + 1;
-        # xvec = vector(nxsub);
-        # yvec = vector(nxsub);
-        # if ((xvec == (float *)NULL) || (yvec == (float *)NULL)) {
-        #     if (xvec) freevector(xvec);
-        #     if (yvec) freevector(yvec);
-        #     wipoutput(stderr, "Trouble allocating work arrays.\n");
-        #     goto MISTAKE;
-        # }
-        # for (j = 0; j < nxsub; j++) xvec[j] = sx1 + j;
-        # impic = wipimagepic(curimage);
-        # cpghi2d(*impic, nx, ny, sx1, sx2, sy1, sy2,
-        #          xvec, location, ymax, narg, yvec);
-        # freevector(xvec);
-        # freevector(yvec);
         if xmin == None:
             xmin = 1
         if ymin == None:
@@ -808,22 +534,6 @@ class wip():
           MAX 
           N
         """
-        # xvec = wipvector("x", &nx, &npts);
-        # if (npts < 1) goto MISTAKE;
-        # wiprange(npts, xvec, &xmin, &xmax);
-        # narg = 5; /* Number of bins. */
-        # if (argc == 2) {
-        #     if (wiparguments(&line, 2, arg) != 2) goto MISTAKE;
-        #     xmin = arg[0]; xmax = arg[1];
-        # } else if (argc > 2) {
-        #     if (wiparguments(&line, 3, arg) != 3) goto MISTAKE;
-        #     xmin = arg[0]; xmax = arg[1];
-        #     narg = NINT(arg[2]);
-        # }
-        # ny = 1;   /* PGFLAG = 1 ==> no pgenv called. */
-        # cpghist(npts, xvec, xmin, xmax, narg, ny);
-        # wipgetcxy(&xfloat, &yfloat);
-        # wipmove(xvec[npts-1], yfloat);
         if xmin == None:
             xmin = numpy.min(array)
         if xmax == None:
@@ -861,28 +571,6 @@ class wip():
           ymin : (float) - Minimum Y value.
           ymax : (float) - Maximum Y value.
         """
-        # xvec = wipvector("x", &nx, &npts);
-        # yvec = wipvector("y", &nx, &ny);
-        # npts = MIN(npts, ny);
-        # if (npts < 1) npts = 0;
-        # wiprange(npts, xvec, &xmin, &xmax);
-        # wiprange(npts, yvec, &ymin, &ymax);
-        # if (argc > 0) 
-        # {
-        #     if (wiparguments(&line, 4, arg) != 4) goto MISTAKE;
-        #     if (arg[0] != arg[1]) 
-        #     {
-        #         xmin = arg[0];
-        #         xmax = arg[1];
-        #     }
-        #     if (arg[2] != arg[3]) 
-        #     { for a passed variable
-        #         ymin = arg[2];
-        #         ymax = arg[3];
-        #     }
-        # }
-        # cpgswin(xmin, xmax, ymin, ymax);
-        # wiplimits();
         nargs = len(args)
 
         if (nargs == 2):
@@ -918,20 +606,6 @@ class wip():
         """
         Loads a RGB color lookup table.
         """
-        # xvec = wipvector("x", &nx, &npts);
-        # yvec = wipvector("y", &nx, &ny);
-        # npts = MIN(npts, ny);
-        # evec = wipvector("err", &nx, &ny);
-        # npts = MIN(npts, ny);
-        # pvec = wipvector("pstyle", &nx, &narg);
-        # npts = MIN(npts, narg);
-        # if (npts < 1) goto MISTAKE;
-        # xfloat = 1.0;
-        # if (argc > 0) {
-        #     if (wiparguments(&line, 1, arg) != 1) goto MISTAKE;
-        #     if (arg[0] < 0) xfloat = -1.0;
-        # }
-        # cpgctab(pvec, xvec, yvec, evec, npts, xfloat, 0.5);
         cwip.cpgctab(l, r, g, b, n, 0.5)
 
     def move(self, x, y):
@@ -941,10 +615,6 @@ class wip():
           x : (float) - X position
           y : (float) - Y position
         """
-        # if (wiparguments(&line, 2, arg) != 2) goto MISTAKE;
-        # xfloat = arg[0];
-        # yfloat = arg[1];
-        # wipmove(xfloat, yfloat);
         cwip.wipmove(float(x), float(y))
 
     def mtext(self, side, disp, just, coord, string):
@@ -971,19 +641,12 @@ class wip():
         """
         Sets the plot lovation to a subpanel.
         """
-        # if (wiparguments(&line, 3, arg) != 3) goto MISTAKE;
-        # nx = NINT(arg[0]); ny = NINT(arg[1]); narg = NINT(arg[2]);
-        # wippanel(nx, ny, narg);
         cwip.wippanel(nx, ny, panel)
 
     def paper(self, width, aspect, units='in', px_scale=100):
         """
         Change the size of the view surface.
         """
-        # if (wiparguments(&line, 2, arg) != 2) goto MISTAKE;
-        # xfloat = arg[0];
-        # yfloat = arg[1];
-        # cpgpap(xfloat, yfloat);
         if units=='px':
             # px_scale is how many pixels per inch the device has.
             width = width / float(px_scale)
@@ -1006,12 +669,6 @@ class wip():
         """
         Draws a polygon.
         """
-        # xvec = wipvector("x", &nx, &npts);
-        # yvec = wipvector("y", &nx, &ny);
-        # npts = MIN(npts, ny);
-        # if (npts < 1) goto MISTAKE;
-        # cpgpoly(npts, xvec, yvec);
-        # wipmove(xvec[0], yvec[0]);
         cwip.cpgpoly(x, y)
         self.move(x[0], y[0])
 
@@ -1022,49 +679,18 @@ class wip():
           string : (string) - String value to write on screen.
           just   : (float)  - Justification between 0,1. 0.5 is centered
         """
-        # if (argc < 2) 
-        # {
-        #     wipoutput(stderr, "A label (string) is required.\n");
-        #     goto MISTAKE;
-        # }
-        # if (wiparguments(&line, 1, arg) != 1) goto MISTAKE;
-        # arg[0] = ABS(arg[0]);
-        # wipputlabel(line, arg[0]);
         cwip.wipputlabel(string, just)
 
     def rect(self, xmin, xmax, ymin, ymax):
         """
         Draw a rectangle, using fill-area attributes.
         """
-        # if (wiparguments(&line, 4, arg) != 4) goto MISTAKE;
-        # xmin = arg[0]; xmax = arg[1];
-        # ymin = arg[2]; ymax = arg[3];
-        # cpgrect(xmin, xmax, ymin, ymax);
         cwip.cpgrect(xmin, xmax, ymin, ymax)
 
     def reset(self):
         """
         Full reset of the graphics state of the current plotting device.
         """
-        # float tr[6];
-        #
-        # tr[0] = 0.0; tr[1] = 1.0; tr[2] = 0.0;
-        # tr[3] = 0.0; tr[4] = 0.0; tr[5] = 1.0;
-        #
-        # wipcolor(1);
-        # wipexpand(1.0);
-        # wipfill(1);
-        # wipfont(1);
-        # wipltype(1);
-        # wiplw(1);
-        # wipsetbgci(-1);
-        #
-        # wipsetangle(0.0);
-        # wipsetr(tr);
-        # wipsetick(0.0, 0, 0.0, 0);
-        # wipsetitf(0);
-        #
-        # wippalette(0, 0);
         self.color = 1
         self.expand = 1
         self.fill(1)
@@ -1109,24 +735,6 @@ class wip():
         """
         Draws a vector field as a sequence of arrows.
         """
-        # xfloat = 45.0; yfloat = 0.3;
-        # if (argc == 1) {
-        #     if (wiparguments(&line, 1, arg) != 1) goto MISTAKE;
-        #     xfloat = arg[0];
-        # } else if (argc > 1) {
-        #     if (wiparguments(&line, 2, arg) != 2) goto MISTAKE;
-        #     xfloat = arg[0];
-        #     yfloat = arg[1];
-        # }
-        # xvec = wipvector("x", &nx, &npts);
-        # yvec = wipvector("y", &nx, &ny);
-        # npts = MIN(npts, ny);
-        # pvec = wipvector("pstyle", &nx, &ny);
-        # npts = MIN(npts, ny);
-        # evec = wipvector("err", &nx, &ny);
-        # npts = MIN(npts, ny);
-        # if (npts < 1) goto MISTAKE;
-        # wipvfield(xvec, yvec, pvec, evec, npts, xfloat, yfloat);
         cwip.wipvfield(x, y, length, direction, angle, vent)
         
     def xlabel(self, string):
@@ -1209,148 +817,3 @@ class wip():
             boxarg += 'n'
 
         cwip.wipwedge(side, disp, thick, float(min), float(max), boxarg)
-        # if ((ptr = wipparse(&line)) == (char *)NULL) goto MISTAKE;
-        # if (wiparguments(&line, 2, arg) != 2) goto MISTAKE;
-        # xfloat = arg[0]; yfloat = arg[1]; xmin = hmin; xmax = hmax;
-        # par = "";
-        # if (argc > 3) {
-        #     if (wiparguments(&line, 2, arg) != 2) goto MISTAKE;
-        #     xmin = arg[0]; xmax = arg[1];
-        #     par = line;
-        # }
-        # if ((Strchr(ptr, 'i') == (char *)NULL) &&
-        #     (Strchr(ptr, 'I') == (char *)NULL) &&
-        #     (Strchr(ptr, 'g') == (char *)NULL) &&
-        #     (Strchr(ptr, 'G') == (char *)NULL)) 
-        # {
-        #     (void)Strcpy(infile, ptr);
-        #     wipgetcir(&cmin, &cmax);
-        #     if ((cmin + 1) < cmax)
-        #        (void)Strcat(infile, "i");
-        #     else
-        #        (void)Strcat(infile, "g");
-        #     ptr = infile;
-        # }
-        # if (wipwedge(ptr, xfloat, yfloat, xmin, xmax, par)) goto MISTAKE;
-        
-    #
-    # Below begins list of NotImplemented functions.
-    #
-
-    #####
-    ##### Functions whose purpose isn't clear.
-    #####
-    # scale       = NotImplemented
-    # """Sets the viewport size scale."""
-    # id          = NotImplemented
-    # """Puts an identification label at the bottom of a plot."""
-    # Below will be implemented with the libwcs stuff.
-    # aitoff      = NotImplemented
-    # """Converts L-b coordinate values to equivalent x-y positions. """
-    # vsize       = NotImplemented
-    # """Sets the physical location of the plot in inches."""
-    # Environemnt is equivalent to calling limits, box, and winadj
-    # environment = NotImplemented
-    # """Sets the user limits and draws a box."""
-
-    #####
-    ##### Data read routines that currently will not be implemented.
-    #####
-    # data        = NotImplemented
-    # """Opens the file 'fspec' for reading data."""
-    # ecolumn     = NotImplemented
-    # """Reads error bar data from column N of the data file."""
-    # pcolumn     = NotImplemented
-    # """Reads point type data from column N of the current data file."""
-    # xcolumn     = NotImplemented
-    # """Reads X data from column N of the current file."""
-    # ycolumn     = NotImplemented
-    # """Reads Y data from column N of the current file."""
-
-    #####
-    ##### Image fit routines that currently will not be implemented.
-    #####
-    # fit         = NotImplemented
-    # """Fits a curve to the (x,y) data pairs."""
-    # range       = NotImplemented
-    # """Limits the range over which to fit."""
-    # plotfit     = NotImplemented
-    # """Draws a plot of the most recent fit."""
-
-    #####
-    ##### Image read routines that currently will not be implemented.
-    #####
-    # quarter     = NotImplemented
-    # """Allows quick selection of a subsection of the current image."""
-    # subimage    = NotImplemented
-    # """Sets the index range of a subimage."""
-    # minmax      = NotImplemented
-    # """List the maximum and minimum values of the current image."""
-    # logarithm   = NotImplemented
-    # """Takes the scaled logarithm of vectors and images."""
-
-    #####
-    ##### Interactive commands that will not be implemented.
-    #####
-    # ask         = NotImplemented
-    # """Changes the current device prompt state."""
-    # buffer      = NotImplemented
-    # """Predefined macro name that refers to the entire command buffer."""
-    # cursor      = NotImplemented
-    # """Enables cursor and returns x-y location and the key pressed."""
-    # define      = NotImplemented
-    # """Creates the Macro 'xxx' and enters define mode."""
-    # delete      = NotImplemented
-    #"""Removes the commands N1-N2 from a macro buffer."""
-    # echo        = NotImplemented
-    # """Displays the result of EXPRESSION on the screen."""
-    # end         = NotImplemented
-    # """Terminates define mode, insert mode, or exits from the program."""
-    # etxt        = NotImplemented
-    # """Erases the text from the view surface without affecting graphics."""
-    # free        = NotImplemented
-    # """Releases items created with the NEW command."""
-    # hardcopy    = NotImplemented
-    # """Causes a stored printer plot to be plotted."""
-    # help        = NotImplemented
-    # """Prints an explanation of the command xxx."""
-    # if          = NotImplemented
-    # """Executes xxx if EXPRESSION is true."""
-    # initialize  = NotImplemented
-    # """Sets V to the result of EXPRESSION."""
-    # input       = NotImplemented
-    # """Reads plot commands from file 'fspec' and executes them."""
-    # insert      = NotImplemented
-    # """Commands are inserted before command N in a macro."""
-    # lcur        = NotImplemented
-    # """Draws a line using the cursor."""
-    # ldev        = NotImplemented
-    # """Lists the devices currently available."""
-    # lines       = NotImplemented
-    # """Limits the C, Y, E, and PCOLUMN file read to lines L1-L2."""
-    # list        = NotImplemented
-    # """Lists the commands of macro xxx."""
-    # loop        = NotImplemented
-    # """Executes the macro XXX COUNT times."""
-    # macro       = NotImplemented
-    # """Used to define macros using an external file."""
-    # ncurse      = NotImplemented
-    # """Marks a set of points using the cursor."""
-    # new         = NotImplemented
-    # """Creates a new string variable, user variable, or vector."""
-    # olin        = NotImplemented
-    # """Marks a set of points using the cursor."""
-    # phard       = NotImplemented
-    # """Spool a plot to an alternative device."""
-    # playback    = NotImplemented
-    # """Replay macro XXX or command in the command buffer."""
-    # read        = NotImplemented
-    # """Reads plot commands from file 'fspec'."""
-    # set         = NotImplemented
-    # """Sets the user variable V to result of EXPRESSION."""
-    # show        = NotImplemented
-    # """Shows current limits and attributes."""
-    # string      = NotImplemented
-    # """Sets a string variable 'name' from a file."""
-    # write       = NotImplemented
-    # """Writes macro XXX to file 'fspec'."""
