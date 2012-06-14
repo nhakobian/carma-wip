@@ -1,7 +1,6 @@
 # Updated makefile to make it more readable.
 
-SRC_MAIN      = src/branch/wipmain.c
-SRC_BRANCH    = execute.c process.c wipinit.c
+SRC_BRANCH    = wipinit.c
 SRC_DRIVERS   = basic.c fits.c miriad.c
 SRC_FIT       = fit.c gaussfit.c lsqfit.c medfit.c polyfit.c
 SRC_IMAGES    = extrema.c header.c heq.c image.c smooth.c
@@ -32,7 +31,7 @@ INC = -I./src/include -I$(MIRINC)/../pgplot-miriad-remix
 HELP = \"wiphelp.dat\"
 OBJ = $(SRC:.c=.o)
 
-all: wip
+all: pynwip
 
 .c.o :
 	$(CC) $(OPTS) $(CFLAGS) $(INC) -DHELPFILE=$(HELP) -c $< -o $*.o
@@ -41,12 +40,6 @@ libwip: $(OBJ)
 	$(CC) $(CFLAGS) -shared -Wl,-soname,libwip.so -o libwip.so \
 	   $(OBJ) -lcpgplot -lpgplot -lreadline -L$(MIRLIB) \
 	   -Wl,-rpath,$(MIRLIB)
-
-wip: libwip
-	$(CC) $(CFLAGS) $(INC) -o wip $(SRC_MAIN) -L$(MIRLIB) \
-	   -Wl,-rpath,$(MIRLIB) -Wl,-rpath,$(CURDIR) -L. \
-	   -L/usr/X11R6/lib -lcpgplot -lpgplot \
-	   -lreadline -lwip
 
 pynwip: libwip
 	cd pynwip; /usr/bin/swig -python _cwip.i

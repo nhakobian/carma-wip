@@ -188,7 +188,7 @@ int wipmaxecute(COMMAND *comm, int count, const char *rest)
         if (vb->macro == TRUE) {
           if (wipmaxecute(vb, j, ptr)) goto INPERR;
         } else {
-          if (wipexecute(vb->name, ptr)) goto INPERR;
+          /*if (wipexecute(vb->name, ptr)) goto INPERR;*/
         }
 
       }                     /* End of for(pc != (PCMACRO *)NULL) loop. */

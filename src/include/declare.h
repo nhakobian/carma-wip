@@ -15,8 +15,6 @@
 
 /* Code in wip/branch */
 
-extern int wipexecute(const char *cmdname, char *line);
-extern int wipprocess(char *cmdline, int *mode, LOGICAL keep);
 extern int wipinit(void);
 
 /* Code in wip/images */

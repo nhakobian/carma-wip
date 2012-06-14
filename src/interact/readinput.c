@@ -95,7 +95,7 @@ int wipreadinput(const char *rest)
         }
 
 /* Now execute the command. */
-        ret = wipprocess(par, &inpmode[inplevel], FALSE);
+        ret = 0; /*wipprocess(par, &inpmode[inplevel], FALSE);*/
 
 /* Check return status for a couple of special cases. */
         if ((ret > 0) && (Strcmp(vb->name, "define") != 0)) {
@@ -352,7 +352,7 @@ int wipmacroinput(const char *filename)
 
     /* Now execute the command and check for macro status. */
 
-      ret = wipprocess(par, &macromode, FALSE);
+      ret = 0 ;/*wipprocess(par, &macromode, FALSE);*/
       if ((inmacro != TRUE) && (macromode == 2)) inmacro = TRUE;
       if ((inmacro == TRUE) && (macromode == 1)) inmacro = FALSE;
 
