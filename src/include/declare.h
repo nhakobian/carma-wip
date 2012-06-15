@@ -104,40 +104,17 @@ extern     int   wipwedge(char *side, float disp, float thick, float bg, \
 
 /* Code in wip/sysdep */
 extern long int  filesize(FILE *fp);
-extern     void  wipsetQuiet(int quiet);
-extern     void  wipbegin(int disable, int justread);
-extern     void  wipexit(int status);
 #ifndef NOVARARGS
   extern     void   wipoutput(FILE *fp, const char *fmt, ...);
 #else
   #define wipoutput (void)fprintf
 #endif /* !NOVARARGS */
-extern      int  wipinput(FILE *fp, const char *prompt, char *line, \
-			  size_t maxsize);
-extern    float  wiprand(long int *seed);
-extern    float  wipgaussdev(long int *seed);
-extern     void  wiplines(int first, int last);
-extern     void  wipgetlines(int *first, int *last);
-extern      int  wipopenfile(const char *file);
 
 /* Code in wip/variables */
-extern    int  wipisnumber(const char *inword, double *retval);
-extern   char *wipgettoken(char *out, const char *in, char **next);
 extern   char *wipbracextract(const char *inword, char **left);
-extern    int  wipisuserfunc(const char *name);
-extern double  wipuserfunc(const char *inword, double arg, LOGICAL *error);
-extern   void  clear_stack(void);
-extern    int  push_stack(double value);
-extern    int  pop_stack(double *value);
 extern double  wipgetvar(const char *name, LOGICAL *error);
 extern    int  wipsetvar(const char *name, double value);
-extern    int  wipisvec(const char *name);
 extern double  wipgetvec(const char *name, LOGICAL *error);
 extern    int  wipsetvec(const char *name, double value);
-extern  float *wipvector(const char *name, int *maxsize, int *currentSize);
-extern    int  wipvectornpts(const char *name, int currentSize);
-extern    int  wipisvecfunc(const char *inword);
-extern double  wipvecfunc(const char *inword, const char *arg, LOGICAL *error);
-extern    int  wipFreeVector(const char *name);
 
 #endif /* WIP_DECLARE */
