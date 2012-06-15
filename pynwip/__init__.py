@@ -174,7 +174,10 @@ class wip():
         """
         Draws an arrow.
         """
-        cwip.wiparrow(x, y, angle, vent)
+        (ocx, ocy) = cwip.wipgetcxy()
+        fill = self.fill()
+        cwip.cpgsah(int(fill), angle, vent)
+        cwip.cpgarro(ocx, ocy, x, y)
 
     def bar(self, x, y, color, location, threshold=None, gap=0):
         """
@@ -909,7 +912,36 @@ class wip():
         """
         Draws a vector field as a sequence of arrows.
         """
-        cwip.wipvfield(x, y, length, direction, angle, vent)
+        if isinstance(x, numpy.ndarray) == False:
+            x = numpy.array(x, dtype=numpy.float32)
+        if isinstance(y, numpy.ndarray) == False:
+            y = numpy.array(y, dtype=numpy.float32)
+        if isinstance(length, numpy.ndarray) == False:
+            length = numpy.array(length, dtype=numpy.float32)
+        if isinstance(direction, numpy.ndarray) == False:
+            direction = numpy.array(direction, dtype=numpy.float32)
+
+        nx = x.size
+        ny = y.size
+        nl = length.size
+        nd = direction.size
+
+        if ((nx != ny) or (nx != nl) or (nx != nd)):
+            raise ValueError("Length of x, y, length, and direction arrays must be equal")
+
+        fill = self.fill()
+        
+        cwip.cpgbbuf()
+        cwip.cpgsah(int(fill), angle, vent)
+        
+        for i in xrange(0, nx):
+            # x1 = x[i]
+            # y2 = y[i]
+            x2 = x[i] + (length[i] * numpy.cos(direction[i] * rpdeg))
+            y2 = y[i] + (length[i] * numpy.sin(direction[i] * rpdeg))
+            cwip.cpgarro(float(x[i]), float(y[i]), float(x2), float(y2))
+
+        cwip.cpgebuf()
         
     def xlabel(self, string):
         """
