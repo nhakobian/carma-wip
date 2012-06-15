@@ -16,11 +16,8 @@
 Routines:
 static      int  initVariable(void);
 static VARIABLE *find_variable(const char *inname);
-            int  wipisvar(const char *name);
          double  wipgetvar(const char *inword, LOGICAL *error);
             int  wipsetvar(const char *inword, double value);
-            int  wipNewVariable(const char *name);
-            int  wipFreeVariable(const char *name);
 */
 
 #define WIP_VARIABLES
@@ -83,12 +80,6 @@ static VARIABLE *find_variable(const char *inname)
     return((VARIABLE *)NULL);                            /* Not found. */
 }
 
-/* Returns 1 if "name" is defined as a variable; 0 otherwise. */
-int wipisvar(const char *name)
-{
-    return(find_variable(name) != (VARIABLE *)NULL);
-}
-
 /*
  *  Returns, if the variable exists, the current value of the variable
  *  and sets error to FALSE; otherwise, it returns 0 and sets error to TRUE.
@@ -118,80 +109,5 @@ int wipsetvar(const char *inword, double value)
     }
 
     vb->value = value;
-    return(0);
-}
-
-/* Returns 0 if all went well; 1 if an error occured. */
-int wipNewVariable(const char *name)
-{
-    char *ptr;
-    VARIABLE *vb;
-
-    if (wipisstring(name) || wiptokenexists(name)) {
-      wipoutput(stderr, "Variable name [%s] already reserved.\n", name);
-      return(1);
-    }
-
-    if ((ptr = wipnewstring(name)) == (char *)NULL) {
-      wipoutput(stderr, "A variable name is required.\n");
-      return(1);
-    }
-
-    if ((vb = (VARIABLE *)Malloc(sizeof(VARIABLE))) == (VARIABLE *)NULL) {
-      wipoutput(stderr, "Could not allocate memory for the variable.\n");
-      Free(ptr);
-      return(1);
-    }
-
-    wiplower(ptr);
-
-    vb->name = ptr;
-    vb->value = 0;
-    vb->delete = TRUE;
-    vb->next = VARHEAD;
-    VARHEAD = vb;
-
-    return(0);
-}
-
-int wipFreeVariable(const char *name)
-{
-    register VARIABLE *p;
-    VARIABLE *vb;
-
-    if ((vb = find_variable(name)) == (VARIABLE *)NULL) {
-      wipoutput(stderr, "Cannot find the variable %s!\n", name);
-      return(1);
-    }
-
-    /* Do nothing if this variable should not be removed. */
-
-    if (vb->delete != TRUE) {
-      wipoutput(stderr, "Cannot remove [%s] from the variable list.\n",
-        vb->name);
-      return(0);                     /* Do not consider this an error. */
-    }
-
-    /* Find the variable to be removed. */
-
-    if (vb == VARHEAD) {
-      VARHEAD = vb->next;
-    } else {
-      for (p = VARHEAD; p != (VARIABLE *)NULL; p = p->next)
-        if (p->next == (VARIABLE *)vb)
-          break;
-
-      if (p == (VARIABLE *)NULL) {
-        wipoutput(stderr, "Cannot find [%s] in variable list.\n", vb->name);
-        return(1);
-      }
-      p->next = (p->next)->next;
-    }
-
-    /* Remove all allocated entries in the structure. */
-
-    if (vb->name != (char *)NULL) Free(vb->name);
-    Free(vb);
-
     return(0);
 }

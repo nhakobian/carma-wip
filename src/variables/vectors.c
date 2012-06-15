@@ -33,9 +33,6 @@ static VECTOR *find_vector(const char *inname, int *indx);
           int  wipvectornpts(const char *inword, int currentsize);
           int  wipisvecfunc(const char *inword);
        double  wipvecfunc(const char *inword, const char *arg, LOGICAL *error);
-          int  wipvectorinit(const char *name, int npts, \
-                             const char *expression);
-          int  wipNewVector(const char *name, int size);
           int  wipFreeVector(const char *name);
 */
 
@@ -289,94 +286,6 @@ double wipvecfunc(const char *inword, const char *arg, LOGICAL *error)
     }
     *error = FALSE;
     return value;
-}
-
-/*
- *  Initializes a vector to the result of a constant expression.  If
- *  "npts" is less than zero, the current size of the vector is used
- *  for the number of points to initialize.  If "npts" is zero, the
- *  vector is made, effectively, empty.
- *  Returns 0 if successful, 1 on error.
- */
-int wipvectorinit(const char *name, int npts, const char *expression)
-{
-    register int i;
-    int maxsize, mpts;
-    float *vec;
-    double result;
-    LOGICAL error;
-
-    if ((vec = wipvector(name, &maxsize, &mpts)) == (float *)NULL) {
-      wipoutput(stderr, "Unrecognized vector: %s\n", name);
-      return(1);
-    }
-
-    if (npts < 0) npts = mpts;
-
-    if ((npts > 0) && (expression != (char *)NULL) && (*expression != Null)) {
-      result = wipevaluate(expression, &error);
-      if (error == TRUE) {
-        wipoutput(stderr, "Trouble evaluating expression: [%s]\n", expression);
-        return(1);
-      }
-      for (i = 0; i < npts; i++)
-        vec[i] = result;
-    }
-
-    if (npts >= 0) {
-      if (wipvectornpts(name, npts)) {
-        wipoutput(stderr, "Trouble setting the size of vector: [%s]\n", name);
-        return(1);
-      }
-    }
-
-    return(0);
-}
-
-/* Returns 0 if all went well; 1 if an error occured. */
-int wipNewVector(const char *name, int size)
-{
-    char *ptr;
-    VECTOR *vb;
-
-    if (wipisstring(name) || wiptokenexists(name)) {
-      wipoutput(stderr, "Vector name [%s] is already reserved.\n", name);
-      return(1);
-    }
-
-    if (size < 1) {
-      wipoutput(stderr, "Vector size must be greater than zero.\n");
-      return(1);
-    }
-
-    if ((ptr = wipnewstring(name)) == (char *)NULL) {
-      wipoutput(stderr, "An array name is required.\n");
-      return(1);
-    }
-
-    if ((vb = (VECTOR *)Malloc(sizeof(VECTOR))) == (VECTOR *)NULL) {
-      wipoutput(stderr, "Could not allocate memory for the new vector.\n");
-      Free(ptr);
-      return(1);
-    }
-
-    wiplower(ptr);
-
-    vb->name = ptr;
-    vb->size = size;
-    vb->npts = 0;
-    if ((vb->value = vector(size)) == (float *)NULL) {
-      wipoutput(stderr, "Could not allocate memory for the vector array.\n");
-      Free(ptr);
-      Free(vb);
-      return(1);
-    }
-    vb->resize = TRUE;
-    vb->delete = TRUE;
-    vb->next = VECHEAD;
-    VECHEAD = vb;
-
-    return(0);
 }
 
 int wipFreeVector(const char *name)

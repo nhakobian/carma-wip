@@ -12,8 +12,6 @@
          9oct00 pjt no more PROTOTYPE #ifdefs
 
 Routines:
-   int wipnewitem(const char *string);
-   int wipfreeitem(const char *string);
    int wipisuserfunc(const char *name);
 double wipuserfunc(const char *inword, double arg, LOGICAL *error);
 */
@@ -23,128 +21,6 @@ double wipuserfunc(const char *inword, double arg, LOGICAL *error);
 /* Global variables for just this file */
 
 /* Code */
-
-/* Returns 0 if all items were defined; 1 if an error occured. */
-int wipnewitem(const char *string)
-{
-    char *par, *ptr, *psize, *next;
-    char token[STRINGSIZE];
-    char temp[BUFSIZ];
-    int size;
-    double arg;
-    LOGICAL isavector, isastring;
-    LOGICAL error;
-
-    (void)Strcpy(temp, string);         /* Make a local copy of string. */
-    if ((ptr = (temp)) == (char *)NULL) {    /* Nothing here. */
-      wipoutput(stderr, "A new variable name is required.\n");
-      return(1);
-    }
-
-    while ((par = wipgettoken(token, ptr, &next)) != (char *)NULL) {
-      ptr = next;   /* Move ptr to character following the last token. */
-      if ((*par == '-') || (BRACE(*par))) {
-        wipoutput(stderr, "Cannot begin a variable name this way: %s.\n", par);
-        return(1);
-      } else if (*par == '"') {                  /* A string variable. */
-        par[Strlen(par) - 1] = Null;      /* Remove the closing quote. */
-        par++;                         /* Skip over the initial quote. */
-        isastring = TRUE;
-      } else {                                /* A vector or variable. */
-        isastring = FALSE;
-        for (psize = par; *psize != Null; psize++) /* Test for vector. */
-          if (BRACE(*psize))
-            break;
-        if (*psize != Null) {                         /* Got a vector. */
-          arg = wipevaluate(psize, &error);    /* Get the vector size. */
-          if (error == TRUE) {
-            wipoutput(stderr, "Trouble getting the vector size of %s.\n", par);
-            return(1);
-          }
-          size = NINT(arg);
-          *psize = Null;    /* par now only points to the vector name. */
-          isavector = TRUE;
-        } else {                            /* Just a simple variable. */
-          isavector = FALSE;
-        }
-      } /* End of if statements. */
-
-      /* Test to see if the name is already defined. */
-      if (wipisstring(par) || wiptokenexists(par)) {
-        wipoutput(stderr, "Ignoring [%s]; it is already defined!\n", par);
-        continue;
-      }
-
-      if (isastring == TRUE) {
-        if (wipNewStrVar(par)) {
-          wipoutput(stderr, "Trouble defining string %s\n", par);
-          return(1);
-        }
-      } else if (isavector == TRUE) {
-        if (wipNewVector(par, size)) {
-          wipoutput(stderr, "Trouble defining vector %s\n", par);
-          return(1);
-        }
-      } else {
-        if (wipNewVariable(par)) {
-          wipoutput(stderr, "Trouble defining variable %s\n", par);
-          return(1);
-        }
-      } /* End of if statements. */
-    } /* End of while loop. */
-
-    return(0);
-}
-
-/* Returns 0 if all items were removed; 1 if an error occured. */
-int wipfreeitem(const char *string)
-{
-    char *par, *ptr, *next;
-    char token[STRINGSIZE];
-    char vecname[STRINGSIZE];
-    char temp[BUFSIZ];
-
-    (void)Strcpy(temp, string);         /* Make a local copy of string. */
-    if ((ptr = (temp)) == (char *)NULL) {    /* Nothing here. */
-      wipoutput(stderr, "wipfreeitem: An item name is required.\n");
-      return(1);
-    }
-
-    while ((par = wipgettoken(token, ptr, &next)) != (char *)NULL) {
-      ptr = next;   /* Move ptr to character following the last token. */
-      if ((*par == '-') || (BRACE(*par))) {
-        continue;
-      } else if (*par == '"') {                  /* A string variable. */
-        par[Strlen(par) - 1] = Null;      /* Remove the closing quote. */
-        par++;                         /* Skip over the initial quote. */
-      }
-
-      (void)Strcpy(vecname, par);
-      Strcat(vecname, "[1]");
-
-      if (wipisstring(par)) {                    /* A string variable. */
-        if (wipFreeString(par)) {
-          wipoutput(stderr, "Trouble freeing string %s.\n", par);
-          return(1);
-        }
-      } else if (wipisvar(par)) {                /* A simple variable. */
-        if (wipFreeVariable(par)) {
-          wipoutput(stderr, "Trouble freeing variable %s.\n", par);
-          return(1);
-        }
-      } else if (wipisvec(vecname)) {                     /* A vector. */
-        if (wipFreeVector(vecname)) {
-          wipoutput(stderr, "Trouble freeing vector %s.\n", par);
-          return(1);
-        }
-      } else {                                     /* An Unknown item. */
-        wipoutput(stderr, "wipfreeitem: Ignoring unknown item: %s.\n", par);
-        continue;
-      }
-    }
-
-    return(0);
-}
 
 /* Returns 1 if user function; 0 otherwise. */
 int wipisuserfunc(const char *name)

@@ -30,7 +30,6 @@ void  wiplines(int first, int last);
 void  wipgetlines(int *first, int *last);
  int  wipopenfile(const char *name);
  int  wipreadcol(float array[], int maxsize, int nc);
-char *wipreadstr(int first, int second);
 */
 
 #include "wip.h"
@@ -130,82 +129,4 @@ int wipopenfile(const char *name)
 
     wiplines(1, 0);
     return 0;
-}
-
-/*
- *  Reads from the current file (set at LINE1), a string bounded
- *  (inclusively) by word "first" and "second".  If "first" is 0,
- *  the entire line is returned.  If "first" is > 0, this identifies
- *  the first word to load (1-based index).  The integer "second"
- *  identifies the length of the line when "first" is greater than 0.
- *  If "second" is 0, the remainder of the line is loaded.  If
- *  "second" is less than 0, the next abs("second") words are loaded
- *  (up to the end of the string).  If "second" is greater than 0,
- *  the next "second" words are loaded (up to the EOS).  If "second"
- *  is less than "first" (but positive), then only the "first" word
- *  is loaded.
- *
- *  Returns the requested string (as a dynamically allocated string)
- *  or NULL if an error occured.  The caller should free the string
- *  when finished with it.
- */
-char *wipreadstr(int first, int second)
-{
-    char *par, *ptr;
-    char line[BUFSIZ];
-    char string[BUFSIZ];
-    register int j;
-
-    if (datafp == (FILE *)NULL) {
-      wipoutput(stderr, "Error: No data file has been opened yet!\n");
-      return((char *)NULL);
-    }
-
-    if (LINE1 > 1) {                        /* Skip lines up to LINE1. */
-      for (j = 1; j < LINE1; j++)
-        if (wipinput(datafp, (char *)NULL, line, BUFSIZ) == (int)EOF)
-          goto END_OF_FILE;
-    }
-
-    if ((j = wipinput(datafp, (char *)NULL, line, BUFSIZ)) != (int)EOF) {
-      Rewind(datafp);  /* Make sure to rewind file before any returns. */
-
-      if (j == (int)Null)                             /* Empty string. */
-        return((char *)NULL);
-
-      ptr = line;
-      if (first > 0) {                   /* Skip to the starting word. */
-        for (j = 1; ((j < first) && (wipparse(&ptr) != (char *)NULL)); j++)
-          /* NULL */ ;
-        if (j < first) { /* ie. (wipparse(&ptr) == NULL). */
-          wipoutput(stderr, "Line too short to read up to the [%d] word.\n",
-            first);
-          return((char *)NULL);
-        }
-
-        if (second > 0) {  /* Return a string up to the "second" word. */
-          par = Strcpy(string, ptr);
-          j = second - first + 1;                 /* Determine offset. */
-          while ((j-- > 0) && (wipparse(&par) != (char *)NULL))
-            /* NULL */ ;
-          if (par != (char *)NULL) /* Terminate the original string... */
-            ptr[par-string-1] = Null;           /* ...if words remain. */
-        } else if (second < 0) { /* Return the next abs(second) words. */
-          par = Strcpy(string, ptr);
-          j = second;
-          while ((j++ < 0) && (wipparse(&par) != (char *)NULL))
-            /* NULL */ ;
-          if (par != (char *)NULL) /* Terminate the original string... */
-            ptr[par-string-1] = Null;           /* ...if words remain. */
-        }
-      }
-      if (wiplenc(ptr) < 1)              /* Strip off trailing blanks. */
-        return((char *)NULL);               /* Nothing left to return. */
-
-      par = wipnewstring(ptr);    /* Get a dynamic copy of the string. */
-      return(par);
-    }
-END_OF_FILE:
-    Rewind(datafp);
-    return((char *)NULL);
 }

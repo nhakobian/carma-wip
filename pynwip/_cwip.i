@@ -420,7 +420,6 @@ void wipgetick(float *OUTPUT, int *OUTPUT, float *OUTPUT, int *OUTPUT);
 void wipsetick(float xtick , int nxsub , float ytick , int nysub);
 /*   wipgetsub(int *subx1, int *subx2, int *suby1, int *suby2); */
 void wipgetsub(int *OUTPUT, int *OUTPUT, int *OUTPUT, int *OUTPUT);
-void wipclose(void);
 void wiplimits(void);
 void wipviewport(void);
 void wipmove(float x, float y);

@@ -41,6 +41,16 @@ extern   int   wipheader(int blcx, int blcy, int trcx, int trcy, \
 extern   int   wipsmooth(float **array, int nx, int ny, int order, \
 			 float blank);
 
+/*parse */
+char *wipparse(char **line);
+int  wipcountwords(const char *line);
+void  wiplower(char *s);
+void  wipupper(char *s);
+char *wipleading(const char *line);
+int  wiplenc(char *c);
+char *wipnewstring(const char *string);
+
+
 /* Code in wip/plot */
 extern    void   wipaitoff( int nxy, float x[], float y[]);
 extern    void   wipaitoffgrid( int nlong, int nlats);
@@ -111,7 +121,6 @@ extern    void   wipgetsubmar(float *subx, float *suby);
 extern    void   wipsetcir(int cmin, int cmax);
 extern    void   wipgetcir(int *cmin, int *cmax);
 extern     int   wipDebugMode(void);
-extern    void   wipshow(const char *rest);
 extern    char  *wipfpfmt(float arg, int nsig);
 extern    char  *wipifmt(float arg);
 extern     int   wipwedge(char *side, float disp, float thick, float bg, \
@@ -134,33 +143,18 @@ extern    float  wipgaussdev(long int *seed);
 extern     void  wiplines(int first, int last);
 extern     void  wipgetlines(int *first, int *last);
 extern      int  wipopenfile(const char *file);
-extern     char *wipreadstr(int first, int second);
-extern      int  wipspool(const char *spoolfile);
-extern      int  wipcommand(const char *command);
 
 /* Code in wip/variables */
 extern    int  wipisnumber(const char *inword, double *retval);
 extern   char *wipgettoken(char *out, const char *in, char **next);
-extern    int  wiptokenexists(const char *inword);
-extern double  wipevaluate(const char *inword, LOGICAL *error);
 extern   char *wipbracextract(const char *inword, char **left);
-extern    int  wipnewitem(const char *string);
-extern    int  wipfreeitem(const char *string);
 extern    int  wipisuserfunc(const char *name);
 extern double  wipuserfunc(const char *inword, double arg, LOGICAL *error);
 extern   void  clear_stack(void);
 extern    int  push_stack(double value);
 extern    int  pop_stack(double *value);
-extern    int  wipisstring(const char *name);
-extern   char *wipgetstring(const char *name);
-extern    int  wipsetstring(const char *name, const char *value);
-extern    int  wipNewStrVar(const char *name);
-extern    int  wipFreeString(const char *name);
-extern    int  wipisvar(const char *name);
 extern double  wipgetvar(const char *name, LOGICAL *error);
 extern    int  wipsetvar(const char *name, double value);
-extern    int  wipNewVariable(const char *name);
-extern    int  wipFreeVariable(const char *name);
 extern    int  wipisvec(const char *name);
 extern double  wipgetvec(const char *name, LOGICAL *error);
 extern    int  wipsetvec(const char *name, double value);
@@ -168,9 +162,6 @@ extern  float *wipvector(const char *name, int *maxsize, int *currentSize);
 extern    int  wipvectornpts(const char *name, int currentSize);
 extern    int  wipisvecfunc(const char *inword);
 extern double  wipvecfunc(const char *inword, const char *arg, LOGICAL *error);
-extern    int  wipvectorinit(const char *name, int npts, \
-			     const char *expression);
-extern    int  wipNewVector(const char *name, int size);
 extern    int  wipFreeVector(const char *name);
 
 #endif /* WIP_DECLARE */

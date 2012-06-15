@@ -45,7 +45,7 @@ class wip():
             'lstyle' : lambda : self._wipgetvar('lstyle'),
             'lwidth' : lambda : self._wipgetvar('lwidth'),
             'pstyle' : lambda : self.__dict__['pstyle'],
-            'tr'     : lambda : cwip.wipgetr(6),
+            'tr'     : lambda : self.__dict__['tr'],
             'tick'   : cwip.wipgetick,
             'xsubmar': lambda : self._wipgetvar('xsubmar'), # default 2.0 
             'ysubmar': lambda : self._wipgetvar('ysubmar'), # default 2.0
@@ -68,7 +68,7 @@ class wip():
             'lstyle'  : cwip.wipltype,
             'lwidth'  : cwip.wiplw,
             'pstyle'  : lambda x : self.__dict__.__setitem__('pstyle', x),
-            'tr'      : lambda x : cwip.wipsetr(x) , # command 'transfer'
+            'tr'      : lambda x : self.__dict__.__setitem__('tr', x),
            #'tick'    : ticksize command to set right now.
            #'xsubmar' : self.submargin, remove fn, and replace with var
            #'ysubmar' : self.submargin
@@ -717,7 +717,6 @@ class wip():
         x2 = x + (nx * numpy.cos(angle))
         y2 = y + (ny * numpy.sin(angle))
 
-        cwip.wipputlabel(string, just)
         self.move(x2, y2)
 
     def rect(self, xmin, xmax, ymin, ymax):
