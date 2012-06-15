@@ -424,8 +424,6 @@ void wiplimits(void);
 void wipviewport(void);
 void wipmove(float x, float y);
 void wippanel(int nx, int ny, int k);
- int wipheader(int blcx, int blcy, int trcx, int trcy, const char *xtype, \
-	       const char *ytype);
 void wipsetangle(double ang);
 /* double wipgetvar(const char *inword, int *error)*/
 double wipgetvar(const char *inword, int *OUTPUT);

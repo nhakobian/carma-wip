@@ -1,10 +1,10 @@
 # Updated makefile to make it more readable.
 
 SRC_DRIVERS   = basic.c fits.c miriad.c
-SRC_IMAGES    = extrema.c header.c heq.c image.c smooth.c
+SRC_IMAGES    = image.c
 SRC_PLOT      = aitoff.c arc.c array.c arrow.c histo.c \
 	        imval.c inquire.c matrix.c move.c palette.c panel.c \
-	        points.c quarter.c reset.c scale.c set.c show.c wedge.c
+	        points.c reset.c scale.c set.c show.c wedge.c
 SRC_SYSDEP    = filesize.c inoutput.c random.c readata.c unpack.c
 SRC_VARIABLES = evaluate.c find.c pushpop.c var.c vectors.c parse.c
 

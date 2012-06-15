@@ -14,32 +14,11 @@
 #define WIP_DECLARE
 
 /* Code in wip/images */
-extern  void   wipextrema(float **image, int nx, int ny, float *min, \
-                          float *max);
 extern  void  *wipimage(const char *file, int plane, float blank);
 extern  void   wipimagenxy(const void *image, int *nx, int *ny);
-extern  void   wipimageminmax(void *image, float *min, float *max, int force);
 extern   int   wipimagexists(const void *image);
-extern float **wipimagepic(const void *image);
-extern   int   wipimlogscale(void *image, float scale);
-extern   int   wipimsetminmax(void *image, float min, float max);
 extern   int   wipimgethead(const void *image, int axis, double *crval, \
 			    double *crpix, double *cdelt, char *ctype);
-extern   int   wipimctype(const void *image, int axis, char *ctype);
-extern  char  *wipimtype(const void *image);
-extern   int   wipimplane(const void *image);
-extern   int   wipimhdprsnt(const void *image, const char *hdname);
-extern   int   wipimhdval(const void *image, const char *hdname, \
-			  double *retval);
-extern   int   wipimhdstr(const void *image, const char *hdname, char *retval,\
-			  size_t maxlen);
-extern  void  *wipimcur(const char *imagename);
-extern  void   wipimsetcur(const char *imagename, const void *image);
-extern  void   wipfreeimage(const char *imagename);
-extern   int   wipheader(int blcx, int blcy, int trcx, int trcy, \
-			 const char *xtype, const char *ytype);
-extern   int   wipsmooth(float **array, int nx, int ny, int order, \
-			 float blank);
 
 /*parse */
 char *wipparse(char **line);
@@ -65,8 +44,6 @@ extern    void   wiplogarithm(float array[], int nxy, float scale);
 extern    void   wiprange(int nx, float x[], float *xmin, float *xmax);
 extern     int   wiperrorbar(int locat, float x[], float y[], float err[], \
 			     int nxy);
-extern    void   wipheq(int nx, int ny, float **image, int x1, int x2, int y1,\
-			int y2, float blank, float min, float max, int nbins);
 extern     int   wiphline(int npts, float x[], float y[], float gap, \
 			  int center);
 extern     int   wipbar(int npts, float x[], float y[], int nc, float color[],\
@@ -93,7 +70,6 @@ extern    void   wippalette(int which, int levels);
 extern    void   wippanel(int nx, int ny, int k);
 extern     int   wippoints(int nstyle, float style[], int nxy, float x[], \
 			   float y[], int nc, float c[]);
-extern     int   wipquarter(int quadrant);
 extern    void   wipreset(void);
 extern     int   wipscale(float scalex, float scaley, int k);
 extern    void   wipcolor(int color);
