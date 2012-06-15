@@ -19,7 +19,8 @@ void cpgend(void);
  int cpgopen(const char *device); // open a device
 // void cpgqcol(int *ci1, int *ci2);
 void cpgqcol(int *OUTPUT, int *OUTPUT);
-
+// void cpgqwin(float *x1, float *x2, float *y1, float *y2);
+void cpgqwin(float *OUTPUT, float *OUTPUT, float *OUTPUT, float *OUTPUT);
 
 void cpgtbox(const char *xopt, float xtick, int nxsub, \
 	     const char *yopt, float ytick, int nysub);  // Draw box
@@ -427,7 +428,6 @@ void wippanel(int nx, int ny, int k);
 void wipsetangle(double ang);
 /* double wipgetvar(const char *inword, int *error)*/
 double wipgetvar(const char *inword, int *OUTPUT);
- int wiparc(float majx, float majy, float arcangle, float angle, float start);
 void wiparrow(float xp, float yp, float angle, float vent);
 void wipexpand(double exp);
 void wipltype(int style);
@@ -445,8 +445,6 @@ void wipsetsubmar(float subx, float suby);
 void wippalette(int which, int levels);
 void wipcolor(int color);
 void wipfill(int fill);
- int wipbeam(float major, float minor, float posangle, float offx, float offy,\
-	     int fillcolor, float scale, int bgrect);
 
 // WIPVFIELD wrapper begin
 // void wipvfield(float x[], float y[], float r[], float phi[], int npts, \

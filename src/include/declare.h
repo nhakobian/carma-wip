@@ -33,10 +33,6 @@ char *wipnewstring(const char *string);
 /* Code in wip/plot */
 extern    void   wipaitoff( int nxy, float x[], float y[]);
 extern    void   wipaitoffgrid( int nlong, int nlats);
-extern     int   wiparc(float majx, float majy, float arcangle, float angle, \
-			float start);
-extern     int   wipbeam(float major, float minor, float posangle, float offx,\
-			 float offy, int fillcolor, float scale, int bgrect);
 extern    void   wiparrow(float xp, float yp, float angle, float vent);
 extern    void   wipvfield(float x[], float y[], float r[], float phi[], \
 			   int npts, float angle, float vent);

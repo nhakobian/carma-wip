@@ -50,7 +50,9 @@ a.arc(0.1, 0.3)
 a.rgb(0, 1, 1, 1)
 a.rgb(1, 0, 0, 0)
 a.move(-0.55, 0.5)
+a.fill(2)
 a.arc(0.3, 0.1, 45)
+a.fill(1)
 a.move(-0.35, 0.5)
 a.arc(0.2, 0.2, start=90, extent=180)
 
@@ -97,7 +99,7 @@ a.halftone(img)
 #print xmax, ymin
 a.move((xmax+xmin)/2., (ymin+ymax)/2.)
 #a.palette(1)
-a.beam(10, 20, 45, 2.5, -2.5, bgrect=-1)
+a.beam(10, 20, 45, 2.5, -2.5, bgrect=5)
 #a.color=1
 a.box('bcstznh', 'bcstznvd')
 a.wedge('r', 1., 3., img.image.min(), img.image.max())

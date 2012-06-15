@@ -2,6 +2,8 @@ import cwip
 import numpy
 import miriad_tools
 
+rpdeg = numpy.pi/180.
+
 class wip():
     def __init__(self):
         """
@@ -39,7 +41,7 @@ class wip():
             'angle'  : lambda : self._wipgetvar('angle'),
             'color'  : lambda : self._wipgetvar('color'),
             'expand' : lambda : self._wipgetvar('expand'),
-            'fill'   : lambda : self._wipgetvar('fill'),
+            #'fill'   : lambda : self._wipgetvar('fill'), currently must be fn
             'font'   : lambda : self._wipgetvar('font'),
             'itf'    : lambda : self._wipgetvar('itf'),
             'lstyle' : lambda : self._wipgetvar('lstyle'),
@@ -60,12 +62,12 @@ class wip():
         namedict = { 
             'bgci'    : cwip.wipsetbgci,
             'angle'   : cwip.wipsetangle,
-            'color'   : cwip.wipcolor,
+            'color'   : lambda x : cwip.wipcolor(int(x)),
             'expand'  : cwip.wipexpand,
            #'fill'    : see fill function
             'font'    : cwip.wipfont,
             'itf'     : cwip.wipsetitf,
-            'lstyle'  : cwip.wipltype,
+            'lstyle'  : lambda x : cwip.wipltype(int(x)),
             'lwidth'  : cwip.wiplw,
             'pstyle'  : lambda x : self.__dict__.__setitem__('pstyle', x),
             'tr'      : lambda x : self.__dict__.__setitem__('tr', x),
@@ -99,7 +101,74 @@ class wip():
         # so we must test and define for it here.
         if pa == None:
             pa = self.angle
-        cwip.wiparc(majx, majy, extent, pa, start)
+
+        (ox1, ox2, oy1, oy2) = cwip.cpgqwin()
+        (ocx, ocy) = cwip.wipgetcxy()
+        expand = self.expand
+
+        a = majx / 2.0
+        b = majy / 2.0
+
+        alpha = start * rpdeg
+        theta = pa * rpdeg
+        costheta = numpy.cos(theta)
+        sintheta = numpy.sin(theta)
+
+        step = extent
+        if (abs(extent) > 360.0):
+            step -= (360.0 * int(extent / 360.0))
+        division = 360.0 * expand
+        step *= (rpdeg / division)
+        nstep = int(division + 1.0)
+
+        # To make sure the angle of the arc is clockwise always (even when
+        # the axis direction is reversed), reset the limits.
+        x1 = 0.0
+        x2 = abs(ox2 - ox1)
+        y1 = 0.0
+        y2 = abs(oy2 - oy1)
+        cx = (ocx - ox1) * x2 / (ox2 - ox1)
+        cy = (ocy - oy1) * y2 / (oy2 - oy1)
+        self.limits(x1, x2, y1, y2)
+        self.move(cx, cy)
+
+        # To reduce the number of calls to sin and cos, use the identities:
+        # cos(alpha+step) = cos(alpha)cos(step) - sin(alpha)sin(step)
+        # sin(alpha+step) = sin(alpha)cos(step) + cos(alpha)sin(step)
+        # This lets the angle "alpha" to be incremented by an amount
+        # "step" and the new cos(alpha) & sin(alpha) to be computed
+        # without having to call cos() or sin() again.
+        sinstep = numpy.sin(step)
+        cosstep = numpy.cos(step)
+        sinalpha = numpy.sin(alpha)
+        cosalpha = numpy.cos(alpha)
+
+        xarc = numpy.zeros(nstep, dtype=numpy.float32)
+        yarc = numpy.zeros(nstep, dtype=numpy.float32)
+        
+        # Perhaps port this to full array math if possible? Should gain some
+        # speed that way.
+        # Fill the arrays
+        for j in xrange(0, nstep):
+            delx = a * cosalpha
+            dely = b * sinalpha
+            # Rotate from prime coordinates to viewport (x, y)
+            xarc[j] = cx + ((delx * costheta) - (dely * sintheta))
+            yarc[j] = cy + ((delx * sintheta) + (dely * costheta))
+            savecos = (cosalpha * cosstep) - (sinalpha * sinstep)
+            sinalpha = (sinalpha * cosstep) + (cosalpha * sinstep)
+            cosalpha = savecos
+
+        fill = self.fill
+        if fill == 2:
+            cwip.cpgline(xarc, yarc)
+        else:
+            cwip.cpgpoly(xarc, yarc)
+
+        # Reset original coords
+        self.limits(ox1, ox2, oy1, oy2)
+        self.move(ocx, ocy)
+        return
 
     def arrow(self, x, y, angle=45.0, vent=0.3):
         """
@@ -132,7 +201,74 @@ class wip():
         [FILLCOLOR] 
         [BGRECT]
         """
-        cwip.wipbeam(majx, majy, pa, offx, offy, fillcolor, scale, bgrect)
+        # cwip.wipbeam(majx, majy, pa, offx, offy, fillcolor, scale, bgrect)
+        
+        # Ported version:
+        (ox1, ox2, oy1, oy2) = cwip.cpgqwin()
+        (ocx, ocy) = cwip.wipgetcxy()
+        color = self.color
+        fill = self.fill()
+        style = self.lstyle
+
+        # Determine the extent in the X and Y directions of the beam.
+        sp = numpy.sin(rpdeg * (90 + pa))
+        cp = numpy.cos(rpdeg * (90 + pa))
+        x1 = majx * cp
+        x2 = majy * sp
+        y1 = majx * sp
+        y2 = majy * cp
+        sx = numpy.sqrt((x1 * x1) + (x2 * x2))
+        sy = numpy.sqrt((y1 * y1) + (y2 * y2))
+
+        if scale > 0:
+            factor = scale
+        else:
+            factor = 15.0 * numpy.cos(rpdeg * (oy1 + oy2) / (2.0 * 3600.0))
+
+        x1 = 0.0
+        x2 = (ox2 - ox1) * factor
+        y1 = 0.0
+        y2 = oy2 - oy1
+        cx = (ocx - ox1) * factor
+        cy = ocy - oy1
+
+        self.limits(x1, x2, y1, y2)
+
+        if x2 < 0:
+            xtmp = -1
+        else:
+            xtmp = 1
+        cx += (sx * offx * xtmp)
+        if y2 < 0:
+            ytmp = -1
+        else:
+            ytmp = 1
+        cy += (sy * offy * ytmp)
+
+        self.move(cx, cy)
+        self.fill(1)
+        self.lstyle = 1
+        
+        if bgrect >= 0:
+            rectx1 = cx - (sx / 2.0)
+            rectx2 = rectx1 + sx
+            recty1 = cy - (sy / 2.0)
+            recty2 = recty1 + sy
+            self.color = bgrect
+            self.rect(rectx1, rectx2, recty1, recty2)
+
+        self.color = fillcolor
+        self.arc(majx, majy, (90 + pa), 360.0, 0.0)
+
+        self.color = color
+        self.fill(2)
+        self.arc(majx, majy, (90 + pa), 360.0, 0.0)
+
+        self.fill(fill)
+        self.lstyle = style
+        self.limits(ox1, ox2, oy1, oy2)
+        self.move(ocx, ocy)
+        return
 
     def bin(self, x, y, k=1, gap=None):
         """
@@ -282,12 +418,15 @@ class wip():
                          numpy.array(y, dtype=numpy.float32), 
                          numpy.array(error, dtype=numpy.float32))
         
-    def fill(self, style, hatch=45.0, spacing=1.0, phase=0.0):
+    def fill(self, style=None, hatch=45.0, spacing=1.0, phase=0.0):
         """
         Sets the fill area style to N.
         """
+        if style == None:
+            return self._wipgetvar('fill')
         cwip.cpgshs(hatch, spacing, phase)
-        cwip.wipfill(style)
+        cwip.wipfill(int(style))
+        return self._wipgetvar('fill')
 
     def globe(self, longi=5, lat=3):
         """
@@ -425,8 +564,6 @@ class wip():
 
         ## Gonna currently skip projection check, MUST ADD IN header.c:107
     
-        rpdeg = numpy.pi / 180.0 # Radians per degree
-
         # Apparently miriad and fits store coordinate data differently.
         # It seems that miriad stores absolute positions in RADIANS.
         # From the code below, it seems that FITS is in decimal degrees
@@ -709,7 +846,6 @@ class wip():
 
         # Move the current position to the end point of the label
         (nx, ny) = cwip.cpglen(4, string)
-        rpdeg = numpy.pi/180.
         angle = angle * rpdeg
         nx = nx * (1 - just)
         ny = ny * (1 - just)
