@@ -62,7 +62,6 @@ extern    void   wipgetcxy(float *cx, float *cy);
 extern    void   wippanel(int nx, int ny, int k);
 extern     int   wippoints(int nstyle, float style[], int nxy, float x[], \
 			   float y[], int nc, float c[]);
-extern    void   wipreset(void);
 extern     int   wipscale(float scalex, float scaley, int k);
 extern    void   wipcolor(int color);
 extern    void   wipexpand(double expand);
