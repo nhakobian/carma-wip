@@ -1,6 +1,7 @@
 import cwip
 import numpy
 import miriad_tools
+import palettes
 
 rpdeg = numpy.pi/180.
 
@@ -802,7 +803,59 @@ class wip():
         """
         Sets the color palette to entry K.
         """
-        cwip.wippalette(num, levels)
+        pmap = {
+           1 : palettes.gray,
+           2 : palettes.rainbow,
+           3 : palettes.heat,
+           4 : palettes.iraf,
+           5 : palettes.aips,
+           6 : palettes.tjp,
+           7 : palettes.saoA,
+           8 : palettes.saoBB,
+           9 : palettes.saoHE,
+           10: palettes.saoI8,
+           11: palettes.ds,
+           12: palettes.cyclic
+           }
+
+        #cwip.wippalette(num, levels)
+
+        if (num < 0):
+            pal = -num
+            contrast = -1.0
+        else:
+            pal = num
+            contrast = 1.0
+
+        if (pal == 0):
+            (rd0, gd0, bd0) = cwip.cpgqcr(0)
+            (rd1, gd1, bd1) = cwip.cpgqcr(1)
+            newpal = { 
+                'l' : palettes.gray['l'],
+                'r' : [rd0, rd1],
+                'g' : [gd0, gd1],
+                'b' : [bd0, bd1]
+                }
+        elif num in pmap.keys():
+            newpal = pmap[num]
+        else:
+            raise ValueError("Specified palette number is out of range.")
+
+        n = len(newpal['l'])
+        if (n > 0):
+            if (levels == 0):
+                (cmin, cmax) = cwip.cpgqcol()
+                cmin = 16
+                if (cmax < cmin):
+                    cmax = 0
+                cwip.wipsetcir(cmin, cmax)
+            elif (levels > 0):
+                (cmin, cmax) = cwip.cpgqcir()
+                cmin = 16
+                cmax = cmin + levels - 1
+                cwip.wipsetcir(cmin, cmax)
+            cwip.cpgctab(newpal['l'], newpal['r'], newpal['g'], newpal['b'], 
+                         contrast, 0.5)
 
     def panel(self, nx, ny, k):
         """

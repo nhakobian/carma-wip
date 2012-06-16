@@ -59,7 +59,6 @@ extern    void   freematrix(float **matrix, int offx, int offy);
 extern    void   wipmove(float x, float y);
 extern    void   wipdraw(float x, float y);
 extern    void   wipgetcxy(float *cx, float *cy);
-extern    void   wippalette(int which, int levels);
 extern    void   wippanel(int nx, int ny, int k);
 extern     int   wippoints(int nstyle, float style[], int nxy, float x[], \
 			   float y[], int nc, float c[]);

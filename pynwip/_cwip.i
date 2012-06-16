@@ -14,6 +14,8 @@ import_array();
 %}
 
 /* cpgplot defs */
+// void cpgqcr(int ci, float *cr, float *cg, float *cb);
+void cpgqcr(int ci, float *OUTPUT, float *OUTPUT, float *OUTPUT);
 // void cpgqvp(int units, float *x1, float *x2, float *y1, float *y2);
 void cpgqvp(int units, float *OUTPUT, float *OUTPUT, float *OUTPUT, 
 	    float *OUTPUT);
@@ -448,7 +450,6 @@ void wipaitoffgrid(float nx, float xy);
 void wipsetitf(int type);
 void wipsetsubmar(float subx, float suby);
 void wipgetsubmar(float *OUTPUT, float *OUTPUT);
-void wippalette(int which, int levels);
 void wipcolor(int color);
 void wipfill(int fill);
 
