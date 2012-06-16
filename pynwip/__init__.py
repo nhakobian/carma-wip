@@ -11,6 +11,7 @@ class wip():
         initialization.
         """
         self.__dict__['pstyle'] = 1
+        self.paneldata = {'oldnx' : 0, 'oldny' : 0}
         self.device()
         self.reset()
 
@@ -46,6 +47,7 @@ class wip():
             'itf'    : lambda : self._wipgetvar('itf'),
             'lstyle' : lambda : self._wipgetvar('lstyle'),
             'lwidth' : lambda : self._wipgetvar('lwidth'),
+            'paneldata' : lambda : self.__dict__['paneldata'],
             'pstyle' : lambda : self.__dict__['pstyle'],
             'tr'     : lambda : self.__dict__['tr'],
             'tick'   : cwip.wipgetick,
@@ -69,6 +71,7 @@ class wip():
             'itf'     : cwip.wipsetitf,
             'lstyle'  : lambda x : cwip.wipltype(int(x)),
             'lwidth'  : cwip.wiplw,
+            'paneldata' : lambda x : self.__dict__.__setitem__('paneldata', x),
             'pstyle'  : lambda x : self.__dict__.__setitem__('pstyle', x),
             'tr'      : lambda x : self.__dict__.__setitem__('tr', x),
            #'tick'    : ticksize command to set right now.
@@ -328,6 +331,8 @@ class wip():
           slevel - 
             Sets the type and value used to scale contour levels.
         """
+        # This function needs to be expanded to support user levels and
+        # possibly a more intelligent auto levels feature.
         nx = image.axes[0]
         ny = image.axes[1]
         sx1 = 1
@@ -799,11 +804,113 @@ class wip():
         """
         cwip.wippalette(num, levels)
 
-    def panel(self, nx, ny, panel):
+    def panel(self, nx, ny, k):
         """
         Sets the plot lovation to a subpanel.
         """
-        cwip.wippanel(nx, ny, panel)
+        # This is a straight up port from the C code. I think this can be
+        # cleaned up / simplified a bit, but this *does* work properly.
+
+        if ((nx == 0) or (ny == 0)):
+            raise ValueError("CWIP.panel nx, ny values must not be 0")
+
+        reset = False
+        if ((nx != self.paneldata['oldnx']) or 
+            (ny != self.paneldata['oldny'])):
+            reset = True
+
+        # Panel 1 1 K or RESET == True resets location to stored values.
+        if (((nx == 1) and (ny == 1)) or (reset == True)):
+            if ((self.paneldata['oldnx'] != 0) and 
+                (self.paneldata['oldny'] != 0)):
+                self.expand = self.paneldata['oldsize']
+                self.viewport(self.paneldata['oldvx1'], 
+                              self.paneldata['oldvx2'], 
+                              self.paneldata['oldvy1'], 
+                              self.paneldata['oldvy2'])
+            self.paneldata['oldnx'] = 0
+            self.paneldata['oldny'] = 0
+            if (nx == 1) and (ny == 1):
+                return
+        self.paneldata['oldnx'] = nx
+        self.paneldata['oldny'] = ny
+        
+        # Get parameters needed for the rest.
+        chsize = self.expand
+        (vx1, vx2, vy1, vy2) = cwip.cpgqvp(0)
+        (xmarg, ymarg) = cwip.wipgetsubmar()
+
+        # If nx/ny are negative or either is equal to 1, set a variable so
+        # that adjacent sides touch (or equals the full viewport).
+
+        if (nx < 2):
+            touchx = True
+        else:
+            touchx = False
+        if (ny < 2):
+            touchy = True
+        else:
+            touchy = False
+        nx = abs(nx)
+        ny = abs(ny)
+
+        # Panel M N K means save the old location values and set new ones.
+
+        if ( ((nx != 1) or (ny != 1)) and (reset == True) ):
+            self.paneldata['oldvx1'] = vx1
+            self.paneldata['oldvx2'] = vx2
+            self.paneldata['oldvy1'] = vy1
+            self.paneldata['oldvy2'] = vy2
+            self.paneldata['oldsize'] = chsize
+
+        if (touchx == True):
+            left = self.paneldata['oldvx1']
+            right = self.paneldata['oldvx2']
+        else:
+            left = self.paneldata['oldvx1'] - (0.025 * xmarg * 
+                                               self.paneldata['oldsize'])
+            right = self.paneldata['oldvx2'] + (0.025 * xmarg * 
+                                                self.paneldata['oldsize'])
+
+        if (touchy == True):
+            bottom = self.paneldata['oldvy1']
+            top = self.paneldata['oldvy2']
+        else:
+            bottom = self.paneldata['oldvy1'] - (0.025 * ymarg * 
+                                                 self.paneldata['oldsize'])
+            top = self.paneldata['oldvy2'] + (0.025 * ymarg * 
+                                              self.paneldata['oldsize'])
+
+        chsize = self.paneldata['oldsize'] * numpy.power((1.0/nx/ny), 0.3333)
+
+        deltax = (right - left) / nx
+        if (touchx == True):
+            offx = 0.0
+        else:
+            offx = 0.025 * xmarg * chsize
+
+        deltay = (top - bottom) / ny
+        if (touchy == True):
+            offy = 0.0
+        else:
+            offy = 0.025 * ymarg * chsize
+
+        if (k > 0):
+            indx = (k - 1) % nx
+            indy = (k - 1) / nx
+        elif (k < 0):
+            indx = (-k - 1) % nx
+            indy = ny - 1 - ((-k - 1) / nx)
+        else:
+            indx = 0
+            indy = 0
+
+        vx1 = left + offx + (indx * deltax)
+        vx2 = vx1 + deltax - (2.0 * offx)
+        vy1 = bottom + offy + (indy * deltay)
+        vy2 = vy1 + deltay - (2.0 * offy)
+        self.expand = chsize
+        self.viewport(vx1, vx2, vy1, vy2)
 
     def paper(self, width, aspect, units='in', px_scale=100):
         """

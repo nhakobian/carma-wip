@@ -14,6 +14,9 @@ import_array();
 %}
 
 /* cpgplot defs */
+// void cpgqvp(int units, float *x1, float *x2, float *y1, float *y2);
+void cpgqvp(int units, float *OUTPUT, float *OUTPUT, float *OUTPUT, 
+	    float *OUTPUT);
 void cpgbbuf(void);
 void cpgebuf(void);
 void cpgsah(int fs, float angle, float barb); // set arrow style
@@ -428,7 +431,6 @@ void wipgetsub(int *OUTPUT, int *OUTPUT, int *OUTPUT, int *OUTPUT);
 void wiplimits(void);
 void wipviewport(void);
 void wipmove(float x, float y);
-void wippanel(int nx, int ny, int k);
 void wipsetangle(double ang);
 /* double wipgetvar(const char *inword, int *error)*/
 double wipgetvar(const char *inword, int *OUTPUT);
@@ -445,6 +447,7 @@ void wipaitoffgrid(float nx, float xy);
 	      char *label);
 void wipsetitf(int type);
 void wipsetsubmar(float subx, float suby);
+void wipgetsubmar(float *OUTPUT, float *OUTPUT);
 void wippalette(int which, int levels);
 void wipcolor(int color);
 void wipfill(int fill);
