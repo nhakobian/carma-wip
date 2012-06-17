@@ -192,7 +192,121 @@ class wip():
             threshold = 0
         else:
             narg = 1
-        cwip.wipbar(x, y, color, location, narg, threshold, gap)
+
+        if ((gap > 0.0) and (len(x) < 0)):
+            return
+        elif ((gap <= 0) and (len(x) < 2)):
+            return
+
+        saveColor = self.color
+        (cmin, cmax) = cwip.cpgqcol()
+
+        lastColor = saveColor
+        defaultColor = saveColor
+        if ((len(color) > 0) and (color[0] >= cmin) and (color[0] <= cmax)):
+            defaultColor = color[0]
+
+        ibar = (location - 1) % 4
+
+        (xleft, xright, ybot, ytop) = cwip.cpgqwin()
+        if (narg != 0):
+            if ibar == 0:
+                xleft = threshold
+            elif ibar == 1:
+                ybot = threshold
+            elif ibar == 2:
+                xright = threshold
+            elif ibar == 3:
+                ytop = threshold
+
+        cwip.cpgbbuf() # Start buffered output
+
+        npts = len(x)
+
+        if (gap > 0.0):
+            halfwidth = gap / 2.0
+            for j in xrange(0, npts):
+                x1 = x[j] - halfwidth
+                x2 = x[j] + halfwidth
+                y1 = y[j] - halfwidth
+                y2 = y[j] + halfwidth
+
+                if ibar == 0:
+                    x1 = xleft
+                    x2 = x[j]
+                elif ibar == 1:
+                    y1 = ybot
+                    y2 = y[j]
+                elif ibar == 2:
+                    x1 = x[j]
+                    x2 = xright
+                elif ibar == 3:
+                    y1 = y[j]
+                    y2 = ytop
+
+                ic = j
+                if ((len(color) > 0) and (ic < len(color)) and 
+                    (color[ic] >= cmin) and (color[ic] <= cmax)):
+                    newColor = color[ic]
+                else:
+                    newColor = defaultColor
+
+                if (newColor != lastColor):
+                    self.color = newColor
+                lastColor = newColor
+
+                self.rect(x1, x2, y1, y2)
+        else:
+            xlast = 0.5 * ((3.0 * x[0]) - x[1])
+            ylast = 0.5 * ((3.0 * y[0]) - y[1])
+            for j in xrange(1, npts):
+                if (j < npts):
+                    xave = 0.5 * (x[j] + x[j - 1])
+                    yave = 0.5 * (y[j] + y[j - 1])
+                else:
+                    xave = 0.5 * ((3.0 * x[npts - 1]) - x[npts - 2])
+                    yave = 0.5 * ((3.0 * y[npts - 1]) - y[npts - 2])
+
+                if ibar == 0:
+                    x1 = xleft
+                    x2 = x[j-1]
+                    y1 = ylast
+                    y2 = yave
+                elif ibar == 1:
+                    x1 = xlast
+                    x2 = xave
+                    y1 = ybot
+                    y2 = y[j-1]
+                elif ibar == 2:
+                    x1 = x[j-1]
+                    x2 = xright
+                    y1 = ylast
+                    y2 = yave
+                elif ibar == 3:
+                    x1 = xlast
+                    x2 = xave
+                    y1 = y[j-1]
+                    y2 = ytop
+                
+                ic = j - 1
+                if ((len(color) > 0) and (ic < len(color)) and 
+                    (color[ic] >= cmin) and (color[ic] <= cmax)):
+                    newColor = color[ic]
+                else:
+                    newColor = defaultColor
+
+                if (newColor != lastColor):
+                    self.color = newColor
+                lastColor = newColor
+
+                self.rect(x1, x2, y1, y2)
+                xlast = xave
+                ylast = yave
+        
+        if saveColor != lastColor:
+            self.color = saveColor
+
+        cwip.cpgebuf()
 
     def beam(self, majx, majy, pa, offx=0, offy=0, scale=-1, fillcolor=15, \
                  bgrect=0):
@@ -423,10 +537,21 @@ class wip():
                              5 +x and -x 
                              6 +y and -y 
         """
-        cwip.wiperrorbar(int(loc), numpy.array(x, dtype=numpy.float32), 
-                         numpy.array(y, dtype=numpy.float32), 
-                         numpy.array(error, dtype=numpy.float32))
+        #cwip.wiperrorbar(int(loc), numpy.array(x, dtype=numpy.float32), 
+        #                 numpy.array(y, dtype=numpy.float32), 
+        #                 numpy.array(error, dtype=numpy.float32))
         
+        if len(x) < 1:
+            return
+
+        cwip.cpgbbuf() # Set up buffered output.
+
+        expsize = self.expand
+        expsize = expsize / 10.0
+        cwip.cpgerrb(loc, x, y, error, expsize)
+        
+        cwip.cpgebuf()
+
     def fill(self, style=None, hatch=45.0, spacing=1.0, phase=0.0):
         """
         Sets the fill area style to N.

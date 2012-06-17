@@ -33,15 +33,8 @@ char *wipnewstring(const char *string);
 /* Code in wip/plot */
 extern    void   wipaitoff( int nxy, float x[], float y[]);
 extern    void   wipaitoffgrid( int nlong, int nlats);
-extern    void   wiplogarithm(float array[], int nxy, float scale);
-extern    void   wiprange(int nx, float x[], float *xmin, float *xmax);
-extern     int   wiperrorbar(int locat, float x[], float y[], float err[], \
-			     int nxy);
 extern     int   wiphline(int npts, float x[], float y[], float gap, \
 			  int center);
-extern     int   wipbar(int npts, float x[], float y[], int nc, float color[],\
-			int location, int dolimit, float barlimit, \
-			float barwidth);
 extern   float   wipimval(float **image, int nx, int ny, float cx, float cy, \
 			  float tr[], LOGICAL *error);
 extern    char  *wipradecfmt(float position);

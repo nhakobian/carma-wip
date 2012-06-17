@@ -2,7 +2,7 @@
 
 SRC_DRIVERS   = basic.c fits.c miriad.c
 SRC_IMAGES    = image.c
-SRC_PLOT      = aitoff.c array.c histo.c imval.c inquire.c matrix.c move.c \
+SRC_PLOT      = aitoff.c histo.c imval.c inquire.c matrix.c move.c \
 	        scale.c set.c show.c wedge.c
 SRC_SYSDEP    = filesize.c inoutput.c unpack.c
 SRC_VARIABLES = evaluate.c var.c vectors.c parse.c

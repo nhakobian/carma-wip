@@ -14,6 +14,8 @@ import_array();
 %}
 
 /* cpgplot defs */
+// void cpgqwin(float *x1, float *x2, float *y1, float *y2);
+void cpgqwin(float *OUTPUT, float *OUTPUT, float *OUTPUT, float *OUTPUT);
 void cpgdraw(float x, float y);
 // void cpgqcol(int *ci1, int *ci2);
 void cpgqcol(int *OUTPUT, int *OUTPUT);
@@ -54,6 +56,35 @@ void cpgmtxt(const char *side, float disp, float coord, float fjust, \
 void cpgptxt(float x, float y, float angle, float fjust, const char *text);
 // void cpglen(int units, const char *string, float *xl, float *yl);
 void cpglen(int units, const char *string, float *OUTPUT, float *OUTPUT);
+
+// CPGERRB Wrapper Begin
+// void cpgerrb(int dir, int n, float *x, float *y, float *e, float t);
+%apply (int DIM1, float* IN_ARRAY1) { (int nx, float *x),
+                                      (int ny, float *y),
+                                      (int ne, float *e)}
+%rename (cpgerrb) mod_cpgerrb;
+%exception mod_cpgerrb {
+  $action
+    if (PyErr_Occurred()) SWIG_fail;
+}
+%inline %{
+void mod_cpgerrb(int dir, int nx, float *x, int ny, float *y, 
+                 int ne, float *e, float t)
+{
+  if (nx != ny) {
+    PyErr_Format(PyExc_ValueError, "Arrays of lengths (%d,%d) given", nx, ny);
+    return;
+  }
+  if (nx != ne) {
+    PyErr_Format(PyExc_ValueError, "Arrays of lengths (%d,%d) given", nx, ne);
+    return;
+  }
+  cpgerrb(dir, nx, x, y, e, t);
+  return;
+}
+%}
+%clear (int nx, float *x), (int ny, float *y), (int ne, float *e);
+// CPGERRB Wrapper end
 
 // CPGCON(B, F, L, S, T) Wrappers Begin
 // These functions have very similar prototypes, but this could still get a 
@@ -456,34 +487,6 @@ void wipgetsubmar(float *OUTPUT, float *OUTPUT);
 void wipcolor(int color);
 void wipfill(int fill);
 
-// WIPBAR wrapper begin
-// int wipbar(int nxy, float x[], float y[], int nc, float col[], int loc, \
-//            int dolimit, float barlimit, float barwidth);  
-%apply (int DIM1, float* IN_ARRAY1) { (int nx, float* xvec),
-                                      (int ny, float* yvec),
-                                      (int nc, float* color)}
-%rename (wipbar) mod_wipbar;
-%exception mod_wipbar {
-  $action
-  if (PyErr_Occurred()) SWIG_fail;
-}
-%inline %{
-void mod_wipbar(int nx, float* xvec, int ny, float* yvec, int nc, \
-		float* color, int locations, int dolimit, float barlimit, \
-		float barwidth)
-{
-  if (nx != ny) {
-    PyErr_Format(PyExc_ValueError, "Lengths of nx and ny dont agree (%d,%d)",
-		 nx, ny);
-    return;
-  }
-  wipbar(nx, xvec, yvec, nc, color, locations, dolimit, barlimit, barwidth);
-  return;
-}
-%}
-%clear (int nx, float* xvec), (int ny, float* yvec), (int nc, float* color);
-// WIPBAR wrapper end
-
 // WIPHLINE wrapper begin
 // int wiphline(int npts, float x[], float y[], float gap, int center);
 //
@@ -509,34 +512,6 @@ void mod_wipbar(int nx, float* xvec, int ny, float* yvec, int nc, \
 %}
 %clear (int len1, float* vec1), (int len2, float* vec2);
 // WIPHLINE wrapper end
-
-// WIPERRORBAR wrapper begin
-// int wiperrorbar(int locat, float x[], float y[], float err[], int nxy);
-%apply (int DIM1, float* IN_ARRAY1) { (int len1, float* vec1),
-                                      (int len2, float* vec2),
-                                      (int len3, float* vec3) }
-%rename (wiperrorbar) mod_wiperrorbar;
-%exception mod_wiperrorbar {
-  $action
-  if (PyErr_Occurred()) SWIG_fail;
-}
-%inline %{
-void mod_wiperrorbar(int locat, int len1, float* vec1, int len2, float* vec2,
-                     int len3, float* vec3)
-{
-  if ((len1 != len2) || (len1 != len3))
-  {
-    PyErr_Format(PyExc_ValueError, "Arrays of lengths (%d,%d,%d) given", len1, 
-		 len2, len3);
-    return;
-  }
-  wiperrorbar(locat, vec1, vec2, vec3, len1);
-  return;
-}
-%}
-%clear (int len1, float* vec1), (int len2, float* vec2), 
-       (int len3, float* vec3);
-// WIPERROEBAR wrapper end
 
 // WIPSETR wrapper begin
 // void wipsetr(float tr[]);
