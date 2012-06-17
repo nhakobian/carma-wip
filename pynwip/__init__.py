@@ -401,7 +401,7 @@ class wip():
         """
         Draws a line to (X,Y) from the current coordinate position.
         """
-        cwip.wipdraw(float(endx), float(endy))
+        cwip.cpgdraw(float(endx), float(endy))
 
     def erase(self):
         """

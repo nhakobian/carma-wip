@@ -14,6 +14,7 @@ import_array();
 %}
 
 /* cpgplot defs */
+void cpgdraw(float x, float y);
 // void cpgqcol(int *ci1, int *ci2);
 void cpgqcol(int *OUTPUT, int *OUTPUT);
 // void cpgqcr(int ci, float *cr, float *cg, float *cb);
