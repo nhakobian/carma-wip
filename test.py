@@ -4,8 +4,7 @@ import pynwip
 import numpy
 import miriad_tools
 
-a = pynwip.wip()
-a.device()
+a = pynwip.wip('1/xs')
 a.rgb(0, 1, 1, 1)
 a.rgb(1, 0, 0, 0)
 

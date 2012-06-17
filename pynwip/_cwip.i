@@ -14,6 +14,8 @@ import_array();
 %}
 
 /* cpgplot defs */
+// void cpgqcol(int *ci1, int *ci2);
+void cpgqcol(int *OUTPUT, int *OUTPUT);
 // void cpgqcr(int ci, float *cr, float *cg, float *cb);
 void cpgqcr(int ci, float *OUTPUT, float *OUTPUT, float *OUTPUT);
 // void cpgqvp(int units, float *x1, float *x2, float *y1, float *y2);
@@ -480,35 +482,6 @@ void mod_wipbar(int nx, float* xvec, int ny, float* yvec, int nc, \
 %}
 %clear (int nx, float* xvec), (int ny, float* yvec), (int nc, float* color);
 // WIPBAR wrapper end
-
-/* WIPPOINTS wrapper begin 
-   int wippoints(int nstyle, float style[], int nxy, float x[], \
-                 float y[], int nc, float c[]);
-*/
-%apply (int DIM1, float* IN_ARRAY1) { (int nstyle, float* style),
-                                      (int nx, float* x),
-                                      (int ny, float* y),
-                                      (int nc, float* c) }
-%rename (wippoints) mod_wippoints;
-%exception mod_wippoints {
-  $action
-  if (PyErr_Occurred()) SWIG_fail;
-}
-%inline %{
-void mod_wippoints(int nstyle, float* style, int nx, float* x, 
-                   int ny, float* y, int nc, float* c)
-{
-  if (nx != ny) {
-    PyErr_Format(PyExc_ValueError, "Arrays of lengths (%d,%d) given", nx, ny);
-    return;
-  }
-  wippoints(nstyle, style, nx, x, y, nc, c);
-  return;
-}
-%}
-%clear (int nstyle, float* style), (int nx, float* x), (int ny, float* y),
-       (int nc, float* c);
-// WIPPOINTS wrapper end
 
 // WIPHLINE wrapper begin
 // int wiphline(int npts, float x[], float y[], float gap, int center);

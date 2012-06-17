@@ -6,14 +6,14 @@ import palettes
 rpdeg = numpy.pi/180.
 
 class wip():
-    def __init__(self):
+    def __init__(self, device_spec='/xs'):
         """
         Wip Interface initialization routine. Currently calls built-in wip
         initialization.
         """
         self.__dict__['pstyle'] = 1
         self.paneldata = {'oldnx' : 0, 'oldny' : 0}
-        self.device()
+        self.device(device_spec)
         self.reset()
 
     def __del__(self):
@@ -984,9 +984,52 @@ class wip():
           color : (array) - default []  - array of color indices at each point.
         """
         # Force cast of array to float32 in order to satisfy C array types.
-        cwip.wippoints(style, numpy.array(x, dtype=numpy.float32), 
-                       numpy.array(y, dtype=numpy.float32), color)
 
+        # Direct port, this routine I think can be simplified and expanded.
+
+        cwip.cpgbbuf()
+
+        savexp = self.expand
+        saveColor = self.color
+        (cmin, cmax) = cwip.cpgqcol()
+
+        lastColor = saveColor
+        defcolor = saveColor
+        if ((len(color) > 0) and (color[0] >= cmin) and (c[0] <= cmax)):
+            defcolor = c[0]
+
+        for j in xrange(0, len(x)):
+            if j < len(style):
+                temp = style[j] + 0.001
+            else:
+                temp = style[0] + 0.001
+            symbol = int(temp)
+
+            expfrac = temp - symbol
+            if (expfrac < 0.01):
+                expfrac = 1.0
+            expfrac = expfrac * savexp
+            self.expand = expfrac
+
+            if ((j < len(color)) and (c[j] >= cmin) and (c[j] <= cmax)):
+                ccolor = c[j]
+            else:
+                ccolor = defcolor
+
+            if (lastColor != ccolor):
+                self.color = ccolor
+
+            lastColor = ccolor
+
+            cwip.cpgpt([x[j]], [y[j]], symbol)
+
+        self.move(x[-1], y[-1])
+        self.expand = savexp
+        if (lastColor != saveColor):
+            self.color = saveColor
+
+        cwip.cpgebuf()
+        
     def poly(self, x, y):
         """
         Draws a polygon.
