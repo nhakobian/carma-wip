@@ -15,21 +15,34 @@ import_array();
 
 /* cpgplot defs */
 
+void cpgscf(int font);      // Set and retrieve font style.
+void cpgqcf(int *OUTPUT);   // void cpgqcf(int *font);
+
 void cpgsci(int ci);        // Set and retrieve color index.
-// void cpgqci(int *ci);
-void cpgqci(int *OUTPUT);
+void cpgqci(int *OUTPUT);   // void cpgqci(int *ci);
 
 void cpgstbg(int tbci);     // Text background color index routines.
-// void cpgqtbg(int *tbci);
-void cpgqtbg(int *OUTPUT);
+void cpgqtbg(int *OUTPUT);  // void cpgqtbg(int *tbci);
+
+void cpgsch(float size);    // Set and retrieve font size (expand).
+void cpgqch(float *OUTPUT); // void cpgqch(float *size);
+
+void cpgsitf(int itf);      // Set and retrieve image transfer function.
+void cpgqitf(int *OUTPUT);  // void cpgqitf(int *itf);
+
+void cpgsls(int ls);        // Set and retrieve line style.
+void cpgqls(int *OUTPUT);   // void cpgqls(int *ls);
+
+void cpgslw(int lw);        // Set and retrieve line width.
+void cpgqlw(int *OUTPUT);   // void cpgqlw(int *lw);
+
+
+
 
 void cpgwedg(const char *side, float disp, float width, float fg, float bg, \
 	     const char *label);
 // void cpgqcs(int units, float *xch, float *ych);
 void cpgqcs(int units, float *OUTPUT, float *OUTPUT);
-void cpgsch(float size);
-// void cpgqch(float *size);
-void cpgqch(float *OUTPUT);
 // void cpgqwin(float *x1, float *x2, float *y1, float *y2);
 void cpgqwin(float *OUTPUT, float *OUTPUT, float *OUTPUT, float *OUTPUT);
 void cpgdraw(float x, float y);
@@ -475,9 +488,6 @@ void mod_cpggray(float* a, int idim, int jdim, int i1, int i2, int j1, \
 
 void wipsetcir(int nx, int ny);
 
-/*   wipgetick(float *xtick , int *nxsub , float *ytick , int *nysub); */
-void wipgetick(float *OUTPUT, int *OUTPUT, float *OUTPUT, int *OUTPUT);
-void wipsetick(float xtick , int nxsub , float ytick , int nysub);
 /*   wipgetsub(int *subx1, int *subx2, int *suby1, int *suby2); */
 void wipgetsub(int *OUTPUT, int *OUTPUT, int *OUTPUT, int *OUTPUT);
 void wiplimits(void);
@@ -485,13 +495,8 @@ void wipviewport(void);
 void wipmove(float x, float y);
 /* double wipgetvar(const char *inword, int *error)*/
 double wipgetvar(const char *inword, int *OUTPUT);
-void wipltype(int style);
-void wiplw(int width);
 /* void wipgetcxy(float *cx, float *cy); */
 void wipgetcxy(float *OUTPUT, float *OUTPUT); 
-void wipdraw(float xfloat, float yfloat);
-void wipfont(int font);
-void wipsetitf(int type);
 void wipsetsubmar(float subx, float suby);
 void wipgetsubmar(float *OUTPUT, float *OUTPUT);
 void wipfill(int fill);
@@ -521,47 +526,3 @@ void wipfill(int fill);
 %}
 %clear (int len1, float* vec1), (int len2, float* vec2);
 // WIPHLINE wrapper end
-
-// WIPSETR wrapper begin
-// void wipsetr(float tr[]);
-%apply (int DIM1, float* IN_ARRAY1) { (int len1, float* tr)}
-%rename (wipsetr) mod_wipsetr;
-%exception mod_wipsetr {
-  $action
-  if (PyErr_Occurred()) SWIG_fail;
-}
-%inline %{
-void mod_wipsetr(int len1, float* tr)
-{
-  if (len1 != 6) {
-    PyErr_Format(PyExc_ValueError, "TR length must equal 6");
-    return;
-  }
-  wipsetr(tr);
-  return;
-}
-%}
-%clear (int len1, float* tr);
-// WIPSETR wrapper end
-
-// WIPGETR wrapper begin
-// void wipgetr(float tr[]);
-%apply (int DIM1, float* ARGOUT_ARRAY1) { (int len1, float* tr)}
-%rename (wipgetr) mod_wipgetr;
-%exception mod_wipgetr {
-  $action
-  if (PyErr_Occurred()) SWIG_fail;
-}
-%inline %{
-void mod_wipgetr(int len1, float* tr)
-{
-  if (len1 != 6) {
-    PyErr_Format(PyExc_ValueError, "TR length must equal 6");
-    return;
-  }
-  wipgetr(tr);
-  return;
-}
-%}
-%clear (int len1, float* tr);
-// WIPGETR wrapper end

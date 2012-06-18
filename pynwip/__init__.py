@@ -11,8 +11,6 @@ class wip():
         Wip Interface initialization routine. Currently calls built-in wip
         initialization.
         """
-        self.__dict__['pstyle'] = 1
-        self.paneldata = {'oldnx' : 0, 'oldny' : 0}
         self.device(device_spec)
         self.reset()
 
@@ -24,17 +22,24 @@ class wip():
         self.bgci = -1
         self.color = 1
         self.expand = 1
-
-        self.fill(1)
         self.font = 1
+        self.itf = 0
         self.lstyle = 1
         self.lwidth = 1
-
+        self.pstyle = 1
+        self.paneldata = {'oldnx' : 0, 'oldny' : 0}
         self.tr = numpy.array([0.0, 1.0, 0.0, 0.0, 0.0, 1.0], 
                               dtype=numpy.float32)
-        self.ticksize(0.0, 0, 0.0, 0)
-        self.itf = 0
+        self.ticksize(0.0, 0, 0.0, 0) # Sets xtick, nxsub, ytick, nysub
+
+
+        self.fill(1)
+
+
         self.palette(0, 0)
+
+        # Reset the panel.
+        self.panel(1, 1, 1)
 
     def __del__(self):
         """
@@ -59,20 +64,25 @@ class wip():
 
     def __getattr__(self, name):
         namedict = { 
-            'angle'  : lambda : self.__dict__['angle'],
-            'bgci'   : cwip.cpgqtbg,
-            'color'  : cwip.cpgqci,
-            'expand' : cwip.cpgqch,
+            'angle'     : lambda : self.__dict__['angle'],
+            'bgci'      : cwip.cpgqtbg,
+            'color'     : cwip.cpgqci,
+            'expand'    : cwip.cpgqch,
+            'font'      : cwip.cpgqcf,
+            'itf'       : cwip.cpgqitf,
+            'lstyle'    : cwip.cpgqls,
+            'lwidth'    : cwip.cpgqlw,
+            'paneldata' : lambda : self.__dict__['paneldata'],
+            'pstyle'    : lambda : self.__dict__['pstyle'],
+            'tr'        : lambda : self.__dict__['tr'],
+            ####                ticksize variables                    ####
+            #### Can be set/retrieved with ticksize function as well. ####
+            'xtick'     : lambda : self.__dict__['xtick'],
+            'nxsub'     : lambda : self.__dict__['nxsub'],
+            'ytick'     : lambda : self.__dict__['ytick'],
+            'nysub'     : lambda : self.__dict__['nysub'],
 
             #'fill'   : lambda : self._wipgetvar('fill'), currently must be fn
-            'font'   : lambda : self._wipgetvar('font'),
-            'itf'    : lambda : self._wipgetvar('itf'),
-            'lstyle' : lambda : self._wipgetvar('lstyle'),
-            'lwidth' : lambda : self._wipgetvar('lwidth'),
-            'paneldata' : lambda : self.__dict__['paneldata'],
-            'pstyle' : lambda : self.__dict__['pstyle'],
-            'tr'     : lambda : self.__dict__['tr'],
-            'tick'   : cwip.wipgetick,
             'xsubmar': lambda : self._wipgetvar('xsubmar'), # default 2.0 
             'ysubmar': lambda : self._wipgetvar('ysubmar'), # default 2.0
             }
@@ -84,19 +94,25 @@ class wip():
 
     def __setattr__(self, name, value):
         namedict = { 
-            'angle'   : lambda x : self.__dict__.__setitem__('angle', x),
-            'bgci'    : cwip.cpgstbg,
-            'color'   : cwip.cpgsci,
-            'expand'  : cwip.cpgsch,
+            'angle'     : lambda x : self.__dict__.__setitem__('angle', x),
+            'bgci'      : cwip.cpgstbg,
+            'color'     : cwip.cpgsci,
+            'expand'    : cwip.cpgsch,
+            'font'      : cwip.cpgscf,
+            'itf'       : cwip.cpgsitf,
+            'lstyle'    : cwip.cpgsls,
+            'lwidth'    : cwip.cpgslw,
+            'paneldata' : lambda x : self.__dict__.__setitem__('paneldata', x),
+            'pstyle'    : lambda x : self.__dict__.__setitem__('pstyle', x),
+            'tr'        : lambda x : self.__dict__.__setitem__('tr', x),
+            ####                ticksize variables                    ####
+            #### Can be set/retrieved with ticksize function as well. ####
+            'xtick'     : lambda x : self.__dict__.__setitem__('xtick', x),
+            'nxsub'     : lambda x : self.__dict__.__setitem__('nxsub', x),
+            'ytick'     : lambda x : self.__dict__.__setitem__('ytick', x),
+            'nysub'     : lambda x : self.__dict__.__setitem__('nysub', x),
 
            #'fill'    : see fill function
-            'font'    : cwip.wipfont,
-            'itf'     : cwip.wipsetitf,
-            'lstyle'  : lambda x : cwip.wipltype(int(x)),
-            'lwidth'  : cwip.wiplw,
-            'paneldata' : lambda x : self.__dict__.__setitem__('paneldata', x),
-            'pstyle'  : lambda x : self.__dict__.__setitem__('pstyle', x),
-            'tr'      : lambda x : self.__dict__.__setitem__('tr', x),
            #'tick'    : ticksize command to set right now.
            #'xsubmar' : self.submargin, remove fn, and replace with var
            #'ysubmar' : self.submargin
@@ -440,7 +456,7 @@ class wip():
           xvars : x options string.
           yvars : y options string.
         """
-        values = self.tick
+        values = self.ticksize()
         cwip.cpgtbox(xvars, values[0], values[1], yvars, values[2], values[3])
         return
 
@@ -506,9 +522,6 @@ class wip():
           device : PGPLOT device string.
         """
         # cpgldev prints out a list of available devices (sigh).
-
-        # Reset the panel.
-        self.panel(1, 1, 1)
 
         if cwip.cpgopen(device) <= 0:
             raise IOError("Cannot open PGPLOT device.")
@@ -1228,11 +1241,23 @@ class wip():
         """
         self.pstyle = value
 
-    def ticksize(self, xtick, nxsub, ytick, nysub):
+    def ticksize(self, xtick=None, nxsub=None, ytick=None, nysub=None):
         """
         Sets tick intervals for the BOX command.
+        
+        Convenience function for quickly accessing and retrieving 
+        xtick, nxsub, ytick, and nysub
         """
-        cwip.wipsetick(xtick, nxsub, ytick, nysub)
+        if xtick != None:
+            self.xtick = xtick
+        if ytick != None:
+            self.ytick = ytick
+        if nxsub != None:
+            self.nxsub = nxsub
+        if nysub != None:
+            self.nysub = nysub
+
+        return (self.xtick, self.nxsub, self.ytick, self.nysub)
 
     def vector(self, x, y, length, direction, angle=45.0, vent=0.3):
         """
@@ -1466,7 +1491,7 @@ class wip():
             for i in xrange(wdgpix):
                 wedgeArray[0,i] = bg1 + (i * wdginc)
     
-        (xtick, nxtick, ytick, nytick) = self.tick
+        (xtick, nxtick, ytick, nytick) = self.ticksize()
 
         if '0' in boxarg:
             otherLabel = "0"
