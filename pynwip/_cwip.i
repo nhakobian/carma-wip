@@ -55,6 +55,11 @@ void cpgsvp(float x1, float x2, float y1, float y2);
 void cpgqvp(int units, float *OUTPUT, float *OUTPUT, float *OUTPUT, \
 	    float *OUTPUT);
 
+// Set/get image color index range. (icilo, icihi)
+void cpgscir(int icilo, int icihi);
+void cpgqcir(int *OUTPUT, int *OUTPUT);
+
+
 void cpgwedg(const char *side, float disp, float width, float fg, float bg, \
 	     const char *label);
 // void cpgqcs(int units, float *xch, float *ych);
@@ -491,31 +496,3 @@ void mod_cpggray(float* a, int idim, int jdim, int i1, int i2, int j1, \
 %clear (const float* tr, int trdim);
 // CPGGRAY Wrapper End
 // NOTE: End of shared %apply and %clear
-
-void wipsetcir(int nx, int ny);
-
-// WIPHLINE wrapper begin
-// int wiphline(int npts, float x[], float y[], float gap, int center);
-//
-%apply (int DIM1, float* IN_ARRAY1) { (int len1, float* vec1),
-                                      (int len2, float* vec2)}
-%rename (wiphline) mod_wiphline;
-%exception mod_wiphline {
-  $action
-  if (PyErr_Occurred()) SWIG_fail;
-}
-%inline %{
-  void mod_wiphline(int len1, float* vec1, int len2, float* vec2, float gap,
-		    int center)
-{
-  if (len1 != len2) {
-    PyErr_Format(PyExc_ValueError, "Arrays of lengths (%d,%d) given", len1, 
-		 len2);
-    return;
-  }
-  wiphline(len1, vec1, vec2, gap, center);
-  return;
-}
-%}
-%clear (int len1, float* vec1), (int len2, float* vec2);
-// WIPHLINE wrapper end

@@ -402,6 +402,7 @@ class wip():
             self.color = bgrect
             self.rect(rectx1, rectx2, recty1, recty2)
 
+        self.move(cx, cy)
         self.color = fillcolor
         self.arc(majx, majy, (90 + pa), 360.0, 0.0)
 
@@ -415,7 +416,7 @@ class wip():
         self.move(ocx, ocy)
         return
 
-    def bin(self, x, y, k=1, gap=None):
+    def bin(self, x, y, k=1):
         """
         Draws a histogram of (x,y) pairs. 
         NSH - More accurately, it draws a plot in a stairstep model instead 
@@ -426,13 +427,11 @@ class wip():
           k   : (int)   - 1 if data is centered on bin (default)
                           0 if data is aligned to left side of bin
           gap : (float) - Gap in data needed to draw separate graphs
+                          CURRENTLY NOT IMPLEMENTED
         """
         x = numpy.array(x, dtype=numpy.float32)
         y = numpy.array(y, dtype=numpy.float32)
-        if gap == None:
-            cwip.cpgbin(x, y, k)
-        else:
-            cwip.wiphline(x, y, gap, k)
+        cwip.cpgbin(x, y, k)
         self.move(float(x[-1]), float(y[-1]))
 
     def box(self, xvars='bcnst', yvars='bcnst'):
@@ -520,7 +519,7 @@ class wip():
         cx = 16
         if (cy < cx):
             cy = 0
-        cwip.wipsetcir(cx, cy)
+        cwip.cpgscir(cx, cy) # Set range of possible image color indices.
 
     def dot(self):
         """
@@ -1008,12 +1007,12 @@ class wip():
                 cmin = 16
                 if (cmax < cmin):
                     cmax = 0
-                cwip.wipsetcir(cmin, cmax)
+                cwip.cpgscir(cmin, cmax)
             elif (levels > 0):
                 (cmin, cmax) = cwip.cpgqcir()
                 cmin = 16
                 cmax = cmin + levels - 1
-                cwip.wipsetcir(cmin, cmax)
+                cwip.cpgscir(cmin, cmax)
             cwip.cpgctab(newpal['l'], newpal['r'], newpal['g'], newpal['b'], 
                          contrast, 0.5)
 
