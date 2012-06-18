@@ -15,6 +15,14 @@ import_array();
 
 /* cpgplot defs */
 
+void cpgsci(int ci);        // Set and retrieve color index.
+// void cpgqci(int *ci);
+void cpgqci(int *OUTPUT);
+
+void cpgstbg(int tbci);     // Text background color index routines.
+// void cpgqtbg(int *tbci);
+void cpgqtbg(int *OUTPUT);
+
 void cpgwedg(const char *side, float disp, float width, float fg, float bg, \
 	     const char *label);
 // void cpgqcs(int units, float *xch, float *ych);
@@ -475,21 +483,17 @@ void wipgetsub(int *OUTPUT, int *OUTPUT, int *OUTPUT, int *OUTPUT);
 void wiplimits(void);
 void wipviewport(void);
 void wipmove(float x, float y);
-void wipsetangle(double ang);
 /* double wipgetvar(const char *inword, int *error)*/
 double wipgetvar(const char *inword, int *OUTPUT);
-void wipexpand(double exp);
 void wipltype(int style);
 void wiplw(int width);
 /* void wipgetcxy(float *cx, float *cy); */
 void wipgetcxy(float *OUTPUT, float *OUTPUT); 
 void wipdraw(float xfloat, float yfloat);
-void wipsetbgci(int bgci);
 void wipfont(int font);
 void wipsetitf(int type);
 void wipsetsubmar(float subx, float suby);
 void wipgetsubmar(float *OUTPUT, float *OUTPUT);
-void wipcolor(int color);
 void wipfill(int fill);
 
 // WIPHLINE wrapper begin

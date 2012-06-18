@@ -16,6 +16,26 @@ class wip():
         self.device(device_spec)
         self.reset()
 
+    def reset(self):
+        """
+        Full reset of the graphics state of the current plotting device.
+        """
+        self.angle = 0.0
+        self.bgci = -1
+        self.color = 1
+        self.expand = 1
+
+        self.fill(1)
+        self.font = 1
+        self.lstyle = 1
+        self.lwidth = 1
+
+        self.tr = numpy.array([0.0, 1.0, 0.0, 0.0, 0.0, 1.0], 
+                              dtype=numpy.float32)
+        self.ticksize(0.0, 0, 0.0, 0)
+        self.itf = 0
+        self.palette(0, 0)
+
     def __del__(self):
         """
         Wip Interface destruction routine. The called function is an alias to
@@ -39,10 +59,11 @@ class wip():
 
     def __getattr__(self, name):
         namedict = { 
-            'bgci'   : lambda : self._wipgetvar('bgci'),
-            'angle'  : lambda : self._wipgetvar('angle'),
-            'color'  : lambda : self._wipgetvar('color'),
-            'expand' : lambda : self._wipgetvar('expand'),
+            'angle'  : lambda : self.__dict__['angle'],
+            'bgci'   : cwip.cpgqtbg,
+            'color'  : cwip.cpgqci,
+            'expand' : cwip.cpgqch,
+
             #'fill'   : lambda : self._wipgetvar('fill'), currently must be fn
             'font'   : lambda : self._wipgetvar('font'),
             'itf'    : lambda : self._wipgetvar('itf'),
@@ -63,10 +84,11 @@ class wip():
 
     def __setattr__(self, name, value):
         namedict = { 
-            'bgci'    : cwip.wipsetbgci,
-            'angle'   : cwip.wipsetangle,
-            'color'   : lambda x : cwip.wipcolor(int(x)),
-            'expand'  : cwip.wipexpand,
+            'angle'   : lambda x : self.__dict__.__setitem__('angle', x),
+            'bgci'    : cwip.cpgstbg,
+            'color'   : cwip.cpgsci,
+            'expand'  : cwip.cpgsch,
+
            #'fill'    : see fill function
             'font'    : cwip.wipfont,
             'itf'     : cwip.wipsetitf,
@@ -1186,24 +1208,6 @@ class wip():
         """
         cwip.cpgrect(xmin, xmax, ymin, ymax)
 
-    def reset(self):
-        """
-        Full reset of the graphics state of the current plotting device.
-        """
-        self.color = 1
-        self.expand = 1
-        self.fill(1)
-        self.font = 1
-        self.lstyle = 1
-        self.lwidth = 1
-        self.bgci = -1
-        self.angle = 0.0
-        self.tr = numpy.array([0.0, 1.0, 0.0, 0.0, 0.0, 1.0], 
-                              dtype=numpy.float32)
-        self.ticksize(0.0, 0, 0.0, 0)
-        self.itf = 0
-        self.palette(0, 0)
-
     def rgb(self, k, r, g, b):
         """
         Sets the color represenation using the RGB system.
@@ -1399,10 +1403,10 @@ class wip():
         cwip.cpgbbuf()
         (wxa, wxb, wya, wyb) = cwip.cpgqwin()
         (xa, xb, ya, yb) = cwip.cpgqvp(0)
-        oldch = cwip.cpgqch()
+        oldch = self.expand
 
         # Determine the unit character height in NDC coords.
-        cwip.cpgsch(1.0)
+        self.expand = 1.0
         (xch, ych) = cwip.cpgqcs(0)
         if horiz == True:
             ndcsize = ych
@@ -1416,7 +1420,7 @@ class wip():
         # Determine and set the character height required to fit the wedge
         # annotation text within the area allowed for it.
         newch = txtfrc * vwidth / (txtsep * ndcsize)
-        cwip.cpgsch(newch)
+        self.expand = newch
 
         # Determine the width of the wedge part of the plot minus the 
         # annotation. (NDC Units)
@@ -1494,6 +1498,6 @@ class wip():
         # Reset the original viewport and world coordinates.
         self.viewport(xa, xb, ya, yb)
         self.limits(wxa, wxb, wya, wyb)
-        cwip.cpgsch(oldch)
+        self.expand = oldch
         cwip.cpgebuf()
         return
