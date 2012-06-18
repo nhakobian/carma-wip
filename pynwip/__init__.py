@@ -131,7 +131,7 @@ class wip():
             pa = self.angle
 
         (ox1, ox2, oy1, oy2) = self.limits()
-        (ocx, ocy) = cwip.wipgetcxy()
+        (ocx, ocy) = self.move()
         expand = self.expand
 
         a = majx / 2.0
@@ -202,7 +202,7 @@ class wip():
         """
         Draws an arrow.
         """
-        (ocx, ocy) = cwip.wipgetcxy()
+        (ocx, ocy) = self.move()
         fill = self.fstyle
         cwip.cpgsah(int(fill), angle, vent)
         cwip.cpgarro(ocx, ocy, x, y)
@@ -350,7 +350,7 @@ class wip():
         
         # Ported version:
         (ox1, ox2, oy1, oy2) = self.limits()
-        (ocx, ocy) = cwip.wipgetcxy()
+        (ocx, ocy) = self.move()
         color = self.color
         fill = self.fstyle
         style = self.lstyle
@@ -433,7 +433,7 @@ class wip():
             cwip.cpgbin(x, y, k)
         else:
             cwip.wiphline(x, y, gap, k)
-        cwip.wipmove(float(x[-1]), float(y[-1]))
+        self.move(float(x[-1]), float(y[-1]))
 
     def box(self, xvars='bcnst', yvars='bcnst'):
         """
@@ -455,9 +455,8 @@ class wip():
         """
         cwip.cpgline(numpy.array(x, dtype=numpy.float32), 
                      numpy.array(y, dtype=numpy.float32))
-        cwip.wipmove(x[-1], y[-1])
+        self.move(x[-1], y[-1])
     
-
     def contour(self, image, shade=False, label=False):
         """
         Makes a contour plot of an array read with IMAGE.
@@ -527,7 +526,7 @@ class wip():
         """
         Makes a point of the current style at the current location.
         """
-        (cx, cy) = cwip.wipgetcxy()
+        (cx, cy) = self.move()
         cwip.cpgpt([cx], [cy], self.pstyle)
 
     def draw(self, endx, endy):
@@ -923,14 +922,26 @@ class wip():
         """
         cwip.cpgctab(l, r, g, b, n, 0.5)
 
-    def move(self, x, y):
+    def move(self, *args):
         """
         Sets the current world (user) position to (x,y).
 
           x : (float) - X position
           y : (float) - Y position
         """
-        cwip.wipmove(float(x), float(y))
+        nargs = len(args)
+
+        if (nargs == 2):
+            x = args[0]
+            y = args[1]
+            cwip.cpgmove(float(x), float(y))
+        elif (nargs == 0):
+            pass
+        else:
+            raise ValueError("Invalid number of arguments to move command.")
+
+        (x, y) = cwip.cpgqpos()
+        return (x, y)
 
     def mtext(self, side, disp, just, coord, string):
         """
@@ -1193,7 +1204,7 @@ class wip():
           string : (string) - String value to write on screen.
           just   : (float)  - Justification between 0,1. 0.5 is centered
         """
-        (x, y) = cwip.wipgetcxy()
+        (x, y) = self.move()
         
         # get angle
         angle = self.angle

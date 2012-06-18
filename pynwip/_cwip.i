@@ -39,6 +39,9 @@ void cpgqlw(int *OUTPUT);   // void cpgqlw(int *lw);
 void cpgsfs(int fs);        // Set and retrieve fill style
 void cpgqfs(int *OUTPUT);   // void cpgqfs(int *fs);
 
+void cpgmove(float x, float y);             // Set/get the pen position.
+void cpgqpos(float *OUTPUT, float *OUTPUT); // cpgqpos(float *x, float *y);
+
 // Set/get hatch style (angle, sepn, phase)
 void cpgshs(float angle, float sepn, float phase);
 void cpgqhs(float *OUTPUT, float *OUTPUT, float* OUTPUT);
@@ -68,8 +71,6 @@ void cpgarro(float x1, float y1, float x2, float y2); // draw arrow
 void cpgask(int flag);
 void cpgend(void);
  int cpgopen(const char *device); // open a device
-// void cpgqcol(int *ci1, int *ci2);
-void cpgqcol(int *OUTPUT, int *OUTPUT);
 
 void cpgtbox(const char *xopt, float xtick, int nxsub, \
 	     const char *yopt, float ytick, int nysub);  // Draw box
@@ -492,10 +493,6 @@ void mod_cpggray(float* a, int idim, int jdim, int i1, int i2, int j1, \
 // NOTE: End of shared %apply and %clear
 
 void wipsetcir(int nx, int ny);
-
-void wipmove(float x, float y);
-/* void wipgetcxy(float *cx, float *cy); */
-void wipgetcxy(float *OUTPUT, float *OUTPUT); 
 
 // WIPHLINE wrapper begin
 // int wiphline(int npts, float x[], float y[], float gap, int center);
