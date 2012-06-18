@@ -562,12 +562,6 @@ class wip():
         cwip.wipfill(int(style))
         return self._wipgetvar('fill')
 
-    def globe(self, longi=5, lat=3):
-        """
-        Draws a 'globe' with nlong/nlat long/lat lines.
-        """
-        cwip.wipaitoffgrid(longi, lat);
-
     def halftone(self, image):
         """
         Produces a halftone plot of an image.

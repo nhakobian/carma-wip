@@ -31,8 +31,6 @@ char *wipnewstring(const char *string);
 
 
 /* Code in wip/plot */
-extern    void   wipaitoff( int nxy, float x[], float y[]);
-extern    void   wipaitoffgrid( int nlong, int nlats);
 extern     int   wiphline(int npts, float x[], float y[], float gap, \
 			  int center);
 extern   float   wipimval(float **image, int nx, int ny, float cx, float cy, \

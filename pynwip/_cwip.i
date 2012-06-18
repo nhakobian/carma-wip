@@ -486,7 +486,6 @@ void wipgetcxy(float *OUTPUT, float *OUTPUT);
 void wipdraw(float xfloat, float yfloat);
 void wipsetbgci(int bgci);
 void wipfont(int font);
-void wipaitoffgrid(float nx, float xy);
 void wipsetitf(int type);
 void wipsetsubmar(float subx, float suby);
 void wipgetsubmar(float *OUTPUT, float *OUTPUT);

@@ -158,9 +158,6 @@ a.fill(2)
 a.rect(2.5, 4.5, 0.5, 1.5)
 a.fill(1)
 
-a.panel(3, 3, -5)
-a.globe()
-
 a.panel(3, 3, -6)
 a.limits(img.image.min(), img.image.max()/4., 0, img.image.size/4.)
 a.histogram(img.image.flatten(), n=100)
