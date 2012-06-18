@@ -1,6 +1,6 @@
 %{
   #define SWIG_FILE_WITH_INIT
-  #include "wip.h"
+  #include "cpgplot.h"
 %}
 
 %module cwip
