@@ -31,7 +31,7 @@ class wip():
         self.tr = numpy.array([0.0, 1.0, 0.0, 0.0, 0.0, 1.0], 
                               dtype=numpy.float32)
         self.ticksize(0.0, 0, 0.0, 0) # Sets xtick, nxsub, ytick, nysub
-
+        self.submargin(2.0, 2.0)      # sets xsubmar, ysubmar
 
         self.fill(1)
 
@@ -81,10 +81,10 @@ class wip():
             'nxsub'     : lambda : self.__dict__['nxsub'],
             'ytick'     : lambda : self.__dict__['ytick'],
             'nysub'     : lambda : self.__dict__['nysub'],
-
-            #'fill'   : lambda : self._wipgetvar('fill'), currently must be fn
-            'xsubmar': lambda : self._wipgetvar('xsubmar'), # default 2.0 
-            'ysubmar': lambda : self._wipgetvar('ysubmar'), # default 2.0
+            ####                 submargin variables                   ####
+            #### Can be set/retrieved with submargin function as well. ####
+            'xsubmar'   : lambda : self.__dict__['xsubmar'],
+            'ysubmar'   : lambda : self.__dict__['ysubmar'],
             }
         
         if name not in namedict.keys():
@@ -111,11 +111,10 @@ class wip():
             'nxsub'     : lambda x : self.__dict__.__setitem__('nxsub', x),
             'ytick'     : lambda x : self.__dict__.__setitem__('ytick', x),
             'nysub'     : lambda x : self.__dict__.__setitem__('nysub', x),
-
-           #'fill'    : see fill function
-           #'tick'    : ticksize command to set right now.
-           #'xsubmar' : self.submargin, remove fn, and replace with var
-           #'ysubmar' : self.submargin
+            ####                 submargin variables                   ####
+            #### Can be set/retrieved with submargin function as well. ####
+            'xsubmar'   : lambda x : self.__dict__.__setitem__('xsubmar', x),
+            'ysubmar'   : lambda x : self.__dict__.__setitem__('ysubmar', x),
             }
 
         if name not in namedict.keys():
@@ -1045,7 +1044,7 @@ class wip():
         # Get parameters needed for the rest.
         chsize = self.expand
         (vx1, vx2, vy1, vy2) = cwip.cpgqvp(0)
-        (xmarg, ymarg) = cwip.wipgetsubmar()
+        (xmarg, ymarg) = self.submargin()
 
         # If nx/ny are negative or either is equal to 1, set a variable so
         # that adjacent sides touch (or equals the full viewport).
@@ -1227,13 +1226,18 @@ class wip():
         """
         cwip.cpgscr(k, r, g, b)
 
-    def submargin(self, xsub, ysub):
+    def submargin(self, xsubmar=None, ysubmar=None):
         """
         Sets the gap between individual panels.
         
         Defaults, xsub, ysub = 2.0
         """
-        cwip.wipsetsubmar(xsub, ysub)
+        if xsubmar != None:
+            self.xsubmar = xsubmar
+        if ysubmar != None:
+            self.ysubmar = ysubmar
+
+        return (self.xsubmar, self.ysubmar)
 
     def symbol(self, value):
         """

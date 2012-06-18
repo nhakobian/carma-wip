@@ -497,8 +497,6 @@ void wipmove(float x, float y);
 double wipgetvar(const char *inword, int *OUTPUT);
 /* void wipgetcxy(float *cx, float *cy); */
 void wipgetcxy(float *OUTPUT, float *OUTPUT); 
-void wipsetsubmar(float subx, float suby);
-void wipgetsubmar(float *OUTPUT, float *OUTPUT);
 void wipfill(int fill);
 
 // WIPHLINE wrapper begin
