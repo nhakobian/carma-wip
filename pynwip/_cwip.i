@@ -14,6 +14,14 @@ import_array();
 %}
 
 /* cpgplot defs */
+
+void cpgwedg(const char *side, float disp, float width, float fg, float bg, \
+	     const char *label);
+// void cpgqcs(int units, float *xch, float *ych);
+void cpgqcs(int units, float *OUTPUT, float *OUTPUT);
+void cpgsch(float size);
+// void cpgqch(float *size);
+void cpgqch(float *OUTPUT);
 // void cpgqwin(float *x1, float *x2, float *y1, float *y2);
 void cpgqwin(float *OUTPUT, float *OUTPUT, float *OUTPUT, float *OUTPUT);
 void cpgdraw(float x, float y);
@@ -479,8 +487,6 @@ void wipdraw(float xfloat, float yfloat);
 void wipsetbgci(int bgci);
 void wipfont(int font);
 void wipaitoffgrid(float nx, float xy);
- int wipwedge(char *side, float disp, float thick, float bg, float fg, \
-	      char *label);
 void wipsetitf(int type);
 void wipsetsubmar(float subx, float suby);
 void wipgetsubmar(float *OUTPUT, float *OUTPUT);

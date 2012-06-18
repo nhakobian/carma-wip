@@ -81,8 +81,6 @@ extern    void   wipgetcir(int *cmin, int *cmax);
 extern     int   wipDebugMode(void);
 extern    char  *wipfpfmt(float arg, int nsig);
 extern    char  *wipifmt(float arg);
-extern     int   wipwedge(char *side, float disp, float thick, float bg, \
-			  float fg, char *label);
 
 /* Code in wip/sysdep */
 extern long int  filesize(FILE *fp);

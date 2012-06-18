@@ -1322,7 +1322,7 @@ class wip():
         cwip.cpgvstd()
         cwip.wipviewport()
 
-    def wedge(self, side, disp, thick, min, max, boxarg='bcst'):
+    def wedge(self, cside, disp, thick, min, max, boxarg='bcst'):
         """
         Draws a halftone wedge.
 
@@ -1345,9 +1345,161 @@ class wip():
                       most recent call to the TICKSIZE command are used to 
                       draw a box around the wedge and numerically label it.
         """
-        if (side.lower() == 'r') or (side.lower() == 't'):
+        min = float(min)
+        max = float(max)
+        cside = cside.lower()
+
+        # if ('p' in cside):
+        #    cpg = True
+        # else:
+        #    cpg = False
+        cside = cside.replace('p', '')
+
+        #if cpg == True:
+        #    cwip.cpgwedg(cside+'I', disp, thick, min, max, boxarg)
+        #    return
+
+        if ('r' in cside) or ('t' in cside):
             boxarg += 'm'
-        elif (side.lower() == 'l') or (side.lower() == 'b'):
+        elif ('l' in cside) or ('b' in cside):
             boxarg += 'n'
 
-        cwip.wipwedge(side, disp, thick, float(min), float(max), boxarg)
+        # Directly ported wipPwedge below
+
+        txtfrc = 0.6
+        txtsep = 2.2
+        wdgpix = 100
+        tr = [0.0, 1.0, 0.0, 0.0, 0.0, 1.0]
+
+        NONE = 0
+        LEFT = 1
+        RIGHT = 2
+        TOP = 3
+        BOTTOM = 4
+
+        side = None
+        image = True
+
+        if ('t' in cside):
+            side = TOP
+        elif ('l' in cside):
+            side = LEFT
+        elif ('r' in cside):
+            side = RIGHT
+        elif ('b' in cside):
+            side = BOTTOM
+        elif ('i' in cside):
+            image = True
+        elif ('g' in cside):
+            image = False
+
+        if side == None:
+            raise ValueError("No valid side.")
+        
+        if ((side == BOTTOM) or (side == TOP)):
+            horiz = True
+        else:
+            horiz = False
+
+        # Store the current world and viewport coords and the character height.
+        cwip.cpgbbuf()
+        (wxa, wxb, wya, wyb) = cwip.cpgqwin()
+        (xa, xb, ya, yb) = cwip.cpgqvp(0)
+        oldch = cwip.cpgqch()
+
+        # Determine the unit character height in NDC coords.
+        cwip.cpgsch(1.0)
+        (xch, ych) = cwip.cpgqcs(0)
+        if horiz == True:
+            ndcsize = ych
+        else:
+            ndcsize = xch
+
+        # Convert 'WIDTH' and 'DISP' into viewport units.
+        vwidth = thick * ndcsize * oldch
+        vdisp = disp * ndcsize * oldch
+
+        # Determine and set the character height required to fit the wedge
+        # annotation text within the area allowed for it.
+        newch = txtfrc * vwidth / (txtsep * ndcsize)
+        cwip.cpgsch(newch)
+
+        # Determine the width of the wedge part of the plot minus the 
+        # annotation. (NDC Units)
+        wedwid = vwidth * (1.0 - txtfrc)
+
+        # Determine the viewport coordinates for the wedge + annotation.
+        vxa = xa
+        vxb = xb
+        vya = ya
+        vyb = yb
+        if side == TOP:
+            vya = yb + vdisp
+            vyb = vya + wedwid
+        elif side == LEFT:
+            vxb = xa - vdisp
+            vxa = vxb - wedwid
+        elif side == RIGHT:
+            vxa = xb + vdisp
+            vxb = vxa + wedwid
+        elif side == BOTTOM:
+            vyb = ya - vdisp
+            vya = vyb - wedwid
+
+        # Set the viewport for the wedge
+        self.viewport(vxa, vxb, vya, vyb)
+        if (min > max):
+            fg1 = min
+        else:
+            fg1 = max
+        if (min < max):
+            bg1 = min
+        else:
+            bg1 = max
+
+        # Create the dummy wedge array to be plotted.
+        wdginc = (fg1 - bg1) / (wdgpix - 1)
+        if horiz == True:
+            wedgeArray = numpy.zeros((wdgpix,1), dtype=numpy.float32)
+            for i in xrange(wdgpix):
+                wedgeArray[i,0] = bg1 + (i * wdginc)
+        else:
+            wedgeArray = numpy.zeros((1,wdgpix), dtype=numpy.float32)
+            for i in xrange(wdgpix):
+                wedgeArray[0,i] = bg1 + (i * wdginc)
+    
+        (xtick, nxtick, ytick, nytick) = self.tick
+
+        if '0' in boxarg:
+            otherLabel = "0"
+            boxarg = '0'
+        else:
+            otherLabel = "BC"
+
+        wlabel = boxarg
+
+        # Draw the wedge then change the world coordinates for labelling.
+        # Also, draw a labelled frame around the wedge.
+        if (horiz == True):
+            self.limits(1.0, float(wdgpix), 0.9, 1.1)
+            if (image == True):
+                cwip.cpgimag(wedgeArray, 1, wdgpix, 1, 1, min, max, tr)
+            else:
+                cwip.cpggray(wedgeArray, 1, wdgpix, 1, 1, min, max, tr)
+            self.limits(bg1, fg1, 0.0, 1.0)
+            cwip.cpgtbox(wlabel, xtick, nxtick, otherLabel, 0.0, 0)
+        else:
+            self.limits(0.9, 1.1, 1.0, float(wdgpix))
+            if (image == True):
+                cwip.cpgimag(wedgeArray, 1, 1, 1, wdgpix, min, max, tr)
+            else:
+                cwip.cpggray(wedgeArray, 1, 1, 1, wdgpix, min, max, tr)
+            self.limits(0.0, 1.0, bg1, fg1)
+            cwip.cpgtbox(otherLabel, 0.0, 0,wlabel, ytick, nytick)
+            
+        # Reset the original viewport and world coordinates.
+        self.viewport(xa, xb, ya, yb)
+        self.limits(wxa, wxb, wya, wyb)
+        cwip.cpgsch(oldch)
+        cwip.cpgebuf()
+        return
