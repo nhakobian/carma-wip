@@ -32,8 +32,7 @@ class wip():
                               dtype=numpy.float32)
         self.ticksize(0.0, 0, 0.0, 0) # Sets xtick, nxsub, ytick, nysub
         self.submargin(2.0, 2.0)      # sets xsubmar, ysubmar
-
-        self.fill(1)
+        self.fill(1, 45.0, 1.0, 0.0)  # Sets fstyle, and default hatching style
 
 
         self.palette(0, 0)
@@ -48,20 +47,6 @@ class wip():
         """
         cwip.cpgend()
     
-    # Attributes (wip variables)
-    def _wipgetvar(self, varname):
-        """
-        This is a wrapper function for grabbing wip variables that do
-        not have their own wrapping function. This performs some basic
-        error checking.
-        """
-        (value, error) = cwip.wipgetvar(varname)
-
-        if error == 1:
-            raise AttributeError
-        else:
-            return value
-
     def __getattr__(self, name):
         namedict = { 
             'angle'     : lambda : self.__dict__['angle'],
@@ -69,6 +54,7 @@ class wip():
             'color'     : cwip.cpgqci,
             'expand'    : cwip.cpgqch,
             'font'      : cwip.cpgqcf,
+            'fstyle'    : cwip.cpgqfs,
             'itf'       : cwip.cpgqitf,
             'lstyle'    : cwip.cpgqls,
             'lwidth'    : cwip.cpgqlw,
@@ -99,6 +85,7 @@ class wip():
             'color'     : cwip.cpgsci,
             'expand'    : cwip.cpgsch,
             'font'      : cwip.cpgscf,
+            'fstyle'    : cwip.cpgsfs,
             'itf'       : cwip.cpgsitf,
             'lstyle'    : cwip.cpgsls,
             'lwidth'    : cwip.cpgslw,
@@ -143,7 +130,7 @@ class wip():
         if pa == None:
             pa = self.angle
 
-        (ox1, ox2, oy1, oy2) = cwip.cpgqwin()
+        (ox1, ox2, oy1, oy2) = self.limits()
         (ocx, ocy) = cwip.wipgetcxy()
         expand = self.expand
 
@@ -216,7 +203,7 @@ class wip():
         Draws an arrow.
         """
         (ocx, ocy) = cwip.wipgetcxy()
-        fill = self.fill()
+        fill = self.fstyle
         cwip.cpgsah(int(fill), angle, vent)
         cwip.cpgarro(ocx, ocy, x, y)
 
@@ -245,7 +232,7 @@ class wip():
 
         ibar = (location - 1) % 4
 
-        (xleft, xright, ybot, ytop) = cwip.cpgqwin()
+        (xleft, xright, ybot, ytop) = self.limits()
         if (narg != 0):
             if ibar == 0:
                 xleft = threshold
@@ -362,10 +349,10 @@ class wip():
         # cwip.wipbeam(majx, majy, pa, offx, offy, fillcolor, scale, bgrect)
         
         # Ported version:
-        (ox1, ox2, oy1, oy2) = cwip.cpgqwin()
+        (ox1, ox2, oy1, oy2) = self.limits()
         (ocx, ocy) = cwip.wipgetcxy()
         color = self.color
-        fill = self.fill()
+        fill = self.fstyle
         style = self.lstyle
 
         # Determine the extent in the X and Y directions of the beam.
@@ -528,9 +515,7 @@ class wip():
         # Set a variable storing the opened device name?
         cwip.cpgask(0)
         self.reset()
-        # Locally store limits, viewport, needed still?
-        cwip.wiplimits()
-        cwip.wipviewport()
+
         # Set up local color table?
         (cx, cy) = cwip.cpgqcol()
         cx = 16
@@ -586,15 +571,26 @@ class wip():
         
         cwip.cpgebuf()
 
-    def fill(self, style=None, hatch=45.0, spacing=1.0, phase=0.0):
+    def fill(self, style=None, angle=None, spacing=None, phase=None):
         """
         Sets the fill area style to N.
         """
-        if style == None:
-            return self._wipgetvar('fill')
-        cwip.cpgshs(hatch, spacing, phase)
-        cwip.wipfill(int(style))
-        return self._wipgetvar('fill')
+        if style != None:
+            self.fstyle = style
+
+        if (angle != None) or (spacing != None) or (phase != None):
+            (qangle, qspacing, qphase) = cwip.cpgqhs()
+            if angle != None:
+                qangle = angle
+            if spacing != None:
+                qspacing = spacing
+            if phase != None:
+                qphase = phase
+            cwip.cpgshs(qangle, qspacing, qphase)
+
+        (qangle, qspacing, qphase) = cwip.cpgqhs()
+
+        return (self.fstyle, qangle, qspacing, qphase)
 
     def halftone(self, image):
         """
@@ -615,7 +611,6 @@ class wip():
             nx = int(image.shape[0])
             ny = int(image.shape[1])
             cwip.cpgimag(image, 1, nx, 1, ny, imin, imax, self.tr)
-        #xylimits = cwip.wipgetsub()
 
     def header(self, image, xdir, ydir=None, ret=False, scale=1.0):
         """
@@ -649,12 +644,12 @@ class wip():
         if ydir not in coord_values:
             raise ValueError("%s is not a valid coordinate system." % ydir)
 
-        sub = cwip.wipgetsub()
-
         ### Time to port wipheader is now. UGH!
         # cwip.wipheader(sub[0], sub[2], sub[1], sub[3], xdir, ydir)
         # Code below is based on src/image/header.c in WIP source and
         # includes both wipheader and wipheadlim.
+
+        # sub = cwip.wipgetsub()
 
         # blcx = sub[0] # px_xmin
         # trcx = sub[1] # px_xmax
@@ -799,9 +794,6 @@ class wip():
         ymax = (yscale * ymax) + yoff
 
         # Set the limits to our newly calculated system
-        # Equivalent to:
-        #   cpgswin(xmin, xmax, ymin, ymax)
-        #   wiplimits()
         self.limits(xmin, xmax, ymin, ymax)
         
         # Set the transformation matrix for PGIMAG, etc.
@@ -914,12 +906,16 @@ class wip():
             xmax = float(args[1])
             ymin = float(args[2])
             ymax = float(args[3])
+        elif (nargs == 0):
+            pass
         else:
-            raise TypeError("Error in arguments to 'limits'.")
+            raise ValueError("Incorrect number of arguments to limits fn.")
 
-        cwip.cpgswin(xmin, xmax, ymin, ymax) # Sets the window limits
-        cwip.wiplimits() # Grabs limits set with pgswin and also saves them
-                         # as wip variables x1, x2, y1, y2.
+        if (nargs > 0):
+            cwip.cpgswin(xmin, xmax, ymin, ymax) # Sets the window limits
+
+        (xmin, xmax, ymin, ymax) = cwip.cpgqwin()
+        return (xmin, xmax, ymin, ymax)
 
     def lookup(self, r, g, b, l, n=1):
         """
@@ -1043,7 +1039,7 @@ class wip():
         
         # Get parameters needed for the rest.
         chsize = self.expand
-        (vx1, vx2, vy1, vy2) = cwip.cpgqvp(0)
+        (vx1, vx2, vy1, vy2) = self.viewport()
         (xmarg, ymarg) = self.submargin()
 
         # If nx/ny are negative or either is equal to 1, set a variable so
@@ -1284,7 +1280,7 @@ class wip():
         if ((nx != ny) or (nx != nl) or (nx != nd)):
             raise ValueError("Length of x, y, length, and direction arrays must be equal")
 
-        fill = self.fill()
+        fill = self.fstyle
         
         cwip.cpgbbuf()
         cwip.cpgsah(int(fill), angle, vent)
@@ -1323,31 +1319,42 @@ class wip():
         Sets limits and viewport to same aspect ratio.
         """
         cwip.cpgwnad(float(xmin), float(xmax), float(ymin), float(ymax))
-        cwip.wiplimits()
-        cwip.wipviewport()
 
-    def viewport(self, xmin, xmax, ymin, ymax):
+    def viewport(self, *args):
         """
         Sets the physical location of the plot.
         """
-        if (xmin < 0) or (xmin > 1):
-            raise ValueError("Viewport values must be between 0 and 1")
-        if (xmax < 0) or (xmax > 1):
-            raise ValueError("Viewport values must be between 0 and 1")
-        if (ymin < 0) or (ymin > 1):
-            raise ValueError("Viewport values must be between 0 and 1")
-        if (ymax < 0) or (ymax > 1):
-            raise ValueError("Viewport values must be between 0 and 1")
+        nargs = len(args)
+        
+        if (nargs == 4):
+            xmin = args[0]
+            xmax = args[1]
+            ymin = args[2]
+            ymax = args[3]
 
-        cwip.cpgsvp(float(xmin), float(xmax), float(ymin), float(ymax))
-        cwip.wipviewport()
+            if (xmin < 0) or (xmin > 1):
+                raise ValueError("Viewport values must be between 0 and 1")
+            if (xmax < 0) or (xmax > 1):
+                raise ValueError("Viewport values must be between 0 and 1")
+            if (ymin < 0) or (ymin > 1):
+                raise ValueError("Viewport values must be between 0 and 1")
+            if (ymax < 0) or (ymax > 1):
+                raise ValueError("Viewport values must be between 0 and 1")
+
+            cwip.cpgsvp(float(xmin), float(xmax), float(ymin), float(ymax))
+        elif (nargs == 0):
+            pass
+        else:
+            raise ValueError("Incorrect number of arguments to viewport fn.")
+
+        (xmin, xmax, ymin, ymax) = cwip.cpgqvp(0)
+        return (xmin, xmax, ymin, ymax)
 
     def vstand(self):
         """
         Sets the standard (default) viewport.
         """
         cwip.cpgvstd()
-        cwip.wipviewport()
 
     def wedge(self, cside, disp, thick, min, max, boxarg='bcst'):
         """
@@ -1430,8 +1437,8 @@ class wip():
 
         # Store the current world and viewport coords and the character height.
         cwip.cpgbbuf()
-        (wxa, wxb, wya, wyb) = cwip.cpgqwin()
-        (xa, xb, ya, yb) = cwip.cpgqvp(0)
+        (wxa, wxb, wya, wyb) = self.limits()
+        (xa, xb, ya, yb) = self.viewport()
         oldch = self.expand
 
         # Determine the unit character height in NDC coords.

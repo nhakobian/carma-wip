@@ -36,23 +36,31 @@ void cpgqls(int *OUTPUT);   // void cpgqls(int *ls);
 void cpgslw(int lw);        // Set and retrieve line width.
 void cpgqlw(int *OUTPUT);   // void cpgqlw(int *lw);
 
+void cpgsfs(int fs);        // Set and retrieve fill style
+void cpgqfs(int *OUTPUT);   // void cpgqfs(int *fs);
 
+// Set/get hatch style (angle, sepn, phase)
+void cpgshs(float angle, float sepn, float phase);
+void cpgqhs(float *OUTPUT, float *OUTPUT, float* OUTPUT);
 
+// Set/get plot limits. (x1, x2, y1, y2)
+void cpgswin(float x1, float x2, float y1, float y2);
+void cpgqwin(float *OUTPUT, float *OUTPUT, float *OUTPUT, float *OUTPUT);
+
+// Set/get viewport limits. (x1, x2, y1, y2)
+void cpgsvp(float x1, float x2, float y1, float y2);
+void cpgqvp(int units, float *OUTPUT, float *OUTPUT, float *OUTPUT, \
+	    float *OUTPUT);
 
 void cpgwedg(const char *side, float disp, float width, float fg, float bg, \
 	     const char *label);
 // void cpgqcs(int units, float *xch, float *ych);
 void cpgqcs(int units, float *OUTPUT, float *OUTPUT);
-// void cpgqwin(float *x1, float *x2, float *y1, float *y2);
-void cpgqwin(float *OUTPUT, float *OUTPUT, float *OUTPUT, float *OUTPUT);
 void cpgdraw(float x, float y);
 // void cpgqcol(int *ci1, int *ci2);
 void cpgqcol(int *OUTPUT, int *OUTPUT);
 // void cpgqcr(int ci, float *cr, float *cg, float *cb);
 void cpgqcr(int ci, float *OUTPUT, float *OUTPUT, float *OUTPUT);
-// void cpgqvp(int units, float *x1, float *x2, float *y1, float *y2);
-void cpgqvp(int units, float *OUTPUT, float *OUTPUT, float *OUTPUT, 
-	    float *OUTPUT);
 void cpgbbuf(void);
 void cpgebuf(void);
 void cpgsah(int fs, float angle, float barb); // set arrow style
@@ -62,18 +70,15 @@ void cpgend(void);
  int cpgopen(const char *device); // open a device
 // void cpgqcol(int *ci1, int *ci2);
 void cpgqcol(int *OUTPUT, int *OUTPUT);
-// void cpgqwin(float *x1, float *x2, float *y1, float *y2);
-void cpgqwin(float *OUTPUT, float *OUTPUT, float *OUTPUT, float *OUTPUT);
 
 void cpgtbox(const char *xopt, float xtick, int nxsub, \
 	     const char *yopt, float ytick, int nysub);  // Draw box
 void cpgpage(void);  // Erase screen.
-void cpgswin(float x1, float x2, float y1, float y2); // Set plot limits.
+
 //   Writes labels, similar to mtext.
 void cpglab(const char *xlbl, const char *ylbl, const char *toplbl); 
 void cpgpap(float width, float aspect); // Sets papersize, aspect.
 void cpgwnad(float x1, float x2, float y1, float y2); // Set equal aspect.
-void cpgsvp(float x1, float x2, float y1, float y2); // Set viewport.
 void cpgshs(float angle, float sepn, float phase); // set hatch style
 void cpgrect(float x1, float x2, float y1, float y2); // draw rectangle.
 void cpgscr(int ci, float cr, float cg, float cb); // set color index
@@ -488,16 +493,9 @@ void mod_cpggray(float* a, int idim, int jdim, int i1, int i2, int j1, \
 
 void wipsetcir(int nx, int ny);
 
-/*   wipgetsub(int *subx1, int *subx2, int *suby1, int *suby2); */
-void wipgetsub(int *OUTPUT, int *OUTPUT, int *OUTPUT, int *OUTPUT);
-void wiplimits(void);
-void wipviewport(void);
 void wipmove(float x, float y);
-/* double wipgetvar(const char *inword, int *error)*/
-double wipgetvar(const char *inword, int *OUTPUT);
 /* void wipgetcxy(float *cx, float *cy); */
 void wipgetcxy(float *OUTPUT, float *OUTPUT); 
-void wipfill(int fill);
 
 // WIPHLINE wrapper begin
 // int wiphline(int npts, float x[], float y[], float gap, int center);
