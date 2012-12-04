@@ -92,7 +92,7 @@ l = [0.0, 0.1, 0.11, 0.15, 0.18, 0.22, 0.35, 0.45, 0.55, 0.90, 1.0]
 
 img = miriad_tools.MirImage('test.image')
 a.winadj(0, img.axes[0], 0, img.axes[1])
-(xmin, xmax, ymin, ymax) = a.header(img, 'rd', 'rd', ret=True)
+(xmin, xmax, ymin, ymax, tr) = a.header(img, 'rd', 'rd')#, ret=True)
 #a.itf=1
 a.halftone(img)
 #print xmax, ymin
@@ -207,7 +207,8 @@ a.palette(1)
 a.fill(1)
 a.winadj(0, img.axes[0], 0, img.axes[1])
 a.limits(0, img.axes[0], 0, img.axes[1])
-a.contour(img, shade=True)
+a.header(img, 'px', 'px')
+a.contour(img, 0, levels=[.025, .05, .1, .2, .4, .8], shade=True)
 a.box()
 
 

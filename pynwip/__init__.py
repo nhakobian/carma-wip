@@ -187,7 +187,7 @@ class wip():
             sinalpha = (sinalpha * cosstep) + (cosalpha * sinstep)
             cosalpha = savecos
 
-        fill = self.fill
+        fill = self.fstyle
         if fill == 2:
             cwip.cpgline(xarc, yarc)
         else:
@@ -333,7 +333,7 @@ class wip():
         cwip.cpgebuf()
 
     def beam(self, majx, majy, pa, offx=0, offy=0, scale=-1, fillcolor=15, \
-                 bgrect=0):
+                 bgrect=0, fill=1):
         """
         Draws a beam.
 
@@ -352,7 +352,7 @@ class wip():
         (ox1, ox2, oy1, oy2) = self.limits()
         (ocx, ocy) = self.move()
         color = self.color
-        fill = self.fstyle
+        ofill = self.fstyle
         style = self.lstyle
 
         # Determine the extent in the X and Y directions of the beam.
@@ -391,7 +391,7 @@ class wip():
         cy += (sy * offy * ytmp)
 
         self.move(cx, cy)
-        self.fill(1)
+        self.fill(fill)
         self.lstyle = 1
         
         if bgrect >= 0:
@@ -410,7 +410,7 @@ class wip():
         self.fill(2)
         self.arc(majx, majy, (90 + pa), 360.0, 0.0)
 
-        self.fill(fill)
+        self.fill(ofill)
         self.lstyle = style
         self.limits(ox1, ox2, oy1, oy2)
         self.move(ocx, ocy)
@@ -456,7 +456,8 @@ class wip():
                      numpy.array(y, dtype=numpy.float32))
         self.move(x[-1], y[-1])
     
-    def contour(self, image, shade=False, label=False):
+    def contour(self, image, plane, subregion=None, shade=False, label=False,
+                levels=None, nlevels=5, line=True, scolor=0.2, absolute=False):
         """
         Makes a contour plot of an array read with IMAGE.
 
@@ -470,33 +471,53 @@ class wip():
         """
         # This function needs to be expanded to support user levels and
         # possibly a more intelligent auto levels feature.
-        nx = image.axes[0]
-        ny = image.axes[1]
-        sx1 = 1
-        sx2 = int(nx)
-        sy1 = 1
-        sy2 = int(ny)
-        imax = image.image.max()
-        contlev = numpy.array([0.03, 0.075, 0.15, 0.30, 0.60], 
-                              dtype=numpy.float32) * imax
-        tr = [0, 1, 0, 0, 0, 1]
+        if subregion == None:
+            nx = image.axes[0]
+            ny = image.axes[1]
+            subregion = (1, int(nx), 1, int(ny))
+
+        immin = image.image.min()
+        immax = image.image.max()
+
+        if absolute == True:
+            immax = 1
+
+        if levels == None:
+            levels = numpy.arange(0, immax, (immax-immin)/(nlevels+1), 
+                                  dtype=numpy.float32)
+        else:
+            levels = numpy.array(levels, dtype=numpy.float32) * immax
+
+        contlev = numpy.array(levels, dtype=numpy.float32)
 
         if (shade == True):
             oldcolor = self.color
-            maxcontlev = numpy.append(contlev, imax+1)
+            maxcontlev = numpy.append(contlev, immax+1)
+            # set color range from 50 to 125. color steps is:
+            # 150-50 / levels.size
+            (cmin, cmax) = cwip.cpgqcol()
+            cmin = 16
+            coff = (cmax - cmin) * scolor
+            cmin = coff + cmin
+            step = (cmax-cmin+1) / float(levels.size)
             for i in xrange(contlev.size):
-                self.color = int(25 + i*10)
-                cwip.cpgconf(image.image[0,:,:], sx1, sx2, sy1, sy2, 
-                             float(maxcontlev[i]), float(maxcontlev[i+1]), tr)
+                self.color = int(cmin + i*step)
+                cwip.cpgconf(image.image[plane,:,:], subregion[0], 
+                             subregion[1], subregion[2], subregion[3], 
+                             float(maxcontlev[i]), float(maxcontlev[i+1]), 
+                             self.tr)
             self.color = int(oldcolor)
 
-        cwip.cpgcont(image.image[0,:,:], sx1, sx2, sy1, sy2, contlev, tr)
+        if line==True:
+            cwip.cpgcont(image.image[plane,:,:], subregion[0], subregion[1], 
+                         subregion[2], subregion[3], contlev, self.tr)
 
         if (label == True):
             self.expand=0.5
             for i in xrange(contlev.size):
-                cwip.cpgconl(image.image[0,:,:], sx1, sx2, sy1, sy2, 
-                             float(contlev[i]), tr, "%4.2f" % contlev[i], 
+                cwip.cpgconl(image.image[plane,:,:], subregion[0], 
+                             subregion[1], subregion[2], subregion[3], 
+                             float(contlev[i]), self.tr, "%4.2f" % contlev[i], 
                              999, 15)
 
     def device(self, device='/xs'):
@@ -590,18 +611,26 @@ class wip():
 
         return (self.fstyle, qangle, qspacing, qphase)
 
-    def halftone(self, image):
+    def halftone(self, image, plane=0, imin=None, imax=None, subregion=None):
         """
         Produces a halftone plot of an image.
         """
         if ('mirimg' in image.__dict__.keys()):
             # this is a miriad image
+            if (imin != None) or (imax != None):
+                imin = float(imin)
+                imax = float(imax)
+            else:
+                imin = float(image.image.min())
+                imax = float(image.image.max())
 
-            imin = float(image.image.min())
-            imax = float(image.image.max())
             nx = int(image.axes[0])
             ny = int(image.axes[1])
-            cwip.cpgimag(image.image[0,:,:], 1, nx, 1, ny, imin, imax, self.tr)
+            print nx, ny
+            if subregion == None:
+                subregion = (1, nx, 1, ny)
+            cwip.cpgimag(image.image[plane,:,:], subregion[0], subregion[1], 
+                         subregion[2], subregion[3], imin, imax, self.tr)
         else:
             #consider this a raw image
             imin = float(image.min())
@@ -610,7 +639,7 @@ class wip():
             ny = int(image.shape[1])
             cwip.cpgimag(image, 1, nx, 1, ny, imin, imax, self.tr)
 
-    def header(self, image, xdir, ydir=None, ret=False, scale=1.0):
+    def header(self, image, xdir, ydir=None, subregion=None, noset=False):
         """
         Loads header information of the image.
         
@@ -688,6 +717,12 @@ class wip():
             blcy = 1
             trcy = image.shape[1]
 
+        if subregion != None:
+            blcx = subregion[0]
+            trcx = subregion[1]
+            blcy = subregion[2]
+            trcy = subregion[3]
+
         # Expand limits to be one half pixel larger in each direction since
         # pixels have definite sise.
         xmin = float(blcx - 0.5)
@@ -759,7 +794,7 @@ class wip():
             xscale = cdeltx
             xoff   = crvalx - (crpixx * xscale)
         else: # xdir == 'px' # Absolute pixel positions.
-            xscale = 1.0 * scale
+            xscale = 1.0
             xoff   = 0.0
 
         # Repeat for ydir.
@@ -782,7 +817,7 @@ class wip():
             yscale = cdelty 
             yoff   = crvaly - (crpixy * yscale)
         else: # xdir == 'px' # Absolute pixel positions.
-            yscale = 1.0 * scale
+            yscale = 1.0
             yoff   = 0.0
 
         # Now scale the coordinates from pixels to chosen scale.
@@ -792,17 +827,16 @@ class wip():
         ymax = (yscale * ymax) + yoff
 
         # Set the limits to our newly calculated system
-        self.limits(xmin, xmax, ymin, ymax)
+        if noset == False:
+            self.limits(xmin, xmax, ymin, ymax)
         
         # Set the transformation matrix for PGIMAG, etc.
         tr = numpy.array([xoff, xscale, 0.0, yoff, 0.0, yscale], 
                          dtype=numpy.float32)
-        self.tr = tr
+        if noset == False:
+            self.tr = tr
 
-        if ret == True:
-            return(xmin, xmax, ymin, ymax)
-        else:
-            return
+        return (xmin, xmax, ymin, ymax, tr)
 
     def hi2d(self, image, bias, slant=0, center=1, xmin=None, xmax=None,
              ymin=None, ymax=None, autolevels=True):
@@ -995,8 +1029,8 @@ class wip():
                 'g' : [gd0, gd1],
                 'b' : [bd0, bd1]
                 }
-        elif num in pmap.keys():
-            newpal = pmap[num]
+        elif pal in pmap.keys():
+            newpal = pmap[pal]
         else:
             raise ValueError("Specified palette number is out of range.")
 
