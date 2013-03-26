@@ -38,7 +38,8 @@ ifeq ($(UNAME), Linux)
   RPATH = -Wl,-rpath,$(MIRLIB)
 endif
 ifeq ($(UNAME), Darwin)
-  RPATH = 
+  #OS X miriad may not build shared pgplot packages.
+  RPATH = -lgfortran -lX11 -lcurses
 endif
 
 all: wip
