@@ -28,27 +28,30 @@ CC = gcc
 OPTS = -ansi -Dlinux -fpic -DREADLINE
 CFLAGS = -g 
 CCMALLOC = -lccmalloc 
-INC = -I./src/include -I$(MIRINC)/../pgplot-miriad-remix
+INC = -I./src/include
 HELP = \"wiphelp.dat\"
 OBJ = $(SRC:.c=.o)
+
+#Only use -Wl,-rpath on Linux, not on OS X.
+UNAME := $(shell uname)
+ifeq ($(UNAME), Linux)
+  RPATH = -Wl,-rpath,$(MIRLIB)
+endif
+ifeq ($(UNAME), Darwin)
+  RPATH = 
+endif
 
 all: wip
 
 .c.o :
 	$(CC) $(OPTS) $(CFLAGS) $(INC) -DHELPFILE=$(HELP) -c $< -o $*.o
 
-libwip: $(OBJ)
-	$(CC) $(CFLAGS) -shared -Wl,-soname,libwip.so -o libwip.so \
-	   $(OBJ) -lcpgplot -lpgplot -lreadline -L$(MIRLIB) \
-	   -Wl,-rpath,$(MIRLIB)
-
-wip: libwip
+wip: $(OBJ) 
 	$(CC) $(CFLAGS) $(INC) -o wip $(SRC_MAIN) -L$(MIRLIB) \
-	   -Wl,-rpath,$(MIRLIB) -Wl,-rpath,$(CURDIR) -L. \
-	   -L/usr/X11R6/lib -lcpgplot -lpgplot \
-	   -lreadline -lwip
+	   $(RPATH) $(OBJ) \
+	   -L/usr/X11R6/lib -lcpgplot -lpgplot -lreadline
 
 clean:
-	rm -f libwip.so *.o wip
+	rm -f *.o wip
 	rm -f src/*/*.o
 	rm -f .wiphistory
