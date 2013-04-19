@@ -584,9 +584,12 @@ class wip():
 
         cwip.cpgbbuf() # Set up buffered output.
 
-        expsize = self.expand
-        expsize = expsize / 10.0
-        cwip.cpgerrb(loc, x, y, error, expsize)
+        #expsize = self.expand
+        #expsize = expsize / 10.0
+        expsize=1.0
+        cwip.cpgerrb(loc, numpy.array(x, dtype=numpy.float32), 
+                     numpy.array(y, dtype=numpy.float32), 
+                     numpy.array(error, dtype=numpy.float32), expsize)
         
         cwip.cpgebuf()
 

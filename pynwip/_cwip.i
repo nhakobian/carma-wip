@@ -99,17 +99,17 @@ void cpglen(int units, const char *string, float *OUTPUT, float *OUTPUT);
 
 // CPGERRB Wrapper Begin
 // void cpgerrb(int dir, int n, float *x, float *y, float *e, float t);
-%apply (int DIM1, float* IN_ARRAY1) { (int nx, float *x),
-                                      (int ny, float *y),
-                                      (int ne, float *e)}
+%apply (float* IN_ARRAY1, int DIM1) { (float *x, int nx),
+                                      (float *y, int ny),
+                                      (float *e, int ne)}
 %rename (cpgerrb) mod_cpgerrb;
 %exception mod_cpgerrb {
   $action
     if (PyErr_Occurred()) SWIG_fail;
 }
 %inline %{
-void mod_cpgerrb(int dir, int nx, float *x, int ny, float *y, 
-                 int ne, float *e, float t)
+void mod_cpgerrb(int dir, float *x, int nx, float *y, int ny,
+		 float *e, int ne, float t)
 {
   if (nx != ny) {
     PyErr_Format(PyExc_ValueError, "Arrays of lengths (%d,%d) given", nx, ny);
@@ -123,7 +123,7 @@ void mod_cpgerrb(int dir, int nx, float *x, int ny, float *y,
   return;
 }
 %}
-%clear (int nx, float *x), (int ny, float *y), (int ne, float *e);
+%clear (float *x, int nx), (float *y, int ny), (float *e, int ne);
 // CPGERRB Wrapper end
 
 // CPGCON(B, F, L, S, T) Wrappers Begin
