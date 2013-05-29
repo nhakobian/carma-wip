@@ -457,7 +457,8 @@ class wip():
         self.move(x[-1], y[-1])
     
     def contour(self, image, plane, subregion=None, shade=False, label=False,
-                levels=None, nlevels=5, line=True, scolor=0.2, absolute=False):
+                levels=None, nlevels=5, line=True, scolor=0.2, absolute=False,
+                negative=False):
         """
         Makes a contour plot of an array read with IMAGE.
 
@@ -490,12 +491,15 @@ class wip():
 
         contlev = numpy.array(levels, dtype=numpy.float32)
 
+        if negative == True:
+            contlev *= -1.0
+
         if (shade == True):
             oldcolor = self.color
             maxcontlev = numpy.append(contlev, immax+1)
             # set color range from 50 to 125. color steps is:
             # 150-50 / levels.size
-            (cmin, cmax) = cwip.cpgqcol()
+            (cmin, cmax) = cwip.cpgqcol() 
             cmin = 16
             coff = (cmax - cmin) * scolor
             cmin = coff + cmin
@@ -632,6 +636,7 @@ class wip():
             print nx, ny
             if subregion == None:
                 subregion = (1, nx, 1, ny)
+            print nx, ny
             cwip.cpgimag(image.image[plane,:,:], subregion[0], subregion[1], 
                          subregion[2], subregion[3], imin, imax, self.tr)
         else:
@@ -1541,13 +1546,13 @@ class wip():
         # Create the dummy wedge array to be plotted.
         wdginc = (fg1 - bg1) / (wdgpix - 1)
         if horiz == True:
-            wedgeArray = numpy.zeros((wdgpix,1), dtype=numpy.float32)
-            for i in xrange(wdgpix):
-                wedgeArray[i,0] = bg1 + (i * wdginc)
-        else:
             wedgeArray = numpy.zeros((1,wdgpix), dtype=numpy.float32)
             for i in xrange(wdgpix):
                 wedgeArray[0,i] = bg1 + (i * wdginc)
+        else:
+            wedgeArray = numpy.zeros((wdgpix,1), dtype=numpy.float32)
+            for i in xrange(wdgpix):
+                wedgeArray[i,0] = bg1 + (i * wdginc)
     
         (xtick, nxtick, ytick, nytick) = self.ticksize()
 

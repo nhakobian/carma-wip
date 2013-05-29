@@ -186,7 +186,7 @@ void mod_cpgconb(float *a, int idim, int jdim, int i1, int i2, int j1, int j2,\
     PyErr_Format(PyExc_ValueError, " trdim array size not equal to 6");
     return;
   }
-  cpgconb(a, idim, jdim, i1, i2, j1, j2, c, nc, tr, blank);
+  cpgconb(a, jdim, idim, i1, i2, j1, j2, c, nc, tr, blank);
   return;
 }
 void mod_cpgconf(float *a, int idim, int jdim, int i1, int i2, int j1, int j2,\
@@ -196,7 +196,7 @@ void mod_cpgconf(float *a, int idim, int jdim, int i1, int i2, int j1, int j2,\
     PyErr_Format(PyExc_ValueError, " trdim array size not equal to 6");
     return;
   }
-  cpgconf(a, idim, jdim, i1, i2, j1, j2, c1, c2, tr);
+  cpgconf(a, jdim, idim, i1, i2, j1, j2, c1, c2, tr);
   return;
 }
 void mod_cpgconl(float *a, int idim, int jdim, int i1, int i2, int j1, int j2,\
@@ -207,7 +207,7 @@ void mod_cpgconl(float *a, int idim, int jdim, int i1, int i2, int j1, int j2,\
     PyErr_Format(PyExc_ValueError, " trdim array size not equal to 6");
     return;
   }
-  cpgconl(a, idim, jdim, i1, i2, j1, j2, c, tr, label, intval, minint);
+  cpgconl(a, jdim, idim, i1, i2, j1, j2, c, tr, label, intval, minint);
   return;
 }
 void mod_cpgcons(float *a, int idim, int jdim, int i1, int i2, int j1, int j2,\
@@ -217,7 +217,7 @@ void mod_cpgcons(float *a, int idim, int jdim, int i1, int i2, int j1, int j2,\
     PyErr_Format(PyExc_ValueError, " trdim array size not equal to 6");
     return;
   }
-  cpgcons(a, idim, jdim, i1, i2, j1, j2, c, nc, tr);
+  cpgcons(a, jdim, idim, i1, i2, j1, j2, c, nc, tr);
   return;
 }
 void mod_cpgcont(float *a, int idim, int jdim, int i1, int i2, int j1, int j2,\
@@ -227,7 +227,7 @@ void mod_cpgcont(float *a, int idim, int jdim, int i1, int i2, int j1, int j2,\
     PyErr_Format(PyExc_ValueError, " trdim array size not equal to 6");
     return;
   }
-  cpgcont(a, idim, jdim, i1, i2, j1, j2, c, nc, tr);
+  cpgcont(a, jdim, idim, i1, i2, j1, j2, c, nc, tr);
   return;
 }
 %}
@@ -467,7 +467,7 @@ void mod_cpgimag(float* a, int idim, int jdim, int i1, int i2, int j1, \
     PyErr_Format(PyExc_ValueError, " trdim array size not equal to 6");
     return;
   }
-  cpgimag(a, idim, jdim, i1, i2, j1, j2, a1, a2, tr);
+  cpgimag(a, jdim, idim, i1, i2, j1, j2, a1, a2, tr);
   return;
 }
 %}
